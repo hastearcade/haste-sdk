@@ -19,8 +19,7 @@
         "url": "git+https://github.com/playhaste/haste-sdk.git"
     },
     "scripts": {
-        "prestart": "rimraf dist",
-        "start": "tsc",
+        "build": "rimraf dist && tsc",
         "test": "jest",
         "lint": "eslint src --ext .ts"
     },

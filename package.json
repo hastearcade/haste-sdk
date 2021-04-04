@@ -3,9 +3,9 @@
     "private": true,
     "scripts": {
         "test": "lerna exec -- npm run test",
-        "start": "lerna exec -- npm run start",
         "lint": "lerna exec -- npm run lint",
-        "bootstrap": "lerna bootstrap --hoist"
+        "bootstrap": "lerna bootstrap --hoist",
+        "build": "lerna exec -- npm run build"
     },
     "devDependencies": {
         "lerna": "^4.0.0"
