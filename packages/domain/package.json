@@ -22,7 +22,7 @@
         "prestart": "rimraf dist",
         "start": "tsc",
         "test": "jest",
-        "lint": "eslint"
+        "lint": "eslint src --ext .ts"
     },
     "bugs": {
         "url": "https://github.com/playhaste/haste-sdk/issues"

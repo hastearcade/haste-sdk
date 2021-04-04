@@ -29,5 +29,6 @@ module.exports = {
         'import/no-self-import': 'error',
         'import/no-useless-path-segments': ['error', { noUselessIndex: true }],
         'import/prefer-default-export': 'off',
+        'no-console': 'error',
     },
 };
