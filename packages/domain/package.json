@@ -2,14 +2,13 @@
     "name": "@haste-sdk/domain",
     "version": "0.0.0",
     "description": "Domain models for haste SDK",
-    "author": "Keith LaForce <klaforce@gmail.com>",
+    "author": "Keith LaForce <keith@playhaste.com>",
     "homepage": "https://github.com/playhaste/haste-sdk#readme",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "directories": {
-        "dist": "dist",
-        "test": "__tests__"
+        "dist": "dist"
     },
     "files": [
         "dist"
@@ -19,14 +18,19 @@
         "url": "git+https://github.com/playhaste/haste-sdk.git"
     },
     "scripts": {
+        "precommit": "lint-staged",
         "build": "rimraf dist && tsc",
         "test": "jest",
-        "lint": "eslint src --ext .ts"
+        "lint": "eslint src --ext .ts",
+        "pretty": "prettier --write \"src/**/*.ts\""
+    },
+    "lint-staged": {
+        "*.ts": "eslint src --ext .ts --fix"
     },
     "bugs": {
         "url": "https://github.com/playhaste/haste-sdk/issues"
     },
-    "dependencies": {
+    "devDependencies": {
         "@types/jest": "^26.0.22",
         "@types/node": "^14.14.37",
         "@typescript-eslint/eslint-plugin": "^4.20.0",
@@ -40,12 +44,10 @@
         "eslint-plugin-prettier": "^3.3.1",
         "eslint-plugin-promise": "^4.3.1",
         "jest": "^26.6.3",
+        "lint-staged": "^10.5.4",
         "prettier": "^2.2.1",
         "rimraf": "^3.0.2",
         "ts-jest": "^26.5.4",
         "typescript": "^4.2.3"
-    },
-    "devDependencies": {
-        "eslint": "^7.23.0"
     }
 }
