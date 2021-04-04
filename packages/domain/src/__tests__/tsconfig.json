@@ -1,12 +1,4 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "declaration": true,
-        "noImplicitAny": false,
-        "noLib": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "types": ["jest", "node"]
-    },
+    "extends": "../../tsconfig.json",
     "exclude": ["node_modules"]
 }

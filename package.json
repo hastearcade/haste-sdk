@@ -2,10 +2,10 @@
     "name": "root",
     "private": true,
     "scripts": {
-        "test": "lerna run test --parallel",
-        "start": "lerna run start",
-        "lint": "lerna run lint",
-        "bootstrap": "lerna bootstrap"
+        "test": "lerna exec -- npm run test",
+        "start": "lerna exec -- npm run start",
+        "lint": "lerna exec -- npm run lint",
+        "bootstrap": "lerna bootstrap --hoist"
     },
     "devDependencies": {
         "lerna": "^4.0.0"
