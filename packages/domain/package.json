@@ -18,7 +18,6 @@
         "url": "git+https://github.com/playhaste/haste-sdk.git"
     },
     "scripts": {
-        "precommit": "lint-staged",
         "build": "rimraf dist && tsc",
         "test": "jest",
         "lint": "eslint src --ext .ts",
