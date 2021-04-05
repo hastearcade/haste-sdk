@@ -7,15 +7,10 @@
         "bootstrap": "lerna bootstrap --hoist",
         "build": "lerna exec -- npm run build",
         "pretty": "lerna exec -- npm run pretty",
-        "prepare": "npx husky install"
+        "prepare": "husky install"
     },
     "devDependencies": {
         "husky": "^6.0.0",
         "lerna": "^4.0.0"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
-        }
     }
 }
