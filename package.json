@@ -6,7 +6,8 @@
         "lint": "lerna exec -- npm run lint",
         "bootstrap": "lerna bootstrap --hoist",
         "build": "lerna exec -- npm run build",
-        "pretty": "lerna exec -- npm run pretty"
+        "pretty": "lerna exec -- npm run pretty",
+        "prepare": "npx husky install"
     },
     "devDependencies": {
         "husky": "^6.0.0",
