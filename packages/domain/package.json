@@ -3,13 +3,14 @@
     "version": "0.0.0",
     "description": "Domain models for haste SDK",
     "author": "Keith LaForce <keith@playhaste.com>",
+    "contributors": [
+        "Eric LaForce <eric@playhaste.com>",
+        "Dan Wagner <dan@playhaste.com>"
+    ],
     "homepage": "https://github.com/playhaste/haste-sdk#readme",
     "license": "MIT",
-    "main": "dist/index.js",
-    "typings": "dist/index.d.ts",
-    "directories": {
-        "dist": "dist"
-    },
+    "main": "dist/index",
+    "types": "dist/index",
     "files": [
         "dist"
     ],
@@ -19,6 +20,7 @@
     },
     "scripts": {
         "build": "rimraf dist && tsc",
+        "clean": "rimraf -rf ./dist",
         "test": "jest --coverage=true",
         "lint": "eslint src --ext .ts",
         "pretty": "prettier --write \"src/**/*.ts\""

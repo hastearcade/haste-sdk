@@ -1,9 +1,6 @@
-const world = 'world';
+import { Game } from '@haste-sdk/domain';
 
-export function hello(word: string = world): string {
-    if (word === 'world2') {
-        return 'not my world';
-    }
-
-    return `Hello ${word}!`;
+export function getHighScore(game: Game): number {
+    const scores = game.getScores().map((g) => g.score.getScore());
+    return Math.max(...scores);
 }

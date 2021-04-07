@@ -1,15 +1,11 @@
 {
+    "extends": "./tsconfig.build.json",
+
     "compilerOptions": {
-        "module": "commonjs",
-        "declaration": true,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "noLib": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "target": "es6",
-        "sourceMap": true,
-        "lib": ["es6"]
+        "baseUrl": ".",
+        "paths": {
+            "@haste-sdk/*": ["./packages/*/src"]
+        }
     },
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
 }

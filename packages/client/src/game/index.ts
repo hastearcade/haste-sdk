@@ -1,1 +1,1 @@
-export { hello } from './game';
+export { getHighScore } from './game';

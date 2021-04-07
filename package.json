@@ -7,6 +7,7 @@
         "bootstrap": "lerna bootstrap --hoist",
         "build": "lerna exec -- npm run build",
         "pretty": "lerna exec -- npm run pretty",
+        "clean": "lerna exec -- npm run clean",
         "prepare": "husky install"
     },
     "devDependencies": {

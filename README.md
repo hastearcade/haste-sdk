@@ -57,6 +57,8 @@ Once you have Node.js and NVM installed you can run the following commands to te
 
 `npm i -g lerna`
 
+`npm run boostrap`
+
 `npm run test`
 
 It is strongly recommended to develop haste-sdk using an editing ecosystem that supports [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/). The haste-sdk team uses VSCode with the following extensions:

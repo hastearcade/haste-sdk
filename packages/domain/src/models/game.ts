@@ -8,6 +8,7 @@ export class Game {
 
     constructor(name: string) {
         this.name = name;
+        this.scores = [];
     }
 
     getScores() {

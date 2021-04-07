@@ -3,13 +3,14 @@
     "version": "0.0.0",
     "description": "The client sdk to be used in browser for haste arcade games",
     "author": "Keith LaForce <keith@playhaste.com>",
+    "contributors": [
+        "Eric LaForce <eric@playhaste.com>",
+        "Dan Wagner <dan@playhaste.com>"
+    ],
     "homepage": "https://github.com/playhaste/haste-sdk#readme",
     "license": "MIT",
-    "main": "dist/index.js",
-    "typings": "dist/index.d.ts",
-    "directories": {
-        "dist": "dist"
-    },
+    "main": "dist/index",
+    "types": "dist/index",
     "files": [
         "dist"
     ],
@@ -19,6 +20,7 @@
     },
     "scripts": {
         "build": "rimraf dist && tsc",
+        "clean": "rimraf -rf ./dist",
         "test": "jest --coverage=true",
         "lint": "eslint src --ext .ts",
         "pretty": "prettier --write \"src/**/*.ts\""
@@ -28,6 +30,9 @@
     },
     "bugs": {
         "url": "https://github.com/playhaste/haste-sdk/issues"
+    },
+    "dependencies": {
+        "@haste-sdk/domain": "0.0.0"
     },
     "devDependencies": {
         "@types/jest": "^26.0.22",
