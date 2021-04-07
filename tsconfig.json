@@ -6,6 +6,5 @@
         "paths": {
             "@haste-sdk/*": ["./packages/*/src"]
         }
-    },
-    "exclude": ["node_modules", "dist"]
+    }
 }
