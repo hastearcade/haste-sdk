@@ -1,5 +1,5 @@
 import { Game, Player, Score } from '@haste-sdk/domain';
-import { getHighScore } from '@haste-sdk/client';
+import { getHighScore } from '../..';
 
 const game = new Game('testgame');
 
