@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-lerna run --concurrency 1 --stream lint --since HEAD --exclude-dependents
+lerna run --concurrency 1 lint
+lerna run --concurrency 1 pretty

@@ -49,6 +49,8 @@ In addition, you will need [NVM](https://github.com/nvm-sh/nvm) installed. NVM i
 
 Once you have Node.js and NVM installed you can run the following commands to test haste-sdk.
 
+`npm install commitizen -D -g`
+
 `git clone git@github.com:playhaste/haste-sdk.git`
 
 `cd haste-sdk`
@@ -92,6 +94,7 @@ haste-sdk uses the following tools to ensure a consistent, standard development 
 4. ESLint
 5. Husky with lint-staged
 6. Jest
+7. Commitizen
 
 _Through the use of npm package scripts and lerna, all commands can be run from the root directory of haste-sdk._
 
