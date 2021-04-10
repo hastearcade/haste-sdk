@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "clean": "rimraf -rf ./dist",
+    "clean": "rimraf -rf ./dist ./coverage",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\""

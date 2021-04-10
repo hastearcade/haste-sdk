@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "test": "lerna exec -- npm run test",
+    "pretest": "lerna exec -- npm run build",
     "lint": "lerna exec -- npm run lint",
     "bootstrap": "lerna bootstrap --hoist",
     "build": "lerna exec -- npm run build",
