@@ -8,20 +8,20 @@ A monorepo that contains the tooling required to create games quickly and easily
 
 ## Table of Contents
 
--   [Background and Use Case](#background)
--   [Packages](#packages)
--   [Setup](#setup)
-    -   [Prerequisites](#prerequisites)
-    -   [Installation](#installation)
-    -   [Environment Variables](#environment-variables)
--   [Usage](#usage)
-    -   [Lerna Monorepo](#lerna-monorepo)
-    -   [Developer Tooling](#developer-tooling)
--   [Deploy](#deploy)
--   [Documentation](#documentation)
--   [License](#license)
--   [Contributing](#contributing)
--   [Authors](#authors)
+- [Background and Use Case](#background)
+- [Packages](#packages)
+- [Setup](#setup)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Environment Variables](#environment-variables)
+- [Usage](#usage)
+  - [Lerna Monorepo](#lerna-monorepo)
+  - [Developer Tooling](#developer-tooling)
+- [Deploy](#deploy)
+- [Documentation](#documentation)
+- [License](#license)
+- [Contributing](#contributing)
+- [Authors](#authors)
 
 ## Background
 
@@ -30,12 +30,12 @@ built by developers all around the world. Unlike traditional online games, ILP G
 
 ## Packages
 
--   [ ] Shared domain models and services
--   [ ] Client SDK
--   [ ] Server SDK
--   [ ] CLI
--   [ ] Documentation Site
--   [ ] Sample Game
+- [ ] Shared domain models and services
+- [ ] Client SDK
+- [ ] Server SDK
+- [ ] CLI
+- [ ] Documentation Site
+- [ ] Sample Game
 
 ## Setup
 
@@ -125,6 +125,6 @@ Please read our contribution [policy](Contributing.md).
 
 ## Authors
 
--   Keith LaForce ([klaforce](https://github.com/klaforce/))
--   Eric LaForce ([elaforc](https://github.com/elaforc/))
--   Dan Wagner ([danwag06](https://github.com/danwag06))
+- Keith LaForce ([klaforce](https://github.com/klaforce/))
+- Eric LaForce ([elaforc](https://github.com/elaforc/))
+- Dan Wagner ([danwag06](https://github.com/danwag06))

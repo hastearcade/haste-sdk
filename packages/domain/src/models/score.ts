@@ -1,11 +1,11 @@
 export class Score {
-    score: number;
+  score: number;
 
-    constructor(score: number) {
-        this.score = score;
-    }
+  constructor(score: number) {
+    this.score = score;
+  }
 
-    getScore() {
-        return this.score;
-    }
+  getScore() {
+    return this.score;
+  }
 }

@@ -1,10 +1,10 @@
 {
-    "extends": "./tsconfig.build.json",
+  "extends": "./tsconfig.build.json",
 
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@haste-sdk/*": ["./packages/*/src"]
-        }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@haste-sdk/*": ["./packages/*/src"]
     }
+  }
 }

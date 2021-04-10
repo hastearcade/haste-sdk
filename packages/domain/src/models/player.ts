@@ -1,11 +1,11 @@
 export class Player {
-    email: string;
+  email: string;
 
-    constructor(email: string) {
-        this.email = email;
-    }
+  constructor(email: string) {
+    this.email = email;
+  }
 
-    getId() {
-        return this.email;
-    }
+  getId() {
+    return this.email;
+  }
 }
