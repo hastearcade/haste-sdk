@@ -1,7 +1,7 @@
 {
   "name": "@haste-sdk/client",
   "version": "0.0.0",
-  "description": "The client sdk to be used in browser for haste arcade games",
+  "description": "The client sdk to be used to empower develoeprs to leverage the Haste Arcade. The client SDK is intended to be used in browser alongside the developers game code.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",

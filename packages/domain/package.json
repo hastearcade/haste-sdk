@@ -1,7 +1,7 @@
 {
   "name": "@haste-sdk/domain",
   "version": "0.0.0",
-  "description": "Domain models for haste SDK",
+  "description": "The @haste/domain package includes common domain models and services used across the client SDK, server SDK, and the Haste CLI.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",
