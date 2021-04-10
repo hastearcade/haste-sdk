@@ -1,8 +1,8 @@
-# haste-client
+# haste-server
 
 ## Overview
 
-The client sdk to be used to empower developers to leverage the Haste Arcade. The client SDK is intended to be used in browser alongside the developers game code.
+The server sdk to be used to empower developers to leverage the Haste Arcade. The server SDK is intended to be used in browser alongside the developers game code.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
@@ -33,7 +33,7 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 ### Testing
 
-@haste/client utilizes Jest for running tests. To run all tests in the client package use the following command
+@haste/server utilizes Jest for running tests. To run all tests in the server package use the following command
 
 `npm run test`
 

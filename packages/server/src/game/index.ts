@@ -1,0 +1,1 @@
+export { getHighScore } from './game';

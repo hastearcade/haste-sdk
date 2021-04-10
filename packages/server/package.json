@@ -1,7 +1,7 @@
 {
-  "name": "@haste-sdk/client",
+  "name": "@haste-sdk/server",
   "version": "0.0.0",
-  "description": "The client sdk to be used to empower developers to leverage the Haste Arcade. The client SDK is intended to be used in browser alongside the developers game code.",
+  "description": "The server sdk to be used to empower developers to leverage the Haste Arcade. The server SDK is intended to be used in server side code alongside the developers game logic.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",
