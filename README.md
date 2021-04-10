@@ -121,7 +121,7 @@ haste-sdk is currently licensed under [MIT](https://github.com/playhaste/haste-s
 
 ## Contributing
 
-Please read our contribution [policy](Contributing.md).
+Please read our contribution [policy](CONTRIBUTING.md).
 
 ## Authors
 
