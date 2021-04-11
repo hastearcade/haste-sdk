@@ -1,1 +1,1 @@
-export * from './game';
+export { run } from '@oclif/command';

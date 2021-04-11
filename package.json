@@ -9,7 +9,8 @@
     "build": "lerna exec -- npm run build",
     "pretty": "lerna exec -- npm run pretty",
     "clean": "lerna exec -- npm run clean",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cli": "./packages/cli/bin/run"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
