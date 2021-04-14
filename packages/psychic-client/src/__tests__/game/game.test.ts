@@ -1,5 +1,4 @@
 import { Game, Player, Score } from '@haste-sdk/domain';
-import { getHighScore } from '../..';
 
 const game = new Game('testgame');
 
@@ -15,6 +14,6 @@ beforeEach(() => {
   initializeTestGame();
 });
 
-test('getHighScore', () => {
-  expect(getHighScore(game)).toBe(4);
+test('getName', () => {
+  expect(game.name).toBe('testgame');
 });
