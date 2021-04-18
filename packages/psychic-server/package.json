@@ -22,7 +22,7 @@
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
     "preserve": "npm run build",
-    "serve": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
+    "serve": "concurrently \"tsc -p tsconfig.build.json --watch\" \"nodemon -q dist/index.js\"",
     "prestart": "npm run build",
     "start": "node dist/index.js"
   },
