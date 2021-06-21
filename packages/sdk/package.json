@@ -1,7 +1,7 @@
 {
-  "name": "@haste-sdk/documentation",
+  "name": "@haste-sdk/sdk",
   "version": "0.0.0",
-  "description": "The documentation site for the haste-sdk is generated from source code of the SDK and CLI packages.",
+  "description": "The sdk to be used to empower developers to leverage the Haste Arcade. The SDK is intended to be used in server side code alongside the developers game logic.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",
@@ -29,7 +29,9 @@
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
   "dependencies": {
-    "@haste-sdk/domain": "0.0.0"
+    "@haste-sdk/domain": "0.0.0",
+    "@types/axios": "^0.14.0",
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",

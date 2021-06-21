@@ -1,7 +1,7 @@
 {
   "name": "@haste-sdk/haste-game-server",
   "version": "0.0.0",
-  "description": "The haste game server is an example of the @haste-sdk/server package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.",
+  "description": "The haste game server is an example of the @haste-sdk/sdk package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",

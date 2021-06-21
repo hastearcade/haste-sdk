@@ -2,7 +2,7 @@
 
 ## Overview
 
-The haste game server is an example of the @haste-sdk/server package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.
+The haste game server is an example of the @haste-sdk/sdk package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
