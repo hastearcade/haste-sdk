@@ -1,6 +1,6 @@
 import { Engine, DisplayMode } from 'excalibur';
 
-export class PsychicGame extends Engine {
+export class HasteGame extends Engine {
   constructor() {
     super({ displayMode: DisplayMode.Container });
   }

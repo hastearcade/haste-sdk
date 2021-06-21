@@ -49,7 +49,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      title: 'Psychic',
+      title: 'Haste Game',
     }),
   ],
 };

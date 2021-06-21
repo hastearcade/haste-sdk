@@ -1,7 +1,7 @@
 {
-  "name": "@haste-sdk/psychic-server",
+  "name": "@haste-sdk/haste-game-client",
   "version": "0.0.0",
-  "description": "The psychic server is an example of the @haste-sdk/server package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.",
+  "description": "The haste game client is an example of the @haste-sdk/client package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and secure ILP interactions.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",
@@ -16,15 +16,12 @@
     "url": "git+https://github.com/playhaste/haste-sdk.git"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build": "rimraf dist && webpack --config webpack.development.js",
     "clean": "rimraf -rf ./dist ./coverage",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
-    "preserve": "npm run build",
-    "serve": "concurrently \"tsc -p tsconfig.build.json --watch\" \"nodemon -q dist/index.js\"",
-    "prestart": "npm run build",
-    "start": "node dist/index.js"
+    "start": "webpack serve --config webpack.development.js"
   },
   "lint-staged": {
     "*.ts": "eslint src --ext .ts --fix"
@@ -34,24 +31,14 @@
   },
   "dependencies": {
     "@haste-sdk/domain": "0.0.0",
-    "koa": "^2.13.1",
-    "koa-bodyparser": "^4.3.0",
-    "koa-json": "^2.0.2",
-    "koa-logger": "^3.2.1",
-    "koa-router": "^10.0.0",
-    "tslog": "^3.2.0",
-    "dotenv": "^8.2.0"
+    "excalibur": "^0.24.5"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
-    "@types/koa": "^2.13.1",
-    "@types/koa-json": "^2.0.18",
-    "@types/koa-logger": "^3.1.1",
-    "@types/koa-router": "^7.4.2",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
-    "concurrently": "^6.0.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-standard": "^16.0.2",
@@ -60,12 +47,18 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-promise": "^4.3.1",
+    "html-webpack-plugin": "^5.3.1",
     "jest": "^26.6.3",
     "lint-staged": "^10.5.4",
-    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
+    "source-map-loader": "^2.0.1",
     "ts-jest": "^26.5.4",
-    "typescript": "^4.2.3"
+    "ts-loader": "^8.1.0",
+    "typescript": "^4.2.3",
+    "webpack": "^5.32.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
   }
 }

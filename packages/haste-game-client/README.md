@@ -1,8 +1,8 @@
-# psychic-client
+# haste-game-client
 
 ## Overview
 
-The psychic client is an example of the @haste-sdk/client package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and secure ILP interactions.
+The haste game client is an example of the @haste-sdk/client package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and secure ILP interactions.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
@@ -33,7 +33,7 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 ### Testing
 
-@haste-sdk/psychic-client utilizes Jest for running tests. To run all tests in the psychic-client package use the following command
+@haste-sdk/haste-game-client utilizes Jest for running tests. To run all tests in the haste-game-client package use the following command
 
 `npm run test`
 

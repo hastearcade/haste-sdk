@@ -1,8 +1,8 @@
-# psychic-server
+# haste-game-server
 
 ## Overview
 
-The psychic server is an example of the @haste-sdk/server package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.
+The haste game server is an example of the @haste-sdk/server package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
@@ -33,7 +33,7 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 ### Testing
 
-@haste-sdk/psychic-server utilizes Jest for running tests. To run all tests in the psychic-server package use the following command
+@haste-sdk/haste-game-server utilizes Jest for running tests. To run all tests in the haste-game-server package use the following command
 
 `npm run test`
 

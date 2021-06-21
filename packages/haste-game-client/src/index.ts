@@ -1,7 +1,7 @@
 import { Actor, CollisionType, Color } from 'excalibur';
-import { PsychicGame } from './psychicGame';
+import { HasteGame } from './hasteGame';
 
-const game = new PsychicGame();
+const game = new HasteGame();
 
 // Create an actor with x position of 150px,
 // y position of 40px from the bottom of the screen,
