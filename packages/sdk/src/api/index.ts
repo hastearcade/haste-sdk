@@ -1,1 +1,1 @@
-export { HasteApi } from './hasteApi';
+export { Haste } from './haste';

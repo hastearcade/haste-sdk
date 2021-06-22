@@ -3,8 +3,6 @@ export class HasteConfiguration {
   hostProtocol: string;
   host: string;
   port: number;
-  clientId: string;
-  clientSecret: string;
 
   constructor() {
     this.apiVersion = '';

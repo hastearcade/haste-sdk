@@ -1,4 +1,4 @@
 export { Player } from './player';
-export { Score } from './score';
-export { PlayersScore } from './playersscore';
+export { Arcade } from './arcade';
 export { Game } from './game';
+export { Play } from './play';
