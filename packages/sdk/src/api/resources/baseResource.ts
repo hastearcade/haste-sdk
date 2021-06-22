@@ -21,6 +21,6 @@ export class BaseResource<T, U> {
 
   async post(payload: T, path: string) {
     const token = this.getJwt();
-    await axios.post<U>(`${this.url}${path}`, payload, {headers: { Authorization: `Bearer ${token}` }});
+    await axios.post<U>(`${this.url}${path}`, payload, { headers: { Authorization: `Bearer ${token}` } });
   }
 }

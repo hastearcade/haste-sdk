@@ -9,4 +9,12 @@ export class GameResource extends BaseResource<Play, Game> {
     const path = `/arcades/${arcade.id}/games/${game.id}/play`;
     await this.post(new Play(player.id), path);
   }
+
+  async score(player: Player) {
+    const arcade = new Arcade('one');
+    const game = new Game('two');
+
+    const path = `/arcades/${arcade.id}/games/${game.id}/play`;
+    await this.post(new Play(player.id), path);
+  }
 }
