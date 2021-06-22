@@ -1,4 +1,4 @@
-import { Arcade, Game, Player, Play} from '@haste-sdk/domain';
+import { Arcade, Game, Player, Play } from '@haste-sdk/domain';
 import { BaseResource } from '../baseResource';
 
 export class GameResource extends BaseResource<Play, Game> {

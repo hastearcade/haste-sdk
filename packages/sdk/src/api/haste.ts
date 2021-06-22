@@ -7,7 +7,7 @@ export class Haste {
 
   // make this optional and add the client id and secret to the config object?
   // need client id and secret inside base resource
-  constructor(clientId:string, clientSecret: string, configuration?: HasteConfiguration) {
+  constructor(clientId: string, clientSecret: string, configuration?: HasteConfiguration) {
     this.configuration = configuration;
 
     if (!clientId || clientId.length === 0) {
