@@ -15,7 +15,12 @@ export class BaseResource<T, U> {
     this.clientSecret = clientSecret;
   }
 
+  private getJwt() {
+    return '';
+  }
+
   async post(payload: T, path: string) {
-    await axios.post<U>(`${this.url}${path}`, payload);
+    const token = this.getJwt();
+    await axios.post<U>(`${this.url}${path}`, payload, {headers: { Authorization: `Bearer ${token}` }});
   }
 }
