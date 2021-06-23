@@ -1,26 +1,22 @@
 import { HasteConfiguration } from '../../config';
 import axios from 'axios';
+import { buildUrl } from '../../util/urlBuilder';
 
-export class BaseResource<T, U> {
-  private configuration: HasteConfiguration;
-  private url: string;
-  private clientId: string;
-  private clientSecret: string;
+export class BaseResource {
+  protected configuration: HasteConfiguration;
+  protected url: string;
 
-  constructor(clientId: string, clientSecret: string, configuration: HasteConfiguration) {
+  constructor(configuration: HasteConfiguration) {
     const { host, hostProtocol, port } = configuration;
-    this.url = `${hostProtocol}://${host}${port !== 0 ? `:${port}` : ''}`;
+    this.url = buildUrl(hostProtocol, host, port);
     this.configuration = configuration;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
   }
 
-  private getJwt() {
-    return '';
-  }
+  async post<T, U>(payload: T, path: string): Promise<U> {
+    const result = await axios.post<U>(`${this.url}${path}`, payload, {
+      headers: { Authorization: `Bearer ${this.configuration.accessToken}` },
+    });
 
-  async post(payload: T, path: string) {
-    const token = this.getJwt();
-    await axios.post<U>(`${this.url}${path}`, payload, { headers: { Authorization: `Bearer ${token}` } });
+    return result.data;
   }
 }

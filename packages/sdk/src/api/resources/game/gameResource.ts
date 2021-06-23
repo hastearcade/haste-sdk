@@ -1,20 +1,16 @@
-import { Arcade, Game, Player, Play } from '@haste-sdk/domain';
+import { Player, CreatePlay, Play, CreateScore, Score } from '@haste-sdk/domain';
 import { BaseResource } from '../baseResource';
 
-export class GameResource extends BaseResource<Play, Game> {
+export class GameResource extends BaseResource {
   async play(player: Player) {
-    const arcade = new Arcade('one');
-    const game = new Game('two');
-
-    const path = `/arcades/${arcade.id}/games/${game.id}/play`;
-    await this.post(new Play(player.id), path);
+    const payload = new CreatePlay(player.id);
+    const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/play`;
+    return await this.post<CreatePlay, Play>(payload, path);
   }
 
-  async score(player: Player) {
-    const arcade = new Arcade('one');
-    const game = new Game('two');
-
-    const path = `/arcades/${arcade.id}/games/${game.id}/play`;
-    await this.post(new Play(player.id), path);
+  async score(play: Play, score: number) {
+    const payload = new CreateScore(play.id, score);
+    const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/score`;
+    return await this.post<CreateScore, Score>(payload, path);
   }
 }

@@ -3,6 +3,11 @@ export class HasteConfiguration {
   hostProtocol: string;
   host: string;
   port: number;
+  arcadeId: string;
+  gameId: string;
+  clientId: string;
+  clientSecret: string;
+  accessToken: string;
 
   constructor() {
     this.apiVersion = '';
