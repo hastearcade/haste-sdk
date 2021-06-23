@@ -9,10 +9,6 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './dist',
     port: 3008,
-    before: function (app, server, compiler) {
-      app.get('/auth_config.json', function (req, res) {
-        res.sendFile(join(__dirname, 'auth_config.json'));
-      });
-    },
+    host: '0.0.0.0',
   },
 });

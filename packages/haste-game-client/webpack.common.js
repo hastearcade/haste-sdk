@@ -6,8 +6,6 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     index: './src/index.ts',
-    app: './src/app.js',
-    css: './src/main.css',
   },
   target: 'web',
   output: {
@@ -59,7 +57,6 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       title: 'Haste Game',
-      template: './src/index.html',
     }),
   ],
 };

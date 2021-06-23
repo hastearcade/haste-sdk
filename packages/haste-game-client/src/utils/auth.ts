@@ -1,28 +1,16 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-let auth0 = null;
+import createAuth0Client from '@auth0/auth0-spa-js';
 
-const fetchAuthConfig = () => fetch('/auth_config.json');
-
-const configureClient = async () => {
-  const response = await fetchAuthConfig();
-  const config = await response.json();
-
-  auth0 = await createAuth0Client({
-    domain: config.domain,
-    client_id: config.clientId,
+export const configureClient = async () => {
+  return await createAuth0Client({
+    domain: 'playhaste.us.auth0.com',
+    client_id: 'bYphYYXNRaQf4JRJgqfYlMWig1N850z5',
     audience: 'https://hastegame.api',
   });
 };
 
+/*
 // NEW
-const updateUI = async () => {
+const updateUI = async (auth0) => {
   const isAuthenticated = await auth0.isAuthenticated();
 
   document.getElementById('btn-logout').disabled = !isAuthenticated;
@@ -80,3 +68,4 @@ window.onload = async () => {
     window.history.replaceState({}, document.title, '/');
   }
 };
+*/
