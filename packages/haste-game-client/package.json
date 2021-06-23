@@ -33,7 +33,7 @@
     "@auth0/auth0-spa-js": "^1.15.0",
     "@haste-sdk/domain": "0.0.0",
     "axios": "^0.21.1",
-    "excalibur": "^0.24.5"
+    "phaser": "^3.55.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
