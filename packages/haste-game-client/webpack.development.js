@@ -9,6 +9,14 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './dist',
     port: 3008,
+    before: function (app, server, compiler) {
+      app.get('/assets/images/:imageName', function (req, res) {
+        res.sendFile(join(__dirname, `src/assets/images/${req.params['imageName']}`));
+      });
+      app.get('/assets/pack.json', function (req, res) {
+        res.sendFile(join(__dirname, `src/assets/pack.json`));
+      });
+    },
     host: '0.0.0.0',
   },
 });
