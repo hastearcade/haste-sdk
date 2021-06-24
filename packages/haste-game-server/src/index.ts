@@ -1,17 +1,15 @@
-import Koa from 'koa';
-import Router from 'koa-router';
-import logger from 'koa-logger';
-import json from 'koa-json';
+import express from 'express';
 import dotenv from 'dotenv';
 import { Logger } from 'tslog';
-import { koaJwtSecret } from 'jwks-rsa';
-import jwt from 'koa-jwt';
+import { expressJwtSecret } from 'jwks-rsa';
+import jwt from 'express-jwt';
 
 dotenv.config();
 const log: Logger = new Logger();
+const port = process.env.PORT;
 
 const jwtCheck = jwt({
-  secret: koaJwtSecret({
+  secret: expressJwtSecret({
     jwksUri: 'https://playhaste.us.auth0.com/.well-known/jwks.json',
     cache: true,
     cacheMaxEntries: 5,
@@ -21,28 +19,11 @@ const jwtCheck = jwt({
   algorithms: ['RS256'],
 });
 
-const app = new Koa();
-const router = new Router();
+const app = express();
 
-// Hello world
-router.get('/', async (ctx, next) => {
-  ctx.body = { msg: 'Hello world!' };
+app.get('/', (req, res) => res.send('Public endpoint'));
+app.get('/private', jwtCheck, (req, res) => res.send('Private endpoint'));
 
-  await next();
-});
-
-router.get('/private', jwtCheck, async (ctx, next) => {
-  ctx.body = { msg: 'This is a private endpoint! Keep it secret, keep it safe.' };
-  await next();
-});
-
-// Middlewares
-app.use(json());
-app.use(logger());
-
-// Routes
-app.use(router.routes()).use(router.allowedMethods());
-
-app.listen(process.env.PORT, () => {
-  log.info('Koa started');
+app.listen(port, () => {
+  log.info(`server started at http://localhost:${port}`);
 });
