@@ -2,7 +2,7 @@ import Matter, { Bodies, Composite, Engine, Runner, World, Body } from 'matter-j
 import { Server } from 'socket.io';
 import { GameNetwork } from './gameNetwork';
 import { Logger } from 'tslog';
-import { Floor, HasteGameState, Platform, Player, PlayerDirection, PlayerMovement, Star } from './gameState';
+import { Floor, HasteGameState, Platform, Player, PlayerDirection, PlayerMovement, Star, Wall } from './gameState';
 import { mapMattertoHasteBody } from '../util/helper';
 
 export class GameEngine {
@@ -16,6 +16,8 @@ export class GameEngine {
 
   private player: Player;
   private floor: Floor;
+  private leftWall: Wall;
+  private rightWall: Wall;
   private platforms: Platform[];
   private stars: Star[];
 
@@ -52,9 +54,15 @@ export class GameEngine {
 
     this.player = new Player();
     this.player.width = 30;
-    this.player.height = 40;
+    this.player.height = 28;
     this.player.isUp = false;
 
+    this.rightWall = new Wall();
+    this.rightWall.width = 5;
+    this.rightWall.height = 10000;
+    this.leftWall = new Wall();
+    this.leftWall.width = 5;
+    this.leftWall.height = 10000;
     this.floor = new Floor();
     this.floor.width = 800;
     this.floor.height = 50;
@@ -65,13 +73,25 @@ export class GameEngine {
     const playerBody = Bodies.rectangle(100, 450, this.player.width, this.player.height, {
       label: 'Player',
       restitution: 0.0,
-      friction: 0.01,
+      friction: 0.0,
+      frictionAir: 0.05,
     });
     this.player.body = mapMattertoHasteBody(playerBody);
 
-    // Create an immovable rectangle at the bottom of the screen that will act as the floor
     const floor = Bodies.rectangle(400, 575, this.floor.width, this.floor.height, { isStatic: true, label: 'Floor' });
     this.floor.body = mapMattertoHasteBody(floor);
+
+    const leftWall = Bodies.rectangle(0, 0, this.leftWall.width, this.leftWall.height, {
+      isStatic: true,
+      label: 'LeftWall',
+    });
+    this.leftWall.body = mapMattertoHasteBody(leftWall);
+
+    const rightWall = Bodies.rectangle(800, 0, this.rightWall.width, this.rightWall.height, {
+      isStatic: true,
+      label: 'Right',
+    });
+    this.rightWall.body = mapMattertoHasteBody(rightWall);
 
     const platform1 = new Platform();
     platform1.height = 32;
@@ -123,6 +143,8 @@ export class GameEngine {
     Composite.add(this.world, platform1Body);
     Composite.add(this.world, platform2Body);
     Composite.add(this.world, platform3Body);
+    Composite.add(this.world, leftWall);
+    Composite.add(this.world, rightWall);
   }
 
   getInitialState(): HasteGameState {

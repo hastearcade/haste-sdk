@@ -17,6 +17,7 @@ export class Player extends BaseEntity {
   isUp: boolean;
 }
 
+export class Wall extends BaseEntity {}
 export class Floor extends BaseEntity {}
 export class Platform extends BaseEntity {}
 export class Star extends BaseEntity {
