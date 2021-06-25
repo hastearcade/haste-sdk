@@ -164,8 +164,9 @@ export class GameScene extends Phaser.Scene {
       const sprite = this.starSprites.get(s.body.name);
 
       if (s.disabled) {
-        sprite.destroy();
+        sprite.setAlpha(0);
       } else {
+        sprite.setAlpha(1);
         sprite.setPosition(s.body.x, s.body.y);
       }
     });

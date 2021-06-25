@@ -47,6 +47,7 @@ export class GameEngine {
   init() {
     Engine.clear(this.engine);
     World.clear(this.engine.world, false);
+
     if (this.runner) Runner.stop(this.runner);
 
     this.player = new Player();
@@ -59,6 +60,7 @@ export class GameEngine {
     this.floor.height = 50;
     this.platforms = [];
     this.stars = [];
+    this.score = 0;
 
     const playerBody = Bodies.rectangle(100, 450, this.player.width, this.player.height, {
       label: 'Player',
@@ -141,12 +143,10 @@ export class GameEngine {
       const collectedStars = this.stars.filter((s) => s.disabled).length;
 
       if (collectedStars === 12) {
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 12; i++) {
           this.stars[i].disabled = false;
           const newStar = this.world.bodies.find((b) => b.label === `Star${i}`);
-          newStar.isStatic = false;
-          newStar.position.x = 12;
-          newStar.position.y = 0;
+          Body.setPosition(newStar, { x: 12 + 70 * i, y: 0 });
         }
       }
 
@@ -182,8 +182,7 @@ export class GameEngine {
         const star = this.stars.find((s) => s.body.name === bodyToRemove.label);
         star.disabled = true;
 
-        bodyToRemove.position = { x: 1000, y: 1000 };
-        bodyToRemove.isStatic = true;
+        Body.setPosition(bodyToRemove, { x: 1000, y: 1000 });
       }
     });
   }
