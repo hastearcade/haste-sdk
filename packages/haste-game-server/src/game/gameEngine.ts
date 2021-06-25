@@ -2,7 +2,7 @@ import Matter, { Bodies, Composite, Engine, Runner, World, Body } from 'matter-j
 import { Server } from 'socket.io';
 import { GameNetwork } from './gameNetwork';
 import { Logger } from 'tslog';
-import { Floor, HasteGameState, Player, PlayerDirection, PlayerMovement, Rectangle } from './gameState';
+import { Floor, HasteGameState, Platform, Player, PlayerDirection, PlayerMovement } from './gameState';
 import { mapMattertoHasteBody } from '../util/helper';
 
 export class GameEngine {
@@ -14,9 +14,9 @@ export class GameEngine {
   private runner: Runner;
   private playerBody: Body;
 
-  private rect: Rectangle;
   private player: Player;
   private floor: Floor;
+  private platforms: Platform[];
 
   constructor(server: Server) {
     this.log = new Logger();
@@ -58,10 +58,6 @@ export class GameEngine {
     World.clear(this.engine.world, false);
     if (this.runner) Runner.stop(this.runner);
 
-    this.rect = new Rectangle();
-    this.rect.height = 80;
-    this.rect.width = 120;
-
     this.player = new Player();
     this.player.width = 30;
     this.player.height = 40;
@@ -70,14 +66,7 @@ export class GameEngine {
     this.floor = new Floor();
     this.floor.width = 800;
     this.floor.height = 50;
-
-    // Create a rectangle centered at the top of the screen, (400, 0), with 120px width and 80px height
-    const rectangle = Bodies.rectangle(400, 0, this.rect.width, this.rect.height, {
-      restitution: 0.25,
-      angle: Math.PI / 4,
-      label: 'Rectangle',
-    });
-    this.rect.body = mapMattertoHasteBody(rectangle);
+    this.platforms = [];
 
     this.playerBody = Bodies.rectangle(100, 450, this.player.width, this.player.height, {
       label: 'Player',
@@ -90,14 +79,46 @@ export class GameEngine {
     const floor = Bodies.rectangle(400, 575, this.floor.width, this.floor.height, { isStatic: true, label: 'Floor' });
     this.floor.body = mapMattertoHasteBody(floor);
 
+    const platform1 = new Platform();
+    platform1.height = 32;
+    platform1.width = 400;
+    const platform1Body = Bodies.rectangle(600, 400, platform1.width, platform1.height, {
+      isStatic: true,
+      label: 'Platform1',
+    });
+    platform1.body = mapMattertoHasteBody(platform1Body);
+    this.platforms.push(platform1);
+
+    const platform2 = new Platform();
+    platform2.height = 32;
+    platform2.width = 400;
+    const platform2Body = Bodies.rectangle(50, 250, platform2.width, platform2.height, {
+      isStatic: true,
+      label: 'Platform2',
+    });
+    platform2.body = mapMattertoHasteBody(platform2Body);
+    this.platforms.push(platform2);
+
+    const platform3 = new Platform();
+    platform3.height = 32;
+    platform3.width = 400;
+    const platform3Body = Bodies.rectangle(750, 220, platform3.width, platform3.height, {
+      isStatic: true,
+      label: 'Platform3',
+    });
+    platform3.body = mapMattertoHasteBody(platform3Body);
+    this.platforms.push(platform3);
+
     // Add the newly minted bodies to our physics simulation
-    Composite.add(this.world, rectangle);
     Composite.add(this.world, floor);
     Composite.add(this.world, this.playerBody);
+    Composite.add(this.world, platform1Body);
+    Composite.add(this.world, platform2Body);
+    Composite.add(this.world, platform3Body);
   }
 
   getInitialState(): HasteGameState {
-    const initialState = new HasteGameState(this.world, 800, 600, this.rect, this.player, this.floor);
+    const initialState = new HasteGameState(800, 600, this.player, this.floor, this.platforms);
     return initialState;
   }
 
@@ -111,10 +132,9 @@ export class GameEngine {
     // Kick off the simulation and the render loops
     this.runner = Runner.run(this.engine);
     Matter.Events.on(this.engine, 'afterUpdate', () => {
-      this.rect.body = mapMattertoHasteBody(this.world.bodies.filter((b) => b.label === 'Rectangle')[0]);
       this.player.body = mapMattertoHasteBody(this.world.bodies.filter((b) => b.label === 'Player')[0]);
 
-      const state = new HasteGameState(this.world, 800, 600, this.rect, this.player, this.floor);
+      const state = new HasteGameState(800, 600, this.player, this.floor, this.platforms);
       if (this.network && this.network.socket) this.network.socket.emit('gameUpdate', state);
     });
 

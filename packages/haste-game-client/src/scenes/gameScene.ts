@@ -6,8 +6,6 @@ import { PlayerDirection, PlayerMovement } from '../models/gameState';
 
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  groundSprite: Phaser.GameObjects.Sprite;
-  rectangleSprite: Phaser.GameObjects.Sprite;
   playerSprite: Phaser.GameObjects.Sprite;
   score: number;
   scoreText: Phaser.GameObjects.Text;
@@ -69,17 +67,13 @@ export class GameScene extends Phaser.Scene {
     this.add.sprite(400, 300, 'sky');
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    const ground = hasteGame.state.staticBodies.find((b) => b.body.name === 'Floor');
-    this.groundSprite = this.add
-      .sprite(ground.body.x, ground.body.y, 'ground')
-      .setDisplaySize(ground.width, ground.height);
+    const ground = hasteGame.state.floor;
+    this.add.sprite(ground.body.x, ground.body.y, 'ground').setDisplaySize(ground.width, ground.height);
 
-    const rectangle = hasteGame.state.rectangle;
-    this.rectangleSprite = this.add
-      .sprite(rectangle.body.x, rectangle.body.y, 'ground')
-      .setDisplaySize(rectangle.width, rectangle.height)
-      .setAngle(rectangle.body.angle * (180 / Math.PI))
-      .setTint(0xff0000);
+    const platforms = hasteGame.state.platforms;
+    platforms.forEach((platform) => {
+      this.add.sprite(platform.body.x, platform.body.y, 'ground').setDisplaySize(platform.width, platform.height);
+    });
 
     const player = hasteGame.state.player;
     this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
@@ -154,14 +148,8 @@ export class GameScene extends Phaser.Scene {
 
   update() {
     const hasteGame = this.game as HasteGame;
-    const ground = hasteGame.state.staticBodies.find((b) => b.body.name === 'Floor');
-    const rectangle = hasteGame.state.rectangle;
     const player = hasteGame.state.player;
 
-    this.rectangleSprite
-      .setPosition(rectangle.body.x, rectangle.body.y)
-      .setAngle(rectangle.body.angle * (180 / Math.PI));
-    this.groundSprite.setPosition(ground.body.x, ground.body.y);
     this.playerSprite.setPosition(player.body.x, player.body.y);
 
     if (this.cursors.left.isDown) {

@@ -17,7 +17,8 @@ export class Player extends BaseEntity {
   isUp: boolean;
 }
 
-export class Rectangle extends BaseEntity {}
+export class Floor extends BaseEntity {}
+export class Platform extends BaseEntity {}
 
 export enum PlayerDirection {
   LEFT,
@@ -32,8 +33,8 @@ export class HasteGameState {
   height: number;
   width: number;
   player: Player;
-  staticBodies: BaseEntity[];
+  platforms: Platform[];
+  floor: Floor;
   stars: HasteBody[];
   bombs: HasteBody[];
-  rectangle: Rectangle;
 }

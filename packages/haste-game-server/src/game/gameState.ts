@@ -1,6 +1,3 @@
-import { Composite, Body } from 'matter-js';
-import { mapMattertoHasteBody } from '../util/helper';
-
 export class HasteBody {
   x: number;
   y: number;
@@ -18,8 +15,8 @@ export class Player extends BaseEntity {
   isUp: boolean;
 }
 
-export class Rectangle extends BaseEntity {}
 export class Floor extends BaseEntity {}
+export class Platform extends BaseEntity {}
 
 export enum PlayerDirection {
   LEFT,
@@ -33,19 +30,17 @@ export class HasteGameState {
   height: number;
   width: number;
   player: Player;
-  staticBodies: BaseEntity[];
+  platforms: Platform[];
+  floor: Floor;
   stars: HasteBody[];
   bombs: HasteBody[];
-  rectangle: Rectangle;
 
-  constructor(world: Composite, width: number, height: number, rectangle: Rectangle, player: Player, floor: Floor) {
+  constructor(width: number, height: number, player: Player, floor: Floor, platforms: Platform[]) {
     this.height = height;
     this.width = width;
-
-    this.staticBodies = [floor];
-    this.rectangle = rectangle;
+    this.platforms = platforms;
+    this.floor = floor;
     this.player = player;
-
     this.stars = [];
     this.bombs = [];
   }
