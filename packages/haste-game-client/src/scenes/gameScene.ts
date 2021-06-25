@@ -2,11 +2,13 @@
 import 'phaser';
 import { Api } from '../api/api';
 import { HasteGame } from '../game/hasteGame';
+import { PlayerDirection, PlayerMovement } from '../models/gameState';
 
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   groundSprite: Phaser.GameObjects.Sprite;
   rectangleSprite: Phaser.GameObjects.Sprite;
+  playerSprite: Phaser.GameObjects.Sprite;
   score: number;
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
@@ -40,7 +42,7 @@ export class GameScene extends Phaser.Scene {
       this.physics.add.collider(this.stars, this.platforms);
       this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
-      const x = this.player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+      const x = this.playerSprite.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
       const bomb = this.bombs.create(x, 16, 'bomb') as Phaser.GameObjects.GameObject;
       const bombBody = bomb.body as Phaser.Physics.Arcade.Body;
@@ -67,34 +69,23 @@ export class GameScene extends Phaser.Scene {
     this.add.sprite(400, 300, 'sky');
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    const ground = hasteGame.state.staticBodies.find((b) => b.name === 'Floor');
-    this.groundSprite = this.add.sprite(ground.x, ground.y, 'ground').setDisplaySize(ground.width, ground.height);
+    const ground = hasteGame.state.staticBodies.find((b) => b.body.name === 'Floor');
+    this.groundSprite = this.add
+      .sprite(ground.body.x, ground.body.y, 'ground')
+      .setDisplaySize(ground.width, ground.height);
 
     const rectangle = hasteGame.state.rectangle;
     this.rectangleSprite = this.add
-      .sprite(rectangle.x, rectangle.y, 'ground')
+      .sprite(rectangle.body.x, rectangle.body.y, 'ground')
       .setDisplaySize(rectangle.width, rectangle.height)
-      .setAngle(rectangle.angle * (180 / Math.PI))
+      .setAngle(rectangle.body.angle * (180 / Math.PI))
       .setTint(0xff0000);
+
+    const player = hasteGame.state.player;
+    this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.api.play();
-
-    // let bg = this.add.sprite(0, 0, 'background');
-    /*
-    this.platforms = this.physics.add.staticGroup();
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
-    this.platforms.create(600, 400, 'ground');
-    this.platforms.create(50, 250, 'ground');
-    this.platforms.create(750, 220, 'ground');
-
-    this.player = this.physics.add.sprite(100, 450, 'dude');
-
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
 
     this.anims.create({
       key: 'left',
@@ -115,6 +106,25 @@ export class GameScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+    // let bg = this.add.sprite(0, 0, 'background');
+    /*
+    this.platforms = this.physics.add.staticGroup();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+
+    this.platforms.create(600, 400, 'ground');
+    this.platforms.create(50, 250, 'ground');
+    this.platforms.create(750, 220, 'ground');
+
+    this.player = this.physics.add.sprite(100, 450, 'dude');
+
+    this.playerSprite.setBounce(0.2);
+    this.playerSprite.setCollideWorldBounds(true);
+
+    
 
     this.physics.add.collider(this.player, this.platforms);
 
@@ -144,30 +154,28 @@ export class GameScene extends Phaser.Scene {
 
   update() {
     const hasteGame = this.game as HasteGame;
-    const ground = hasteGame.state.staticBodies.find((b) => b.name === 'Floor');
+    const ground = hasteGame.state.staticBodies.find((b) => b.body.name === 'Floor');
     const rectangle = hasteGame.state.rectangle;
+    const player = hasteGame.state.player;
 
-    this.rectangleSprite.setPosition(rectangle.x, rectangle.y).setAngle(rectangle.angle * (180 / Math.PI));
-    this.groundSprite.setPosition(ground.x, ground.y);
+    this.rectangleSprite
+      .setPosition(rectangle.body.x, rectangle.body.y)
+      .setAngle(rectangle.body.angle * (180 / Math.PI));
+    this.groundSprite.setPosition(ground.body.x, ground.body.y);
+    this.playerSprite.setPosition(player.body.x, player.body.y);
 
-    /*
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-160);
-
-      this.player.anims.play('left', true);
+      this.playerSprite.anims.play('left', true);
+      hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.LEFT } as PlayerMovement);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(160);
-
-      this.player.anims.play('right', true);
+      this.playerSprite.anims.play('right', true);
+      hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.RIGHT } as PlayerMovement);
     } else {
-      this.player.setVelocityX(0);
-
-      this.player.anims.play('turn');
+      this.playerSprite.anims.play('turn');
     }
 
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-330);
+    if (this.cursors.up.isDown) {
+      hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.UP } as PlayerMovement);
     }
-    */
   }
 }

@@ -1,44 +1,50 @@
 import { Composite, Body } from 'matter-js';
+import { mapMattertoHasteBody } from '../util/helper';
 
 export class HasteBody {
   x: number;
   y: number;
-  height: number;
-  width: number;
   name: string;
   angle: number;
 }
 
+export class BaseEntity {
+  body: HasteBody;
+  width: number;
+  height: number;
+}
+
+export class Player extends BaseEntity {
+  isUp: boolean;
+}
+
+export class Rectangle extends BaseEntity {}
+export class Floor extends BaseEntity {}
+
+export enum PlayerDirection {
+  LEFT,
+  RIGHT,
+  UP,
+}
+export class PlayerMovement {
+  direction: PlayerDirection;
+}
 export class HasteGameState {
   height: number;
   width: number;
-  player: HasteBody;
-  staticBodies: HasteBody[];
+  player: Player;
+  staticBodies: BaseEntity[];
   stars: HasteBody[];
   bombs: HasteBody[];
-  rectangle: HasteBody;
+  rectangle: Rectangle;
 
-  private mapMattertoHasteBody(b: Body) {
-    const { min, max } = b.bounds;
-    return {
-      x: b.position.x,
-      y: b.position.y,
-      width: max.x - min.x,
-      height: max.y - min.y,
-      name: b.label,
-      angle: b.angle,
-    } as HasteBody;
-  }
-
-  constructor(world: Composite, width: number, height: number) {
+  constructor(world: Composite, width: number, height: number, rectangle: Rectangle, player: Player, floor: Floor) {
     this.height = height;
     this.width = width;
 
-    this.staticBodies = world.bodies.filter((b) => b.isStatic).map((b) => this.mapMattertoHasteBody(b));
-    this.rectangle = world.bodies.filter((b) => !b.isStatic).map((b) => this.mapMattertoHasteBody(b))[0];
-
-    this.rectangle.width = 120;
-    this.rectangle.height = 80;
+    this.staticBodies = [floor];
+    this.rectangle = rectangle;
+    this.player = player;
 
     this.stars = [];
     this.bombs = [];
