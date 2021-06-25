@@ -1,3 +1,8 @@
+import { HasteGame } from '../game/hasteGame';
+import { HasteGameState } from '../models/gameState';
+
+declare const __API_HOST__: string;
+
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
   private progressBar: Phaser.GameObjects.Graphics;
@@ -41,9 +46,12 @@ export class BootScene extends Phaser.Scene {
 
     // load out package
     this.load.pack('preload', './assets/pack.json', 'preload');
+    this.load.json('gameState', `${__API_HOST__}/getInitialGameState`);
   }
 
   update(): void {
+    const hasteGame = this.game as HasteGame;
+    hasteGame.state = this.cache.json.get('gameState') as HasteGameState;
     this.scene.start('GameScene');
   }
 

@@ -1,21 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import 'phaser';
+import { Api } from '../api/api';
+import { HasteGame } from '../game/hasteGame';
 
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
-  platforms: Phaser.Physics.Arcade.StaticGroup;
-  stars: Phaser.Physics.Arcade.Group;
-  bombs: Phaser.Physics.Arcade.Group;
+  groundSprite: Phaser.GameObjects.Sprite;
+  rectangleSprite: Phaser.GameObjects.Sprite;
   score: number;
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
+  api: Api;
 
   constructor() {
     super('GameScene');
     this.score = 0;
+    this.api = new Api();
   }
 
+  /*
   collectStar = (player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody, star: Phaser.GameObjects.GameObject) => {
     star.destroy();
 
@@ -57,9 +60,28 @@ export class GameScene extends Phaser.Scene {
     this.gameOver = true;
   };
 
-  init() {
-    this.add.image(400, 300, 'sky');
+  */
 
+  init() {
+    const hasteGame = this.game as HasteGame;
+    this.add.sprite(400, 300, 'sky');
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+    const ground = hasteGame.state.staticBodies.find((b) => b.name === 'Floor');
+    this.groundSprite = this.add.sprite(ground.x, ground.y, 'ground').setDisplaySize(ground.width, ground.height);
+
+    const rectangle = hasteGame.state.rectangle;
+    this.rectangleSprite = this.add
+      .sprite(rectangle.x, rectangle.y, 'ground')
+      .setDisplaySize(rectangle.width, rectangle.height)
+      .setAngle(rectangle.angle * (180 / Math.PI))
+      .setTint(0xff0000);
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.api.play();
+
+    // let bg = this.add.sprite(0, 0, 'background');
+    /*
     this.platforms = this.physics.add.staticGroup();
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -94,8 +116,6 @@ export class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.cursors = this.input.keyboard.createCursorKeys();
-
     this.physics.add.collider(this.player, this.platforms);
 
     this.stars = this.physics.add.group({
@@ -119,9 +139,18 @@ export class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.bombs, this.platforms);
 
     this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
+    */
   }
 
   update() {
+    const hasteGame = this.game as HasteGame;
+    const ground = hasteGame.state.staticBodies.find((b) => b.name === 'Floor');
+    const rectangle = hasteGame.state.rectangle;
+
+    this.rectangleSprite.setPosition(rectangle.x, rectangle.y).setAngle(rectangle.angle * (180 / Math.PI));
+    this.groundSprite.setPosition(ground.x, ground.y);
+
+    /*
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
 
@@ -139,5 +168,6 @@ export class GameScene extends Phaser.Scene {
     if (this.cursors.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
     }
+    */
   }
 }

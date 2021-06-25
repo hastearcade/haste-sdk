@@ -1,9 +1,9 @@
 import 'phaser';
-import { GameConfig } from './config/config';
 
-export class Game extends Phaser.Game {}
+import { GameConfig } from './config/config';
+import { HasteGame } from './game/hasteGame';
 
 window.addEventListener('load', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const game = new Game(GameConfig);
+  const game = new HasteGame(GameConfig);
 });

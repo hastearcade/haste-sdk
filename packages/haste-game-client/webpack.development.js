@@ -2,6 +2,7 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const { join } = require('path');
+const { DefinePlugin } = require('webpack');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -19,4 +20,9 @@ module.exports = merge(common, {
     },
     host: '0.0.0.0',
   },
+  plugins: [
+    new DefinePlugin({
+      __API_HOST__: JSON.stringify('http://localhost:3007'),
+    }),
+  ],
 });
