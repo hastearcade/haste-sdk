@@ -7,15 +7,15 @@ import { PlayerDirection, PlayerMovement } from '../models/gameState';
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   playerSprite: Phaser.GameObjects.Sprite;
-  score: number;
+  starSprites: Map<string, Phaser.GameObjects.Sprite>;
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
   api: Api;
 
   constructor() {
     super('GameScene');
-    this.score = 0;
     this.api = new Api();
+    this.starSprites = new Map<string, Phaser.GameObjects.Sprite>();
   }
 
   /*
@@ -75,6 +75,12 @@ export class GameScene extends Phaser.Scene {
       this.add.sprite(platform.body.x, platform.body.y, 'ground').setDisplaySize(platform.width, platform.height);
     });
 
+    const stars = hasteGame.state.stars;
+    stars.forEach((star) => {
+      const starSprite = this.add.sprite(star.body.x, star.body.y, 'star').setDisplaySize(star.width, star.height);
+      this.starSprites.set(star.body.name, starSprite);
+    });
+
     const player = hasteGame.state.player;
     this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
 
@@ -102,6 +108,8 @@ export class GameScene extends Phaser.Scene {
     });
 
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', color: '#000' });
+
     // let bg = this.add.sprite(0, 0, 'background');
     /*
     this.platforms = this.physics.add.staticGroup();
@@ -149,8 +157,20 @@ export class GameScene extends Phaser.Scene {
   update() {
     const hasteGame = this.game as HasteGame;
     const player = hasteGame.state.player;
+    const stars = hasteGame.state.stars;
 
     this.playerSprite.setPosition(player.body.x, player.body.y);
+    stars.forEach((s) => {
+      const sprite = this.starSprites.get(s.body.name);
+
+      if (s.disabled) {
+        sprite.destroy();
+      } else {
+        sprite.setPosition(s.body.x, s.body.y);
+      }
+    });
+
+    this.scoreText.setText(`Score: ${hasteGame.state.score}`);
 
     if (this.cursors.left.isDown) {
       this.playerSprite.anims.play('left', true);

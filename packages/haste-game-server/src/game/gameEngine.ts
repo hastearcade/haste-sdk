@@ -2,7 +2,7 @@ import Matter, { Bodies, Composite, Engine, Runner, World, Body } from 'matter-j
 import { Server } from 'socket.io';
 import { GameNetwork } from './gameNetwork';
 import { Logger } from 'tslog';
-import { Floor, HasteGameState, Platform, Player, PlayerDirection, PlayerMovement } from './gameState';
+import { Floor, HasteGameState, Platform, Player, PlayerDirection, PlayerMovement, Star } from './gameState';
 import { mapMattertoHasteBody } from '../util/helper';
 
 export class GameEngine {
@@ -12,11 +12,12 @@ export class GameEngine {
   private world: World;
   private log: Logger;
   private runner: Runner;
-  private playerBody: Body;
+  private score: number;
 
   private player: Player;
   private floor: Floor;
   private platforms: Platform[];
+  private stars: Star[];
 
   constructor(server: Server) {
     this.log = new Logger();
@@ -24,32 +25,22 @@ export class GameEngine {
     this.engine = Engine.create();
     this.world = this.engine.world;
     this.network = new GameNetwork(this.server);
+    this.score = 0;
 
     this.init();
   }
 
   private movePlayer(movement: PlayerMovement) {
+    const playerBody = this.world.bodies.find((b) => b.label === `Player`);
     if (movement.direction === PlayerDirection.LEFT) {
-      Body.applyForce(
-        this.playerBody,
-        { x: this.playerBody.position.x, y: this.playerBody.position.y },
-        { x: -0.001, y: 0 },
-      );
+      Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: -0.001, y: 0 });
     }
     if (movement.direction === PlayerDirection.RIGHT) {
-      Body.applyForce(
-        this.playerBody,
-        { x: this.playerBody.position.x, y: this.playerBody.position.y },
-        { x: 0.001, y: 0 },
-      );
+      Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: 0.001, y: 0 });
     }
     if (movement.direction === PlayerDirection.UP && !this.player.isUp) {
       this.player.isUp = true;
-      Body.applyForce(
-        this.playerBody,
-        { x: this.playerBody.position.x, y: this.playerBody.position.y },
-        { x: 0, y: -0.05 },
-      );
+      Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: 0, y: -0.05 });
     }
   }
 
@@ -67,13 +58,14 @@ export class GameEngine {
     this.floor.width = 800;
     this.floor.height = 50;
     this.platforms = [];
+    this.stars = [];
 
-    this.playerBody = Bodies.rectangle(100, 450, this.player.width, this.player.height, {
+    const playerBody = Bodies.rectangle(100, 450, this.player.width, this.player.height, {
       label: 'Player',
       restitution: 0.0,
       friction: 0.01,
     });
-    this.player.body = mapMattertoHasteBody(this.playerBody);
+    this.player.body = mapMattertoHasteBody(playerBody);
 
     // Create an immovable rectangle at the bottom of the screen that will act as the floor
     const floor = Bodies.rectangle(400, 575, this.floor.width, this.floor.height, { isStatic: true, label: 'Floor' });
@@ -109,16 +101,30 @@ export class GameEngine {
     platform3.body = mapMattertoHasteBody(platform3Body);
     this.platforms.push(platform3);
 
+    for (let i = 0; i < 12; i++) {
+      const star = new Star();
+      star.height = 22;
+      star.width = 24;
+
+      const starBody = Bodies.rectangle(12 + i * 70, 0, star.width, star.height, {
+        label: `Star${i}`,
+      });
+
+      star.body = mapMattertoHasteBody(starBody);
+      this.stars.push(star);
+      Composite.add(this.world, starBody);
+    }
+
     // Add the newly minted bodies to our physics simulation
     Composite.add(this.world, floor);
-    Composite.add(this.world, this.playerBody);
+    Composite.add(this.world, playerBody);
     Composite.add(this.world, platform1Body);
     Composite.add(this.world, platform2Body);
     Composite.add(this.world, platform3Body);
   }
 
   getInitialState(): HasteGameState {
-    const initialState = new HasteGameState(800, 600, this.player, this.floor, this.platforms);
+    const initialState = new HasteGameState(800, 600, this.player, this.floor, this.platforms, this.stars, this.score);
     return initialState;
   }
 
@@ -132,9 +138,25 @@ export class GameEngine {
     // Kick off the simulation and the render loops
     this.runner = Runner.run(this.engine);
     Matter.Events.on(this.engine, 'afterUpdate', () => {
-      this.player.body = mapMattertoHasteBody(this.world.bodies.filter((b) => b.label === 'Player')[0]);
+      const collectedStars = this.stars.filter((s) => s.disabled).length;
 
-      const state = new HasteGameState(800, 600, this.player, this.floor, this.platforms);
+      if (collectedStars === 12) {
+        for (let i = 0; i < 1; i++) {
+          this.stars[i].disabled = false;
+          const newStar = this.world.bodies.find((b) => b.label === `Star${i}`);
+          newStar.isStatic = false;
+          newStar.position.x = 12;
+          newStar.position.y = 0;
+        }
+      }
+
+      this.player.body = mapMattertoHasteBody(this.world.bodies.find((b) => b.label === `Player`));
+
+      this.stars.forEach((s, idx) => {
+        s.body = mapMattertoHasteBody(this.world.bodies.find((b) => b.label === `Star${idx}`));
+      });
+
+      const state = new HasteGameState(800, 600, this.player, this.floor, this.platforms, this.stars, this.score);
       if (this.network && this.network.socket) this.network.socket.emit('gameUpdate', state);
     });
 
@@ -149,6 +171,19 @@ export class GameEngine {
     pairs.forEach((pair) => {
       if (pair.bodyA.label === 'Player' || pair.bodyB.label === 'Player') {
         this.player.isUp = false;
+      }
+
+      if (
+        (pair.bodyA.label === 'Player' && pair.bodyB.label.indexOf('Star') >= 0) ||
+        (pair.bodyA.label.indexOf('Star') >= 0 && pair.bodyB.label === 'Player')
+      ) {
+        this.score += 10;
+        const bodyToRemove = pair.bodyA.label.indexOf('Star') >= 0 ? pair.bodyA : pair.bodyB;
+        const star = this.stars.find((s) => s.body.name === bodyToRemove.label);
+        star.disabled = true;
+
+        bodyToRemove.position = { x: 1000, y: 1000 };
+        bodyToRemove.isStatic = true;
       }
     });
   }
