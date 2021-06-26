@@ -256,6 +256,19 @@ export class GameEngine {
       }
 
       if (
+        (pair.bodyA.label.indexOf('Bomb') >= 0 && pair.bodyB.label !== 'Player') ||
+        (pair.bodyA.label !== 'Player' && pair.bodyB.label.indexOf('Bomb') >= 0)
+      ) {
+        const bodyToMove = pair.bodyA.label.indexOf('Bomb') >= 0 ? pair.bodyA : pair.bodyB;
+        const bombBody = this.world.bodies.find((b) => b.label === bodyToMove.label);
+        const randomX = Math.floor(Math.random() * 51);
+        const randomY = Math.floor(Math.random() * 51);
+        // eslint-disable-next-line no-console
+        console.log(`applying force ${randomX} and ${randomY}`);
+        Body.applyForce(bombBody, { x: bombBody.position.x, y: bombBody.position.y }, { x: randomX, y: randomY });
+      }
+
+      if (
         (pair.bodyA.label === 'Player' && pair.bodyB.label.indexOf('Star') >= 0) ||
         (pair.bodyA.label.indexOf('Star') >= 0 && pair.bodyB.label === 'Player')
       ) {
