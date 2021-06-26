@@ -190,6 +190,7 @@ export class GameEngine {
 
       bomb.body = mapMattertoHasteBody(bombBody);
       this.bombs.push(bomb);
+      Body.setVelocity(bombBody, { x: Matter.Common.random(-1, 1) * 8, y: 12 });
       Composite.add(this.world, bombBody);
     }
   }
@@ -261,11 +262,23 @@ export class GameEngine {
       ) {
         const bodyToMove = pair.bodyA.label.indexOf('Bomb') >= 0 ? pair.bodyA : pair.bodyB;
         const bombBody = this.world.bodies.find((b) => b.label === bodyToMove.label);
-        const randomX = Math.floor(Math.random() * 51);
-        const randomY = Math.floor(Math.random() * 51);
+
+        Body.setVelocity(bombBody, { x: Matter.Common.random(-1, 1) * 10, y: 12 });
         // eslint-disable-next-line no-console
-        console.log(`applying force ${randomX} and ${randomY}`);
-        Body.applyForce(bombBody, { x: bombBody.position.x, y: bombBody.position.y }, { x: randomX, y: randomY });
+        // Body.applyForce(bombBody, { x: bombBody.position.x, y: bombBody.position.y }, { x: randomX, y: randomY });
+      }
+
+      if (
+        (pair.bodyA.label.indexOf('Bomb') >= 0 && pair.bodyB.label === 'Player') ||
+        (pair.bodyA.label === 'Player' && pair.bodyB.label.indexOf('Bomb') >= 0)
+      ) {
+        Matter.Events.off(this.runner, '', undefined);
+        Matter.Events.off(this.engine, '', undefined);
+        Runner.stop(this.runner);
+        Engine.clear(this.engine);
+        World.clear(this.engine.world, false);
+        this.network.socket.emit('gameOver');
+        this.network.socket.disconnect();
       }
 
       if (
