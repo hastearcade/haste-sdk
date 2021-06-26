@@ -1,5 +1,3 @@
-import { Body } from 'matter-js';
-
 export class HasteBody {
   x: number;
   y: number;
@@ -50,6 +48,7 @@ export class HasteGameState {
     floor: Floor,
     platforms: Platform[],
     stars: Star[],
+    bombs: Bomb[],
     score: number,
   ) {
     this.height = height;
@@ -58,7 +57,7 @@ export class HasteGameState {
     this.floor = floor;
     this.player = player;
     this.stars = stars;
-    this.bombs = [];
+    this.bombs = bombs;
     this.score = score;
   }
 }

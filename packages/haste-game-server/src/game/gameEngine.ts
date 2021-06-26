@@ -2,7 +2,17 @@ import Matter, { Bodies, Composite, Engine, Runner, World, Body } from 'matter-j
 import { Server } from 'socket.io';
 import { GameNetwork } from './gameNetwork';
 import { Logger } from 'tslog';
-import { Floor, HasteGameState, Platform, Player, PlayerDirection, PlayerMovement, Star, Wall } from './gameState';
+import {
+  Bomb,
+  Floor,
+  HasteGameState,
+  Platform,
+  Player,
+  PlayerDirection,
+  PlayerMovement,
+  Star,
+  Wall,
+} from './gameState';
 import { mapMattertoHasteBody } from '../util/helper';
 
 export class GameEngine {
@@ -20,6 +30,7 @@ export class GameEngine {
   private rightWall: Wall;
   private platforms: Platform[];
   private stars: Star[];
+  private bombs: Bomb[];
 
   constructor(server: Server) {
     this.log = new Logger();
@@ -68,6 +79,7 @@ export class GameEngine {
     this.floor.height = 50;
     this.platforms = [];
     this.stars = [];
+    this.bombs = [];
     this.score = 0;
 
     const playerBody = Bodies.rectangle(100, 450, this.player.width, this.player.height, {
@@ -148,8 +160,38 @@ export class GameEngine {
   }
 
   getInitialState(): HasteGameState {
-    const initialState = new HasteGameState(800, 600, this.player, this.floor, this.platforms, this.stars, this.score);
+    const initialState = new HasteGameState(
+      800,
+      600,
+      this.player,
+      this.floor,
+      this.platforms,
+      this.stars,
+      this.bombs,
+      this.score,
+    );
     return initialState;
+  }
+
+  addBombs(timestamp: number): void {
+    timestamp = Math.round(timestamp);
+
+    if (timestamp !== 0 && timestamp % (10 * 1000) === 0) {
+      const bomb = new Bomb();
+      bomb.height = 14;
+      bomb.width = 14;
+
+      const bombBody = Bodies.rectangle(12, 0, bomb.width, bomb.height, {
+        label: `Bomb${this.bombs.length}`,
+        friction: 0,
+        frictionAir: 0,
+        restitution: 1,
+      });
+
+      bomb.body = mapMattertoHasteBody(bombBody);
+      this.bombs.push(bomb);
+      Composite.add(this.world, bombBody);
+    }
   }
 
   play() {
@@ -161,6 +203,11 @@ export class GameEngine {
 
     // Kick off the simulation and the render loops
     this.runner = Runner.run(this.engine);
+    Matter.Events.on(this.runner, 'tick', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      this.addBombs(event.timestamp);
+    });
+
     Matter.Events.on(this.engine, 'afterUpdate', () => {
       const collectedStars = this.stars.filter((s) => s.disabled).length;
 
@@ -178,7 +225,20 @@ export class GameEngine {
         s.body = mapMattertoHasteBody(this.world.bodies.find((b) => b.label === `Star${idx}`));
       });
 
-      const state = new HasteGameState(800, 600, this.player, this.floor, this.platforms, this.stars, this.score);
+      this.bombs.forEach((b, idx) => {
+        b.body = mapMattertoHasteBody(this.world.bodies.find((b) => b.label === `Bomb${idx}`));
+      });
+
+      const state = new HasteGameState(
+        800,
+        600,
+        this.player,
+        this.floor,
+        this.platforms,
+        this.stars,
+        this.bombs,
+        this.score,
+      );
       if (this.network && this.network.socket) this.network.socket.emit('gameUpdate', state);
     });
 

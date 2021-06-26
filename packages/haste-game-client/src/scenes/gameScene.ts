@@ -8,6 +8,7 @@ export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   playerSprite: Phaser.GameObjects.Sprite;
   starSprites: Map<string, Phaser.GameObjects.Sprite>;
+  bombSprites: Map<string, Phaser.GameObjects.Sprite>;
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
   api: Api;
@@ -16,6 +17,7 @@ export class GameScene extends Phaser.Scene {
     super('GameScene');
     this.api = new Api();
     this.starSprites = new Map<string, Phaser.GameObjects.Sprite>();
+    this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
   }
 
   /*
@@ -158,6 +160,17 @@ export class GameScene extends Phaser.Scene {
     const hasteGame = this.game as HasteGame;
     const player = hasteGame.state.player;
     const stars = hasteGame.state.stars;
+    const bombs = hasteGame.state.bombs;
+
+    bombs.forEach((bomb) => {
+      const sprite = this.bombSprites.get(bomb.body.name);
+      if (sprite === undefined) {
+        const bombSprite = this.add.sprite(bomb.body.x, bomb.body.y, 'bomb').setDisplaySize(bomb.width, bomb.height);
+        this.bombSprites.set(bomb.body.name, bombSprite);
+      } else {
+        sprite.setPosition(bomb.body.x, bomb.body.y);
+      }
+    }, this);
 
     this.playerSprite.setPosition(player.body.x, player.body.y);
     stars.forEach((s) => {
@@ -169,7 +182,7 @@ export class GameScene extends Phaser.Scene {
         sprite.setAlpha(1);
         sprite.setPosition(s.body.x, s.body.y);
       }
-    });
+    }, this);
 
     this.scoreText.setText(`Score: ${hasteGame.state.score}`);
 
