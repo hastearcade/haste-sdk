@@ -13,8 +13,9 @@ export class GameScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
   api: Api;
-  private logoutButton: Button;
+  logoutButton: Button;
   auth0: Auth0Client;
+  restartButton: Button;
 
   constructor() {
     super('GameScene');
@@ -32,14 +33,15 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
-  destroyBombSprites() {
-    this.bombSprites.forEach((bombSprite) => {
-      bombSprite.destroy();
+  async restart() {
+    await new Promise((resolve) => {
+      this.registry.destroy();
+      this.scene.restart();
+      resolve(undefined);
     });
   }
 
   init(data: GameSceneData) {
-    this.destroyBombSprites();
     this.auth0 = data.auth;
     const hasteGame = this.game as HasteGame;
     this.add.sprite(400, 300, 'sky');
@@ -48,6 +50,10 @@ export class GameScene extends Phaser.Scene {
       return await this.logout();
     });
     this.add.existing(this.logoutButton);
+    this.restartButton = new Button(this, 550, 20, 'Try again!', { fill: '#f00' }, async () => {
+      return await this.restart();
+    });
+    this.add.existing(this.restartButton);
 
     const ground = hasteGame.state.floor;
     this.add.sprite(ground.body.x, ground.body.y, 'ground').setDisplaySize(ground.width, ground.height);
