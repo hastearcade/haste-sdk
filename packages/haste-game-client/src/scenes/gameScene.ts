@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import 'phaser';
 import { Api } from '../api/api';
+import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
 import { PlayerDirection, PlayerMovement } from '../models/gameState';
 
@@ -12,6 +15,8 @@ export class GameScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
   api: Api;
+  private logoutButton: Button;
+  auth0: any;
 
   constructor() {
     super('GameScene');
@@ -20,10 +25,28 @@ export class GameScene extends Phaser.Scene {
     this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
   }
 
-  init() {
+  logout() {
+    this.auth0.logout({
+      returnTo: window.location.origin,
+    });
+  }
+
+  destroyBombSprites() {
+    // eslint-disable-next-line no-console
+    console.log(`number of bomb sprites: ${this.bombSprites.size}`);
+    this.bombSprites.forEach((bombSprite) => {
+      bombSprite.destroy();
+    });
+  }
+
+  init(data) {
+    this.destroyBombSprites();
+    this.auth0 = data.auth;
     const hasteGame = this.game as HasteGame;
     this.add.sprite(400, 300, 'sky');
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.logoutButton = new Button(this, 700, 20, 'Logout', { fill: '#f00' }, () => this.logout());
+    this.add.existing(this.logoutButton);
 
     const ground = hasteGame.state.floor;
     this.add.sprite(ground.body.x, ground.body.y, 'ground').setDisplaySize(ground.width, ground.height);
@@ -38,6 +61,8 @@ export class GameScene extends Phaser.Scene {
       const starSprite = this.add.sprite(star.body.x, star.body.y, 'star').setDisplaySize(star.width, star.height);
       this.starSprites.set(star.body.name, starSprite);
     });
+
+    this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
 
     const player = hasteGame.state.player;
     this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
