@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { Logger } from 'tslog';
 import { expressJwtSecret } from 'jwks-rsa';
 import jwt from 'express-jwt';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 import http from 'http';
 import cors from 'cors';
 import { GameEngine } from './game/gameEngine';

@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HasteGame } from '../game/hasteGame';
-import { HasteGameState } from '../models/gameState';
+import { GameSceneData, HasteGameState } from '../models/gameState';
 import { Button } from '../game-objects/button';
 import { configureClient } from '../utils/auth';
+import { Auth0Client } from '@auth0/auth0-spa-js';
 
 declare const __API_HOST__: string;
 
@@ -12,7 +10,7 @@ export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
   private progressBar: Phaser.GameObjects.Graphics;
   private loginButton: Button;
-  private auth0: any;
+  private auth0: Auth0Client;
   private isAuthenticated: boolean;
 
   constructor() {
@@ -21,44 +19,46 @@ export class BootScene extends Phaser.Scene {
     });
   }
 
-  login() {
-    this.auth0.loginWithRedirect({
+  Pause = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  async login() {
+    await this.auth0.loginWithRedirect({
       redirect_uri: window.location.origin,
     });
   }
 
-  create() {
-    if (!this.isAuthenticated) {
-      this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, () => this.login());
-      this.add.existing(this.loginButton);
+  async init(): Promise<void> {
+    this.auth0 = await configureClient();
+    const query = window.location.search;
+
+    if (query.includes('code=') && query.includes('state=')) {
+      await this.auth0.handleRedirectCallback();
+      this.isAuthenticated = await this.auth0.isAuthenticated();
+      window.history.replaceState({}, document.title, '/');
     } else {
-      // eslint-disable-next-line no-console
-      console.log('here');
-      const hasteGame = this.game as HasteGame;
-      hasteGame.state = this.cache.json.get('gameState') as HasteGameState;
-      this.scene.start('GameScene', { auth: this.auth0 });
+      this.isAuthenticated = await this.auth0.isAuthenticated();
     }
   }
 
-  preload(): void {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    configureClient().then((val) => {
-      this.auth0 = val;
-
-      if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
-        this.auth0.handleRedirectCallback().then((val) => {
-          window.history.replaceState({}, document.title, '/');
-          this.auth0.isAuthenticated().then((val) => {
-            this.isAuthenticated = val;
-          });
+  update() {
+    if (this.isAuthenticated !== undefined && this.loginButton === undefined) {
+      if (!this.isAuthenticated) {
+        this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async () => {
+          return this.login();
         });
+        this.add.existing(this.loginButton);
       } else {
-        this.auth0.isAuthenticated().then((val) => {
-          this.isAuthenticated = val;
-        });
+        // eslint-disable-next-line no-console
+        const hasteGame = this.game as HasteGame;
+        hasteGame.state = this.cache.json.get('gameState') as HasteGameState;
+        this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
       }
-    });
+    }
+  }
 
+  preload() {
     // set the background and create loading bar
     this.cameras.main.setBackgroundColor(0x98d687);
     this.createLoadingbar();

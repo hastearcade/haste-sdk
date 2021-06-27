@@ -1,3 +1,5 @@
+import { Auth0Client } from '@auth0/auth0-spa-js';
+
 export class HasteBody {
   x: number;
   y: number;
@@ -43,4 +45,8 @@ export class HasteGameState {
   stars: Star[];
   bombs: Bomb[];
   score: number;
+}
+
+export class GameSceneData {
+  auth: Auth0Client;
 }
