@@ -45,7 +45,7 @@ export class BootScene extends Phaser.Scene {
   update() {
     if (this.isAuthenticated !== undefined && this.loginButton === undefined) {
       if (!this.isAuthenticated) {
-        this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async () => {
+        this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async (): Promise<void> => {
           return this.login();
         });
         this.add.existing(this.loginButton);
