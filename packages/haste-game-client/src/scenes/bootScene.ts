@@ -37,8 +37,16 @@ export class BootScene extends Phaser.Scene {
       await this.auth0.handleRedirectCallback();
       this.isAuthenticated = await this.auth0.isAuthenticated();
       window.history.replaceState({}, document.title, '/');
+      if (this.isAuthenticated) {
+        const hasteGame = this.game as HasteGame;
+        await hasteGame.setupSocket(this.auth0);
+      }
     } else {
       this.isAuthenticated = await this.auth0.isAuthenticated();
+      if (this.isAuthenticated) {
+        const hasteGame = this.game as HasteGame;
+        await hasteGame.setupSocket(this.auth0);
+      }
     }
   }
 

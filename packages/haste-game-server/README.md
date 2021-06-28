@@ -27,6 +27,12 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Background
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Setup) for a detailed setup guide.
 
+### Environment Variables
+
+- `PORT` - the port the haste game server will run on
+- `CORS_URL` - the haste game client url
+- `AUTH0_ISSUER` - the issuer url from Auth0 tenant
+
 ## Usage
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for a detailed usage guide.

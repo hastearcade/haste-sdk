@@ -27,6 +27,12 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Background
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Setup) for a detailed setup guide.
 
+### Environment Variables
+
+- `SERVER_HOST` - the hostname of the haste game server
+- `SERVER_PORT` - the port the haste game server runs on
+- `SERVER_PROTOCOL` - the protocol the haste game server runs on. for local development this is typically `http`.
+
 ## Usage
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for a detailed usage guide.

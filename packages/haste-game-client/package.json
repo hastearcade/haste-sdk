@@ -34,6 +34,7 @@
     "@haste-sdk/domain": "0.0.0",
     "@haste-sdk/haste-game-domain": "^0.0.0",
     "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
     "phaser": "^3.55.2",
     "socket.io-client": "^4.1.2"
   },
