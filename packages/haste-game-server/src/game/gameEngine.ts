@@ -178,7 +178,7 @@ export class GameEngine {
       bomb.height = 14;
       bomb.width = 14;
 
-      const bombBody = Bodies.rectangle(12, 0, bomb.width, bomb.height, {
+      const bombBody = Bodies.rectangle(Math.random() * (750 - 10) + 10, 0, bomb.width, bomb.height, {
         label: `Bomb${this.bombs.length}`,
         friction: 0,
         frictionAir: 0,

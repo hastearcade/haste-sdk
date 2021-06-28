@@ -1,6 +1,5 @@
 import { Auth0Client } from '@auth0/auth0-spa-js';
 import 'phaser';
-import { io } from 'socket.io-client';
 import { Api } from '../api/api';
 import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
@@ -16,7 +15,6 @@ export class GameScene extends Phaser.Scene {
   api: Api;
   logoutButton: Button;
   auth0: Auth0Client;
-  restartButton: Button;
 
   constructor() {
     super('GameScene');
@@ -34,23 +32,6 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
-  async restart() {
-    await new Promise((resolve) => {
-      const hasteGame = this.game as HasteGame;
-      this.registry.destroy();
-
-      // reset socket
-      hasteGame.socket = io('http://localhost:3007');
-      hasteGame.socket.on('gameInitCompleted', (data: HasteGameState) => {
-        hasteGame.state = data;
-        this.scene.restart();
-        resolve(undefined);
-      });
-
-      hasteGame.socket.emit('gameInit');
-    });
-  }
-
   init(data: GameSceneData) {
     this.auth0 = data.auth;
     const hasteGame = this.game as HasteGame;
@@ -62,10 +43,6 @@ export class GameScene extends Phaser.Scene {
       return await this.logout();
     });
     this.add.existing(this.logoutButton);
-    this.restartButton = new Button(this, 550, 20, 'Try again!', { fill: '#f00' }, async () => {
-      return await this.restart();
-    });
-    this.add.existing(this.restartButton);
 
     const ground = hasteGame.state.floor;
     this.add.sprite(ground.body.x, ground.body.y, 'ground').setDisplaySize(ground.width, ground.height);
