@@ -1,10 +1,9 @@
 import { HasteGame } from '../game/hasteGame';
-import { GameSceneData, HasteGameState } from '../models/gameState';
+import { GameSceneData } from '../models/gameState';
+import { HasteGameState } from '@haste-sdk/haste-game-domain';
 import { Button } from '../game-objects/button';
 import { configureClient } from '../utils/auth';
 import { Auth0Client } from '@auth0/auth0-spa-js';
-
-declare const __API_HOST__: string;
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;

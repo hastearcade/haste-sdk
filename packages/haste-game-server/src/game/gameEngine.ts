@@ -10,7 +10,7 @@ import {
   PlayerMovement,
   Star,
   Wall,
-} from './gameState';
+} from '@haste-sdk/haste-game-domain';
 import { mapMattertoHasteBody } from '../util/helper';
 import { Socket } from 'socket.io';
 

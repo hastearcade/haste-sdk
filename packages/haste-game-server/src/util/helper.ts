@@ -1,5 +1,5 @@
 import { Body } from 'matter-js';
-import { HasteBody } from '../game/gameState';
+import { HasteBody } from '@haste-sdk/haste-game-domain';
 
 export const mapMattertoHasteBody = (b: Body) => {
   return {

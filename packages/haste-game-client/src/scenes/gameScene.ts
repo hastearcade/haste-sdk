@@ -1,9 +1,9 @@
 import { Auth0Client } from '@auth0/auth0-spa-js';
 import 'phaser';
-import { Api } from '../api/api';
 import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
-import { GameSceneData, HasteGameState, PlayerDirection, PlayerMovement } from '../models/gameState';
+import { GameSceneData } from '../models/gameState';
+import { HasteGameState, PlayerDirection, PlayerMovement } from '@haste-sdk/haste-game-domain';
 
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -12,13 +12,11 @@ export class GameScene extends Phaser.Scene {
   bombSprites: Map<string, Phaser.GameObjects.Sprite>;
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
-  api: Api;
   logoutButton: Button;
   auth0: Auth0Client;
 
   constructor() {
     super('GameScene');
-    this.api = new Api();
     this.starSprites = new Map<string, Phaser.GameObjects.Sprite>();
     this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
   }
