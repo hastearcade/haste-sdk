@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { Logger } from 'tslog';
 import { expressJwtSecret } from 'jwks-rsa';
 import jwt from 'express-jwt';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import http from 'http';
 import cors from 'cors';
 import { GameEngine } from './game/gameEngine';
@@ -33,21 +33,20 @@ const io = new Server(server, {
   },
 });
 
-const gameEngine = new GameEngine(io);
+io.on('connection', (socketCon: Socket) => {
+  const gameEngine = new GameEngine(socketCon);
+
+  socketCon.on('gameInit', () => {
+    socketCon.emit('gameInitCompleted', gameEngine.getInitialState());
+  });
+
+  socketCon.on('gameStart', () => {
+    gameEngine.play();
+  });
+});
 
 app.get('/', (req, res) => res.send('Public endpoint'));
 app.get('/private', jwtCheck, (req, res) => res.send('Private endpoint'));
-
-app.get('/getInitialGameState', (req, res) => {
-  const gameState = gameEngine.getInitialState();
-  res.json(gameState);
-});
-
-app.post('/play', (req, res) => {
-  gameEngine.play();
-  res.status(200);
-  res.send();
-});
 
 server.listen(port, () => {
   log.info(`server started at http://localhost:${port}`);

@@ -1,9 +1,10 @@
 import { Auth0Client } from '@auth0/auth0-spa-js';
 import 'phaser';
+import { io } from 'socket.io-client';
 import { Api } from '../api/api';
 import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
-import { GameSceneData, PlayerDirection, PlayerMovement } from '../models/gameState';
+import { GameSceneData, HasteGameState, PlayerDirection, PlayerMovement } from '../models/gameState';
 
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -35,9 +36,18 @@ export class GameScene extends Phaser.Scene {
 
   async restart() {
     await new Promise((resolve) => {
+      const hasteGame = this.game as HasteGame;
       this.registry.destroy();
-      this.scene.restart();
-      resolve(undefined);
+
+      // reset socket
+      hasteGame.socket = io('http://localhost:3007');
+      hasteGame.socket.on('gameInitCompleted', (data: HasteGameState) => {
+        hasteGame.state = data;
+        this.scene.restart();
+        resolve(undefined);
+      });
+
+      hasteGame.socket.emit('gameInit');
     });
   }
 
@@ -45,7 +55,9 @@ export class GameScene extends Phaser.Scene {
     this.auth0 = data.auth;
     const hasteGame = this.game as HasteGame;
     this.add.sprite(400, 300, 'sky');
-    this.cursors = this.input.keyboard.createCursorKeys();
+
+    if (!this.cursors) this.cursors = this.input.keyboard.createCursorKeys();
+
     this.logoutButton = new Button(this, 700, 20, 'Logout', { fill: '#f00' }, async () => {
       return await this.logout();
     });
@@ -74,8 +86,6 @@ export class GameScene extends Phaser.Scene {
     const player = hasteGame.state.player;
     this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
 
-    this.api.play();
-
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -99,6 +109,10 @@ export class GameScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', color: '#000' });
 
+    hasteGame.socket.on('gameUpdate', (data: HasteGameState) => {
+      hasteGame.state = data;
+    });
+
     hasteGame.socket.on('gameOver', () => {
       this.playerSprite.anims.play('turn');
       this.input.keyboard.enabled = false;
@@ -106,6 +120,8 @@ export class GameScene extends Phaser.Scene {
       this.playerSprite.anims.play('turn');
       this.gameOver = true;
     });
+
+    hasteGame.socket.emit('gameStart');
   }
 
   update() {

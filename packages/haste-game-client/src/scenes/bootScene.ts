@@ -10,6 +10,7 @@ export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
   private progressBar: Phaser.GameObjects.Graphics;
   private loginButton: Button;
+  private startButton: Button;
   private auth0: Auth0Client;
   private isAuthenticated: boolean;
 
@@ -52,8 +53,17 @@ export class BootScene extends Phaser.Scene {
       } else {
         // eslint-disable-next-line no-console
         const hasteGame = this.game as HasteGame;
-        hasteGame.state = this.cache.json.get('gameState') as HasteGameState;
-        this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
+
+        this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
+          hasteGame.socket.on('gameInitCompleted', (data: HasteGameState) => {
+            hasteGame.state = data;
+            this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
+          });
+
+          hasteGame.socket.emit('gameInit');
+          return Promise.resolve();
+        });
+        this.add.existing(this.startButton);
       }
     }
   }
@@ -91,7 +101,6 @@ export class BootScene extends Phaser.Scene {
 
     // load out package
     this.load.pack('preload', './assets/pack.json', 'preload');
-    this.load.json('gameState', `${__API_HOST__}/getInitialGameState`);
   }
 
   private createLoadingbar(): void {

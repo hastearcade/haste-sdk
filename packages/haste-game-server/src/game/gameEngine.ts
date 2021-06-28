@@ -1,6 +1,4 @@
 import Matter, { Bodies, Composite, Engine, Runner, World, Body } from 'matter-js';
-import { Server } from 'socket.io';
-import { GameNetwork } from './gameNetwork';
 import { Logger } from 'tslog';
 import {
   Bomb,
@@ -14,15 +12,15 @@ import {
   Wall,
 } from './gameState';
 import { mapMattertoHasteBody } from '../util/helper';
+import { Socket } from 'socket.io';
 
 export class GameEngine {
   private engine: Engine;
-  private server: Server;
-  private network: GameNetwork;
   private world: World;
   private log: Logger;
   private runner: Runner;
   private score: number;
+  private socket: Socket;
 
   private player: Player;
   private floor: Floor;
@@ -32,12 +30,11 @@ export class GameEngine {
   private stars: Star[];
   private bombs: Bomb[];
 
-  constructor(server: Server) {
+  constructor(socket: Socket) {
     this.log = new Logger();
-    this.server = server;
     this.engine = Engine.create();
     this.world = this.engine.world;
-    this.network = new GameNetwork(this.server);
+    this.socket = socket;
     this.score = 0;
 
     this.init();
@@ -198,7 +195,7 @@ export class GameEngine {
   play() {
     this.init();
 
-    this.network.socket.on('playerUpdate', (movement: PlayerMovement) => {
+    this.socket.on('playerUpdate', (movement: PlayerMovement) => {
       this.movePlayer(movement);
     });
 
@@ -240,7 +237,7 @@ export class GameEngine {
         this.bombs,
         this.score,
       );
-      if (this.network && this.network.socket) this.network.socket.emit('gameUpdate', state);
+      if (this.socket) this.socket.emit('gameUpdate', state);
     });
 
     Matter.Events.on(this.engine, 'collisionStart', (event) => {
@@ -277,8 +274,8 @@ export class GameEngine {
         Runner.stop(this.runner);
         Engine.clear(this.engine);
         World.clear(this.engine.world, false);
-        this.network.socket.emit('gameOver');
-        this.network.socket.disconnect();
+        this.socket.emit('gameOver');
+        this.socket.disconnect();
       }
 
       if (
