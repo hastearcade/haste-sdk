@@ -3,7 +3,7 @@ import 'phaser';
 import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
-import { HasteGameState, PlayerDirection, PlayerMovement } from '@haste-sdk/haste-game-domain';
+import { PlayerDirection } from '@haste-sdk/haste-game-domain';
 
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -31,11 +31,7 @@ export class GameScene extends Phaser.Scene {
 
     if (!this.cursors) this.cursors = this.input.keyboard.createCursorKeys();
 
-    hasteGame.socket.on('gameUpdate', (data: HasteGameState) => {
-      hasteGame.state = data;
-    });
-
-    hasteGame.socket.on('gameOver', () => {
+    hasteGame.socketManager.gameOverEvent.on(() => {
       this.playerSprite.anims.play('turn');
       this.input.keyboard.enabled = false;
       this.playerSprite.setTint(0xff0000);
@@ -43,7 +39,7 @@ export class GameScene extends Phaser.Scene {
       this.gameOver = true;
     });
 
-    hasteGame.socket.emit('gameStart');
+    hasteGame.socketManager.gameStartEvent.emit();
   }
 
   update() {
@@ -91,16 +87,16 @@ export class GameScene extends Phaser.Scene {
   private handlePlayerMovements(hasteGame: HasteGame) {
     if (this.cursors.left.isDown) {
       this.playerSprite.anims.play('left', true);
-      hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.LEFT } as PlayerMovement);
+      hasteGame.socketManager.playerUpdateEvent.emit({ direction: PlayerDirection.LEFT });
     } else if (this.cursors.right.isDown) {
       this.playerSprite.anims.play('right', true);
-      hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.RIGHT } as PlayerMovement);
+      hasteGame.socketManager.playerUpdateEvent.emit({ direction: PlayerDirection.RIGHT });
     } else {
       this.playerSprite.anims.play('turn');
     }
 
     if (this.cursors.up.isDown) {
-      hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.UP } as PlayerMovement);
+      hasteGame.socketManager.playerUpdateEvent.emit({ direction: PlayerDirection.UP });
     }
   }
 

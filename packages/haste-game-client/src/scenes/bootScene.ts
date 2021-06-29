@@ -70,12 +70,12 @@ export class BootScene extends Phaser.Scene {
           'Start',
           { fill: '#f00' },
           (): Promise<void> => {
-            hasteGame.socket.on('gameInitCompleted', (data: HasteGameState) => {
+            hasteGame.socketManager.gameInitCompletedEvent.on((data: HasteGameState) => {
               hasteGame.state = data;
               this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
             });
 
-            hasteGame.socket.emit('gameInit');
+            hasteGame.socketManager.gameInitEvent.emit();
             return Promise.resolve();
           },
         );
