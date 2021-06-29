@@ -66,7 +66,7 @@ io.use((socket, next) => {
   socket.on('gameInit', async () => {
     const metadata = jwt['http://haste/metadata'] as UserDetails;
     const player = new Player(metadata.playerId);
-    const result = await haste.game.play(player);
+    const play = await haste.game.play(player);
     socket.emit('gameInitCompleted', gameEngine.getInitialState());
   });
 
