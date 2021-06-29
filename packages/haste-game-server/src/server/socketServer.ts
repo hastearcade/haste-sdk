@@ -10,6 +10,7 @@ import { GameEngine } from '../game/gameEngine';
 import { Haste } from '@haste-sdk/sdk';
 import { SocketActionFn, SocketMessage, WrappedServerSocket } from './socketServerTypes';
 import * as listeners from './listeners';
+import { PlayerMovement } from '@haste-sdk/haste-game-domain';
 
 export class SocketServer {
   private io: Server;
@@ -54,8 +55,9 @@ export class SocketServer {
   private getEvents() {
     const gameInitEvent = this.createSocket<void>('gameInit', listeners.gameInitListener);
     const gameStartEvent = this.createSocket<void>('gameStart', listeners.gameStartListener);
+    const playerUpdateEvent = this.createSocket<PlayerMovement>('playerUpdate', listeners.playerUpdateListener);
 
-    return [gameInitEvent, gameStartEvent];
+    return [gameInitEvent, gameStartEvent, playerUpdateEvent];
   }
 
   private broadcast<T>(event: SocketMessage) {
