@@ -77,8 +77,8 @@ export class SocketServer {
   };
 
   private jwtMiddleware = (socket: Socket, next: (err?: ExtendedError) => void) => {
-    if (socket.handshake.query && socket.handshake.query.token) {
-      jwt.verify(socket.handshake.query.token as string, this.getKey, {}, (err, decoded) => {
+    if (socket.handshake.auth && socket.handshake.auth.token) {
+      jwt.verify(socket.handshake.auth.token as string, this.getKey, {}, (err, decoded) => {
         if (err) return next(new Error('Authentication error'));
         if (decoded.iss === process.env.AUTH0_ISSUER && decoded.exp > new Date().getTime() / 1000) {
           socket.data = decoded;

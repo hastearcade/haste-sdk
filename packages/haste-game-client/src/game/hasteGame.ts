@@ -17,7 +17,7 @@ export class HasteGame extends Phaser.Game {
     const serverUrl = `${process.env.SERVER_PROTOCOL}://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`;
     this.socket = io(serverUrl, {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      query: { token },
+      auth: { token },
     });
   }
 }
