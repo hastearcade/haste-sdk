@@ -49,22 +49,36 @@ export class BootScene extends Phaser.Scene {
   update() {
     if (this.isAuthenticated !== undefined && this.loginButton === undefined) {
       if (!this.isAuthenticated) {
-        this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async (): Promise<void> => {
-          return this.login();
-        });
+        this.loginButton = new Button(
+          this,
+          50,
+          25,
+          'Login',
+          { fill: '#f00' },
+          async (): Promise<void> => {
+            return this.login();
+          },
+        );
         this.add.existing(this.loginButton);
       } else {
         const hasteGame = this.game as HasteGame;
 
-        this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
-          hasteGame.socket.on('gameInitCompleted', (data: HasteGameState) => {
-            hasteGame.state = data;
-            this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
-          });
+        this.startButton = new Button(
+          this,
+          50,
+          25,
+          'Start',
+          { fill: '#f00' },
+          (): Promise<void> => {
+            hasteGame.socket.on('gameInitCompleted', (data: HasteGameState) => {
+              hasteGame.state = data;
+              this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
+            });
 
-          hasteGame.socket.emit('gameInit');
-          return Promise.resolve();
-        });
+            hasteGame.socket.emit('gameInit');
+            return Promise.resolve();
+          },
+        );
         this.add.existing(this.startButton);
       }
     }
