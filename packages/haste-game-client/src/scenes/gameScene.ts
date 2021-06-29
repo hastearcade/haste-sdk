@@ -77,6 +77,8 @@ export class GameScene extends Phaser.Scene {
 
   async logout() {
     await new Promise((resolve) => {
+      const hasteGame = this.game as HasteGame;
+      hasteGame.socketManager.logoutEvent.emit();
       this.auth0.logout({
         returnTo: window.location.origin,
       });

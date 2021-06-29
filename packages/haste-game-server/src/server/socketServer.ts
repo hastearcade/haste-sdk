@@ -41,7 +41,7 @@ export class SocketServer {
         port: parseInt(process.env.HASTE_API_PORT, 10),
       });
 
-      const gameEngine = new GameEngine(socket);
+      const gameEngine = new GameEngine(socket, haste);
 
       const registeredEvents = this.getEvents();
       registeredEvents.forEach(({ event, callback }) => {
@@ -56,8 +56,9 @@ export class SocketServer {
     const gameInitEvent = this.createSocket<void>('gameInit', listeners.gameInitListener);
     const gameStartEvent = this.createSocket<void>('gameStart', listeners.gameStartListener);
     const playerUpdateEvent = this.createSocket<PlayerMovement>('playerUpdate', listeners.playerUpdateListener);
+    const logoutEvent = this.createSocket<void>('logout', listeners.logoutListener);
 
-    return [gameInitEvent, gameStartEvent, playerUpdateEvent];
+    return [gameInitEvent, gameStartEvent, playerUpdateEvent, logoutEvent];
   }
 
   private broadcast<T>(event: SocketMessage) {

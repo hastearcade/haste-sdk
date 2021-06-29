@@ -8,5 +8,6 @@ export async function gameInitListener(jwt: JwtPayload, haste: Haste, engine: Ga
   const metadata = jwt['http://haste/metadata'] as UserDetails;
   const player = new Player(metadata.playerId);
   const play = await haste.game.play(player);
+  engine.currentPlay = play;
   socket.emit('gameInitCompleted', engine.getInitialState());
 }

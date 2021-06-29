@@ -14,6 +14,8 @@ import { mapMattertoHasteBody } from '../util/helper';
 import { Socket } from 'socket.io';
 import { GameEngineActionFn, GameEngineEvent, WrappedGameEngineEvent } from './gameEngineEventTypes';
 import * as listeners from './listeners';
+import { Play } from '@haste-sdk/domain';
+import { Haste } from '@haste-sdk/sdk';
 
 export class GameEngine {
   private leftWall: Wall;
@@ -32,7 +34,11 @@ export class GameEngine {
   stars: Star[];
   bombs: Bomb[];
 
-  constructor(socket: Socket) {
+  currentPlay: Play;
+  haste: Haste;
+
+  constructor(socket: Socket, haste: Haste) {
+    this.haste = haste;
     this.engine = Engine.create();
     this.world = this.engine.world;
     this.socket = socket;
@@ -115,14 +121,14 @@ export class GameEngine {
     const registeredRunnerEvents = this.getRunnerEvents();
     registeredRunnerEvents.forEach(({ source, eventName, callback }) => {
       Matter.Events.on(source, eventName, (matterEvent) => {
-        callback(matterEvent, source, this);
+        callback(matterEvent, source, this, this.haste);
       });
     });
 
     const registeredEngineEvents = this.getEngineEvents();
     registeredEngineEvents.forEach(({ source, eventName, callback }) => {
       Matter.Events.on(source, eventName, (matterEvent) => {
-        callback(matterEvent, source, this);
+        callback(matterEvent, source, this, this.haste);
       });
     });
   }

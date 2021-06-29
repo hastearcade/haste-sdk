@@ -1,3 +1,4 @@
+import { Haste } from '@haste-sdk/sdk';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
 
@@ -5,6 +6,7 @@ export function collisionStartListener(
   event: Matter.IEventCollision<Matter.Engine>,
   source: Matter.Engine,
   engine: GameEngine,
+  haste: Haste,
 ) {
   const pairs = event.pairs;
 
@@ -34,6 +36,10 @@ export function collisionStartListener(
       World.clear(engine.engine.world, false);
       engine.socket.emit('gameOver');
       engine.socket.disconnect();
+
+      // submit the score to the haste api
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      haste.game.score(engine.currentPlay, engine.score);
     }
 
     if (

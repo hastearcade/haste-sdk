@@ -10,6 +10,7 @@ export class SocketManager {
   gameOverEvent: WrappedClientSocket<void>;
   gameStartEvent: WrappedClientSocket<void>;
   playerUpdateEvent: WrappedClientSocket<PlayerMovement>;
+  logoutEvent: WrappedClientSocket<void>;
 
   constructor(serverUrl: string, token: string) {
     this.socket = io(serverUrl, {
@@ -26,6 +27,7 @@ export class SocketManager {
     this.gameStartEvent = this.createSocket('gameStart');
     this.gameOverEvent = this.createSocket('gameOver');
     this.playerUpdateEvent = this.createSocket('playerUpdate');
+    this.logoutEvent = this.createSocket('logout');
   }
 
   private createSocket<T>(event: SocketMessage): WrappedClientSocket<T> {
