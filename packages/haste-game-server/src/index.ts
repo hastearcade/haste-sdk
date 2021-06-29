@@ -56,9 +56,9 @@ io.use((socket, next) => {
   const jwt = socket.data as JwtPayload;
 
   const haste = await Haste.build(process.env.HASTE_CLIENT_ID, process.env.HASTE_CLIENT_SECRET, {
-    hostProtocol: 'http',
-    host: 'localhost',
-    port: 3000,
+    hostProtocol: process.env.HASTE_API_PROTOCOL,
+    host: process.env.HASTE_API_HOST,
+    port: parseInt(process.env.HASTE_API_PORT, 10),
   });
 
   const gameEngine = new GameEngine(socket);

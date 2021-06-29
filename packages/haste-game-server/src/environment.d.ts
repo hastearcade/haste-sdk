@@ -5,6 +5,9 @@ declare global {
       PORT: string;
       HASTE_CLIENT_ID: string;
       HASTE_CLIENT_SECRET: string;
+      HASTE_API_PROTOCOL: string;
+      HASTE_API_HOST: string;
+      HASTE_API_PORT: string;
     }
   }
 }

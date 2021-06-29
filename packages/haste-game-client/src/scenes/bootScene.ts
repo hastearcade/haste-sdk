@@ -19,10 +19,6 @@ export class BootScene extends Phaser.Scene {
     });
   }
 
-  Pause = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
-
   async login() {
     await this.auth0.loginWithRedirect({
       redirect_uri: window.location.origin,
@@ -58,7 +54,6 @@ export class BootScene extends Phaser.Scene {
         });
         this.add.existing(this.loginButton);
       } else {
-        // eslint-disable-next-line no-console
         const hasteGame = this.game as HasteGame;
 
         this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
@@ -76,11 +71,9 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    // set the background and create loading bar
     this.cameras.main.setBackgroundColor(0x98d687);
     this.createLoadingbar();
 
-    // pass value to change the loading bar fill
     this.load.on(
       'progress',
       (value: number) => {
@@ -96,7 +89,6 @@ export class BootScene extends Phaser.Scene {
       this,
     );
 
-    // delete bar graphics, when loading complete
     this.load.on(
       'complete',
       () => {
@@ -106,7 +98,6 @@ export class BootScene extends Phaser.Scene {
       this,
     );
 
-    // load out package
     this.load.pack('preload', './assets/pack.json', 'preload');
   }
 

@@ -32,6 +32,11 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Setup) for
 - `PORT` - the port the haste game server will run on
 - `CORS_URL` - the haste game client url
 - `AUTH0_ISSUER` - the issuer url from Auth0 tenant
+- `HASTE_CLIENT_ID` - the client id from Auth0 for the haste game server application
+- `HASTE_CLIENT_SECRET` - the client secret from Auth0 for the haste game server application
+- `HASTE_API_PROTOCOL` - the protocol the haste api is running on. typically for local development this is `http`
+- `HASTE_API_HOST` - the hostname the haste api is running on. typically for local development this is `localhost`
+- `HASTE_API_PORT` - the port the haste api is running on. typically for local development this is `3000`
 
 ## Usage
 

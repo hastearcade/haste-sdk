@@ -21,68 +21,15 @@ export class GameScene extends Phaser.Scene {
     this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
   }
 
-  async logout() {
-    await new Promise((resolve) => {
-      this.auth0.logout({
-        returnTo: window.location.origin,
-      });
-      resolve(undefined);
-    });
-  }
-
   init(data: GameSceneData) {
     this.auth0 = data.auth;
     const hasteGame = this.game as HasteGame;
-    this.add.sprite(400, 300, 'sky');
+
+    this.addLogoutButton();
+    this.initializeSprites(hasteGame);
+    this.initializeAnimations();
 
     if (!this.cursors) this.cursors = this.input.keyboard.createCursorKeys();
-
-    this.logoutButton = new Button(this, 700, 20, 'Logout', { fill: '#f00' }, async () => {
-      return await this.logout();
-    });
-    this.add.existing(this.logoutButton);
-
-    const ground = hasteGame.state.floor;
-    this.add.sprite(ground.body.x, ground.body.y, 'ground').setDisplaySize(ground.width, ground.height);
-
-    const platforms = hasteGame.state.platforms;
-    platforms.forEach((platform) => {
-      this.add.sprite(platform.body.x, platform.body.y, 'ground').setDisplaySize(platform.width, platform.height);
-    });
-
-    const stars = hasteGame.state.stars;
-    stars.forEach((star) => {
-      const starSprite = this.add.sprite(star.body.x, star.body.y, 'star').setDisplaySize(star.width, star.height);
-      this.starSprites.set(star.body.name, starSprite);
-    });
-
-    this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
-
-    const player = hasteGame.state.player;
-    this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
-
-    this.anims.create({
-      key: 'left',
-      frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: 'turn',
-      frames: [{ key: 'dude', frame: 4 }],
-      frameRate: 20,
-    });
-
-    this.anims.create({
-      key: 'right',
-      frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.cursors = this.input.keyboard.createCursorKeys();
-    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', color: '#000' });
 
     hasteGame.socket.on('gameUpdate', (data: HasteGameState) => {
       hasteGame.state = data;
@@ -105,6 +52,9 @@ export class GameScene extends Phaser.Scene {
     const stars = hasteGame.state.stars;
     const bombs = hasteGame.state.bombs;
 
+    this.scoreText.setText(`Score: ${hasteGame.state.score}`);
+    this.playerSprite.setPosition(player.body.x, player.body.y);
+
     bombs.forEach((bomb) => {
       const sprite = this.bombSprites.get(bomb.body.name);
       if (sprite === undefined) {
@@ -115,7 +65,6 @@ export class GameScene extends Phaser.Scene {
       }
     }, this);
 
-    this.playerSprite.setPosition(player.body.x, player.body.y);
     stars.forEach((s) => {
       const sprite = this.starSprites.get(s.body.name);
 
@@ -127,8 +76,19 @@ export class GameScene extends Phaser.Scene {
       }
     }, this);
 
-    this.scoreText.setText(`Score: ${hasteGame.state.score}`);
+    this.handlePlayerMovements(hasteGame);
+  }
 
+  async logout() {
+    await new Promise((resolve) => {
+      this.auth0.logout({
+        returnTo: window.location.origin,
+      });
+      resolve(undefined);
+    });
+  }
+
+  private handlePlayerMovements(hasteGame: HasteGame) {
     if (this.cursors.left.isDown) {
       this.playerSprite.anims.play('left', true);
       hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.LEFT } as PlayerMovement);
@@ -142,5 +102,58 @@ export class GameScene extends Phaser.Scene {
     if (this.cursors.up.isDown) {
       hasteGame.socket.emit('playerUpdate', { direction: PlayerDirection.UP } as PlayerMovement);
     }
+  }
+
+  private addLogoutButton() {
+    this.logoutButton = new Button(this, 700, 20, 'Logout', { fill: '#f00' }, async () => {
+      return await this.logout();
+    });
+    this.add.existing(this.logoutButton);
+  }
+
+  private initializeSprites(hasteGame: HasteGame) {
+    this.add.sprite(400, 300, 'sky');
+    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', color: '#000' });
+
+    const ground = hasteGame.state.floor;
+    this.add.sprite(ground.body.x, ground.body.y, 'ground').setDisplaySize(ground.width, ground.height);
+
+    const platforms = hasteGame.state.platforms;
+    platforms.forEach((platform) => {
+      this.add.sprite(platform.body.x, platform.body.y, 'ground').setDisplaySize(platform.width, platform.height);
+    });
+
+    const stars = hasteGame.state.stars;
+    stars.forEach((star) => {
+      const starSprite = this.add.sprite(star.body.x, star.body.y, 'star').setDisplaySize(star.width, star.height);
+      this.starSprites.set(star.body.name, starSprite);
+    });
+
+    this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
+
+    const player = hasteGame.state.player;
+    this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
+  }
+
+  private initializeAnimations() {
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'turn',
+      frames: [{ key: 'dude', frame: 4 }],
+      frameRate: 20,
+    });
+
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+      frameRate: 10,
+      repeat: -1,
+    });
   }
 }
