@@ -21,7 +21,7 @@
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
-    "dev": "nodemon --config nodemon.json src/index.ts",
+    "start:dev": "nodemon --config nodemon.json src/index.ts",
     "prestart": "npm run build",
     "start": "node dist/index.js"
   },
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@haste-sdk/domain": "0.0.0",
+    "@haste-sdk/sdk": "0.0.0",
     "@haste-sdk/haste-game-domain": "^0.0.0",
     "@types/express": "^4.17.12",
     "@types/jsonwebtoken": "^8.5.2",

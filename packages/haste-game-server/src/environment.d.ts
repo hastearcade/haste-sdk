@@ -3,6 +3,8 @@ declare global {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production';
       PORT: string;
+      HASTE_CLIENT_ID: string;
+      HASTE_CLIENT_SECRET: string;
     }
   }
 }

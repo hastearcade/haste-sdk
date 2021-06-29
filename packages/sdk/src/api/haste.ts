@@ -47,7 +47,7 @@ export class Haste {
     configuration.clientSecret = clientSecret;
     configuration.arcadeId = tokenResponse.arcadeId;
     configuration.gameId = tokenResponse.gameId;
-    configuration.accessToken = tokenResponse.accessToken;
+    configuration.accessToken = tokenResponse.access_token;
 
     return new Haste(configuration);
   }
