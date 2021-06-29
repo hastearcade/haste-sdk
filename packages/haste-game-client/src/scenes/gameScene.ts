@@ -25,9 +25,9 @@ export class GameScene extends Phaser.Scene {
     this.auth0 = data.auth;
     const hasteGame = this.game as HasteGame;
 
-    this.addLogoutButton();
     this.initializeSprites(hasteGame);
     this.initializeAnimations();
+    this.addLogoutButton();
 
     if (!this.cursors) this.cursors = this.input.keyboard.createCursorKeys();
 
