@@ -1,4 +1,8 @@
 export { Player } from './player';
-export { Score } from './score';
-export { PlayersScore } from './playersscore';
+export { Arcade } from './arcade';
 export { Game } from './game';
+export * from './play';
+export * from './score';
+export { TokenRequest } from './tokenRequest';
+export { TokenResponse } from './tokenResponse';
+export { UserDetails } from './userDetails';

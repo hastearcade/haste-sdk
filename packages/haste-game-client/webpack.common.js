@@ -4,12 +4,15 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    index: './src/index.ts',
+  },
   target: 'web',
   output: {
     filename: '[name].js',
     sourceMapFilename: '[file].map',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   devtool: 'source-map',
   module: {
@@ -35,6 +38,10 @@ module.exports = {
           },
         ],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

@@ -1,7 +1,7 @@
 {
   "name": "@haste-sdk/haste-game-server",
   "version": "0.0.0",
-  "description": "The haste game server is an example of the @haste-sdk/server package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.",
+  "description": "The haste game server is an example of the @haste-sdk/sdk package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",
@@ -21,8 +21,7 @@
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
-    "preserve": "npm run build",
-    "serve": "concurrently \"tsc -p tsconfig.build.json --watch\" \"nodemon -q dist/index.js\"",
+    "start:dev": "nodemon --config nodemon.json src/index.ts",
     "prestart": "npm run build",
     "start": "node dist/index.js"
   },
@@ -34,20 +33,25 @@
   },
   "dependencies": {
     "@haste-sdk/domain": "0.0.0",
-    "koa": "^2.13.1",
-    "koa-bodyparser": "^4.3.0",
-    "koa-json": "^2.0.2",
-    "koa-logger": "^3.2.1",
-    "koa-router": "^10.0.0",
-    "tslog": "^3.2.0",
-    "dotenv": "^8.2.0"
+    "@haste-sdk/sdk": "0.0.0",
+    "@haste-sdk/haste-game-domain": "^0.0.0",
+    "@types/express": "^4.17.12",
+    "@types/jsonwebtoken": "^8.5.2",
+    "@types/matter-js": "^0.17.1",
+    "@types/socket.io": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "express-jwt": "^6.0.0",
+    "jwks-rsa": "^2.0.3",
+    "matter-js": "^0.17.1",
+    "phaser": "^3.55.2",
+    "socket.io": "^4.1.2",
+    "tslog": "^3.2.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
-    "@types/koa": "^2.13.1",
-    "@types/koa-json": "^2.0.18",
-    "@types/koa-logger": "^3.1.1",
-    "@types/koa-router": "^7.4.2",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
@@ -66,6 +70,7 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.5.4",
+    "ts-node": "^10.0.0",
     "typescript": "^4.2.3"
   }
 }

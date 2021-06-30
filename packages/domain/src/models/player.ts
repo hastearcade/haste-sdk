@@ -1,11 +1,7 @@
 export class Player {
-  email: string;
+  id: string;
 
-  constructor(email: string) {
-    this.email = email;
-  }
-
-  getId() {
-    return this.email;
+  constructor(id: string) {
+    this.id = id;
   }
 }

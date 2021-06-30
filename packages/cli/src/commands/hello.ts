@@ -25,8 +25,8 @@ hello world from ./src/hello.ts!
     const { args, flags } = this.parse(Hello);
     const g = new Game('test');
 
-    const name = flags.name ?? g.name;
-    this.log(`hello ${name} from ./src/commands/hello.ts`);
+    const id = flags.name ?? g.id;
+    this.log(`hello ${id} from ./src/commands/hello.ts`);
     if (args.file && flags.force) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       this.log(`you input --force and --file: ${args.file}`);

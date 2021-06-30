@@ -1,30 +1,21 @@
-import Koa from 'koa';
-import Router from 'koa-router';
-import logger from 'koa-logger';
-import json from 'koa-json';
-import dotenv from 'dotenv';
+import express from 'express';
+import http from 'http';
+import cors from 'cors';
 import { Logger } from 'tslog';
+import dotenv from 'dotenv';
+import { SocketServer } from './server/socketServer';
 
 dotenv.config();
 const log: Logger = new Logger();
+const port = process.env.PORT;
 
-const app = new Koa();
-const router = new Router();
+const app = express();
+app.use(cors());
 
-// Hello world
-router.get('/', async (ctx, next) => {
-  ctx.body = { msg: 'Hello world!' };
+const server = http.createServer(app);
+const socketServer = new SocketServer(server);
+socketServer.initEvents();
 
-  await next();
-});
-
-// Middlewares
-app.use(json());
-app.use(logger());
-
-// Routes
-app.use(router.routes()).use(router.allowedMethods());
-
-app.listen(process.env.PORT, () => {
-  log.info('Koa started');
+server.listen(port, () => {
+  log.info(`server started at http://localhost:${port}`);
 });

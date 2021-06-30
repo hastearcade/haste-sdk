@@ -1,21 +1,7 @@
-import { Player } from './player';
-import { Score } from './score';
-import { PlayersScore } from './playersscore';
-
 export class Game {
-  name: string;
-  scores: PlayersScore[];
+  id: string;
 
-  constructor(name: string) {
-    this.name = name;
-    this.scores = [];
-  }
-
-  getScores() {
-    return this.scores;
-  }
-
-  addLeader(player: Player, score: Score) {
-    this.scores.push(new PlayersScore(player, score));
+  constructor(id: string) {
+    this.id = id;
   }
 }

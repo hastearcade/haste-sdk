@@ -1,12 +1,33 @@
 /* eslint-disable */
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
+const { join } = require('path');
+const { DefinePlugin } = require('webpack');
+const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
+
+const env = dotenv.parsed;
+
+// reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
-    port: 9000,
+    port: 3008,
+    before: function (app, server, compiler) {
+      app.get('/assets/images/:imageName', function (req, res) {
+        res.sendFile(join(__dirname, `src/assets/images/${req.params['imageName']}`));
+      });
+      app.get('/assets/pack.json', function (req, res) {
+        res.sendFile(join(__dirname, `src/assets/pack.json`));
+      });
+    },
+    host: '0.0.0.0',
   },
+  plugins: [new DefinePlugin(envKeys)],
 });
