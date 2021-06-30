@@ -32,9 +32,9 @@
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
   "dependencies": {
-    "@haste-sdk/domain": "0.0.0",
-    "@haste-sdk/sdk": "0.0.0",
-    "@haste-sdk/haste-game-domain": "^0.0.0",
+    "@haste-sdk/domain": "workspace:*",
+    "@haste-sdk/sdk": "workspace:*",
+    "@haste-sdk/haste-game-domain": "workspace:*",
     "@types/express": "^4.17.12",
     "@types/jsonwebtoken": "^8.5.2",
     "@types/matter-js": "^0.17.1",

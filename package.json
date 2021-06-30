@@ -2,20 +2,19 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "test": "lerna exec -- npm run test",
-    "pretest": "lerna exec -- npm run build",
-    "lint": "lerna exec -- npm run lint",
-    "bootstrap": "lerna bootstrap --hoist",
-    "build": "lerna exec -- npm run build",
-    "pretty": "lerna exec -- npm run pretty",
-    "clean": "lerna exec -- npm run clean",
+    "test": "pnpm recursive run test",
+    "pretest": "pnpm recursive run build",
+    "lint": "pnpm recursive run lint",
+    "build": "pnpm recursive run build",
+    "pretty": "pnpm recursive run pretty",
+    "clean": "pnpm recursive run clean",
+    "cleanNodeModules": "pnpm recursive exec -- rm -rf node_modules; rm -rf node_modules",
     "prepare": "husky install",
     "cli": "./packages/cli/bin/run"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^6.0.0",
-    "lerna": "^4.0.0"
+    "husky": "^6.0.0"
   },
   "config": {
     "commitizen": {
