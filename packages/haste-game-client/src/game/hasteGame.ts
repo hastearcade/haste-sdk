@@ -11,6 +11,11 @@ export class HasteGame extends Phaser.Game {
     this.state = new HasteGameState(800, 600, new Player(), new Floor(), [], [], [], 0);
   }
 
+  // the haste game client integrates with haste-game-server using
+  // socket.io. In order to ensure a secure connection between client
+  // and server, a JWT from the auth0 game is leveraged. This JWT will
+  // contain the necessary information necessary to validate the client
+  // to the server, and contain the player id from the user metadata
   async setupSocket(auth0: Auth0Client) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const token = await auth0.getTokenSilently();

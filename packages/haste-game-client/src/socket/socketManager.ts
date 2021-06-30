@@ -2,6 +2,9 @@ import { HasteGameState, PlayerMovement } from '@haste-sdk/haste-game-domain';
 import { io, Socket } from 'socket.io-client';
 import { SocketMessage, WrappedClientSocket } from './socketManagerTypes';
 
+// In order to clean up socket.io code from being
+// spread throughout the client application, this
+// manager class was created to wrap all socket events
 export class SocketManager {
   private socket: Socket;
   gameInitEvent: WrappedClientSocket<void>;

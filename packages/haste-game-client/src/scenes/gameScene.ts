@@ -5,6 +5,12 @@ import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { PlayerDirection } from '@haste-sdk/haste-game-domain';
 
+// This is the primary rendering code for the game
+// and it accepts user input to move the player through
+// the game level. These movements are captured and sent
+// to the game server. The game server uses these movements
+// and then sends back updated positions for GameScene to
+// render
 export class GameScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   playerSprite: Phaser.GameObjects.Sprite;
@@ -31,6 +37,8 @@ export class GameScene extends Phaser.Scene {
 
     if (!this.cursors) this.cursors = this.input.keyboard.createCursorKeys();
 
+    // disable player when the game over
+    // event is emitted
     hasteGame.socketManager.gameOverEvent.on(() => {
       this.playerSprite.anims.play('turn');
       this.input.keyboard.enabled = false;
@@ -42,7 +50,14 @@ export class GameScene extends Phaser.Scene {
     hasteGame.socketManager.gameStartEvent.emit();
   }
 
+  // this code runs at every tick of the phaser
+  // game pipeline. It is where the updated positions
+  // from the game server is used to render updated positions
+  // for all the sprites such as player, bombs, and stars
   update() {
+    // this.game is where all the primary game state is
+    // stored. It is updated in HasteGame code where it
+    // subscribes to the gameUpdate event.
     const hasteGame = this.game as HasteGame;
     const player = hasteGame.state.player;
     const stars = hasteGame.state.stars;
@@ -86,6 +101,9 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
+  // when a user directs the player it emits an event over the socket
+  // which the server picks up, updates the game state, and then sends back
+  // the updated game state and then update() above renders the new position
   private handlePlayerMovements(hasteGame: HasteGame) {
     if (this.cursors.left.isDown) {
       this.playerSprite.anims.play('left', true);

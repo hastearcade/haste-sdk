@@ -5,6 +5,9 @@ import { Button } from '../game-objects/button';
 import { configureClient } from '../utils/auth';
 import { Auth0Client } from '@auth0/auth0-spa-js';
 
+// The BootScene loads all the image assets,
+// displays the login and start buttons, and
+// handles the transition to the GameScene
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
   private progressBar: Phaser.GameObjects.Graphics;
@@ -19,6 +22,11 @@ export class BootScene extends Phaser.Scene {
     });
   }
 
+  // This will take the user to the auth0
+  // universal login screen and then redirect
+  // back to the game. It assumes that your game
+  // has the appropriately configured callback
+  // urls.
   async login() {
     await this.auth0.loginWithRedirect({
       redirect_uri: window.location.origin,
@@ -29,6 +37,8 @@ export class BootScene extends Phaser.Scene {
     this.auth0 = await configureClient();
     const query = window.location.search;
 
+    // this is necessary to handle the redirect from the universal
+    // login screen
     if (query.includes('code=') && query.includes('state=')) {
       await this.auth0.handleRedirectCallback();
       this.isAuthenticated = await this.auth0.isAuthenticated();
@@ -38,6 +48,7 @@ export class BootScene extends Phaser.Scene {
         await hasteGame.setupSocket(this.auth0);
       }
     } else {
+      // this else is used for other page loads when a user is likely already authenticated
       this.isAuthenticated = await this.auth0.isAuthenticated();
       if (this.isAuthenticated) {
         const hasteGame = this.game as HasteGame;
@@ -46,6 +57,9 @@ export class BootScene extends Phaser.Scene {
     }
   }
 
+  // As part of the Phaser lifecycle, update is called at every
+  // tick. Its important not to instantite things multiple times which
+  // is why the if guard is there.
   update() {
     if (this.isAuthenticated !== undefined && this.loginButton === undefined) {
       if (!this.isAuthenticated) {
@@ -54,22 +68,30 @@ export class BootScene extends Phaser.Scene {
         });
         this.add.existing(this.loginButton);
       } else {
-        const hasteGame = this.game as HasteGame;
+        if (this.startButton === undefined) {
+          const hasteGame = this.game as HasteGame;
 
-        this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
-          hasteGame.socketManager.gameInitCompletedEvent.on((data: HasteGameState) => {
-            hasteGame.state = data;
-            this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
+          this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
+            hasteGame.socketManager.gameInitCompletedEvent.on((data: HasteGameState) => {
+              hasteGame.state = data;
+              // once a user is authenticated and hits the start button
+              // transition to the main game. Pass in auth0 to support the logout
+              // button
+              this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
+            });
+
+            hasteGame.socketManager.gameInitEvent.emit();
+            return Promise.resolve();
           });
-
-          hasteGame.socketManager.gameInitEvent.emit();
-          return Promise.resolve();
-        });
-        this.add.existing(this.startButton);
+          this.add.existing(this.startButton);
+        }
       }
     }
   }
 
+  // Loads all the image assets and uses a loader
+  // while they are being loaded. Its normally pretty
+  // quick though
   preload() {
     this.cameras.main.setBackgroundColor(0x98d687);
     this.createLoadingbar();

@@ -1,6 +1,8 @@
 import { Socket } from 'socket.io-client';
 import Emitter from 'component-emitter';
 
+// create strong types for socket.io
+// and the game corresponding events
 export type SocketMessage =
   | 'gameInit'
   | 'gameStart'
