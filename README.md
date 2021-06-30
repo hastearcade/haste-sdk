@@ -16,6 +16,7 @@ A monorepo that contains the tooling required to create games quickly and easily
   - [Environment Variables](#environment-variables)
 - [Usage](#usage)
   - [PNPM Monorepo](#pnpm-monorepo)
+  - [Changesets](#changesets)
   - [Developer Tooling](#developer-tooling)
 - [Deploy](#deploy)
 - [Documentation](#documentation)
@@ -89,6 +90,25 @@ haste-sdk utilizes a monorepo via PNPM to manage dependencies between the packag
 haste-sdk is currently using a independent versioning strategy for all packages. This means that all packages' version numbers will remain independent and will be released separately as needed based on change sets.
 
 Typically, you will need to interact with PNPM directly and standard tooling commands will be run via `pnpm`.
+
+### Changesets
+
+haste-sdk utilizes [changesets](https://github.com/atlassian/changesets) to manage versioning and publishing of the packages in the PNPM monorepo. Atlassion developed changesets to solve the following problem:
+
+```
+The changesets workflow is designed to help when people are making changes, all the way through to publishing. It lets contributors declare how their changes should be released, then we automate updating package versions, and changelogs, and publishing new versions of packages based on the provided information.
+```
+
+Developers making modifications to any package in the haste-sdk should create a changeset. The developer flow will be:
+
+1. Identify change needed to the repository
+2. Create feature branch off of main.
+3. Implement changes
+4. Create changeset `pnpm changeset` at the root directory.
+5. Select (spacebar) which packages have been modified
+6. Give a description of the change. This description will flow through to the changelog of the package so please review the [contribution guide](./CONTRIBUTING.md).
+7. Push code
+8. Submit PR
 
 ### Developer Tooling
 
