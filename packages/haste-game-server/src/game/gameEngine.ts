@@ -17,6 +17,8 @@ import * as listeners from './listeners';
 import { Play } from '@haste-sdk/domain';
 import { Haste } from '@haste-sdk/sdk';
 
+// controls the initialization of the matter-js simulation
+// as well as managing the events throughout the system
 export class GameEngine {
   private leftWall: Wall;
   private rightWall: Wall;

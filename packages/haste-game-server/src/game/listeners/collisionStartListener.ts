@@ -2,6 +2,9 @@ import { Haste } from '@haste-sdk/sdk';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
 
+// directly the matter-js simulation on what
+// to do when collisions between the various
+// game objects occur.
 export function collisionStartListener(
   event: Matter.IEventCollision<Matter.Engine>,
   source: Matter.Engine,

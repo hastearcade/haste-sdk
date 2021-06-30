@@ -12,6 +12,14 @@ import { SocketActionFn, SocketMessage, WrappedServerSocket } from './socketServ
 import * as listeners from './listeners';
 import { PlayerMovement } from '@haste-sdk/haste-game-domain';
 
+// The socket server is the primary communication mechanism
+// between the game client and the game server. On the client its
+// corresponding class is SocketManager. The socket server handles
+// verifying the JWT sent down from the client once a user logins
+// and it handles the management of all game and server events.
+// This may not be necessary for all game types, but it does create
+// a good real time user experience and aids in the creation of the
+// authoritative server.
 export class SocketServer {
   private io: Server;
   private jwtClient: JwksClient;

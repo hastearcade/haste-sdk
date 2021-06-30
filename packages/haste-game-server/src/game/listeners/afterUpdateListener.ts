@@ -3,6 +3,14 @@ import Matter, { Body } from 'matter-js';
 import { mapMattertoHasteBody } from '../../util/helper';
 import { GameEngine } from '../gameEngine';
 
+// this is the primary code that maintains
+// the game state. The matter-js physics simulation
+// does most of the work, but based on the game play
+// the game developer must direct to matter-js inputs
+// go into the simulation. In this game its focused on
+// things like stars being collected, a player moving, and
+// applying forces to the bombs to keep them moving around
+// the screen
 export function afterUpdateListener(
   event: Matter.IEventTimestamped<Matter.Engine>,
   source: Matter.Engine,
