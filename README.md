@@ -62,10 +62,6 @@ Once you have Node.js and NVM installed you can run the following commands to te
 
 `pnpm install`
 
-`pnpm run prepare`
-
-`pnpm run boostrap`
-
 `pnpm run build`
 
 `pnpm run test`
