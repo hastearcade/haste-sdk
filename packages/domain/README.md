@@ -1,8 +1,8 @@
-# haste-domain
+# @haste/domain
 
 ## Overview
 
-The @haste/domain package includes common domain models and services used across the client SDK, server SDK, and the Haste CLI.
+The @haste/domain package includes common domain models and services used in the SDK. Eventually it will also be used to support tooling such as a CLI tool.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
@@ -35,11 +35,11 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 @haste/domain utilizes Jest for running tests. To run all tests in the domain package use the following command
 
-`npm run test`
+`pnpm run test`
 
 ## Documentation
 
-Currently there is no documentation setup, but please check back in the future.
+See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Documentation) for more documentation.
 
 ## License
 

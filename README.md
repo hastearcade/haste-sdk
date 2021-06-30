@@ -2,7 +2,9 @@
 
 ## Overview
 
-A monorepo that contains the tooling required to create games quickly and easily for the [Haste Arcade](https://www.playhaste.com/).
+A monorepo that contains the tooling required to create games quickly and easily for the [Haste Arcade](https://www.playhaste.com/). Additionally it includes a sample game to provide a comprehensive example of how the Haste SDK can be used.
+
+Initially, TypeScript and JavaScript will be the only supported SDKs, but long term Haste will build SDKs for other technology stacks and will help support community driven SDKs. Haste plans to keep client SDKs open source to ensure a good developer experience and will make available documented APIs.
 
 <Add deploy badge here>
 
@@ -31,12 +33,11 @@ built by developers all around the world. Unlike traditional online games, ILP G
 
 ## Packages
 
-- [ ] Shared domain models and services
-- [ ] Client SDK
-- [ ] Server SDK
-- [ ] CLI
-- [ ] Documentation Site
-- [ ] Sample Game
+- `domain` - shared domain models and services for the SDK
+- `sdk` - The primary package. `sdk` provides a simple wrapper around the Haste API and makes it easy to configure integration with Haste.
+- `haste-game-domain` - A base package that allows sharing types between the sample game server and sample game client
+- `haste-game-server` - An example [authoritative server](https://www.gabrielgambetta.com/client-server-game-architecture.html) leveraging [matter-js](https://brm.io/matter-js/) for game physics
+- `haste-game-client` - An example game client integrated with the game server. Leverages [phaser3](https://phaser.io/phaser3) for rendering the game levels and game state.
 
 ## Setup
 
@@ -50,21 +51,16 @@ In addition, you will need [NVM](https://github.com/nvm-sh/nvm) installed. NVM i
 
 Once you have Node.js and NVM installed you can run the following commands to test haste-sdk. For dependency management and management of the monorepo, the repository is utilizing `pnpm`.
 
-`npm install -g pnpm`
-
-`pnpm install commitizen -D -g`
-
-`git clone git@github.com:playhaste/haste-sdk.git`
-
-`cd haste-sdk`
-
-`nvm use`
-
-`pnpm install`
-
-`pnpm run build`
-
-`pnpm run test`
+```
+npm install -g pnpm
+pnpm install commitizen -D -g
+git clone git@github.com:playhaste/haste-sdk.git
+cd haste-sdk
+nvm use
+pnpm install
+pnpm run build
+pnpm run test
+```
 
 It is strongly recommended to develop haste-sdk using an editing ecosystem that supports [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/). The haste-sdk team uses VSCode with the following extensions:
 
@@ -73,7 +69,7 @@ It is strongly recommended to develop haste-sdk using an editing ecosystem that 
 
 ### Environment Variables
 
-No environment variables are needed at this time.
+Within this monorepository, developers can see that `haste-game-client` and `haste-game-server` use [dotenv](https://github.com/motdotla/dotenv) and `.env` files. Their specifications are outlined in their corresponding `README`. The `sdk` does not require environment variables.
 
 ## Usage
 
@@ -83,7 +79,7 @@ The follow section describes the haste-sdk development experience.
 
 haste-sdk utilizes a monorepo via PNPM to manage dependencies between the packages that comprise the haste arcade sdk. If you are not familiar with PNPM, please see their [website](https://pnpm.io/) for additional information.
 
-haste-sdk is currently using a independent versioning strategy for all packages. This means that all packages' version numbers will remain independent and will be released separately as needed based on change sets.
+haste-sdk is currently using a independent versioning strategy for all packages. This means that all packages' version numbers will remain independent and will be released separately as needed based on [change sets](#changesets).
 
 Typically, you will need to interact with PNPM directly and standard tooling commands will be run via `pnpm`.
 
@@ -91,20 +87,18 @@ Typically, you will need to interact with PNPM directly and standard tooling com
 
 haste-sdk utilizes [changesets](https://github.com/atlassian/changesets) to manage versioning and publishing of the packages in the PNPM monorepo. Atlassion developed changesets to solve the following problem:
 
-```
-The changesets workflow is designed to help when people are making changes, all the way through to publishing. It lets contributors declare how their changes should be released, then we automate updating package versions, and changelogs, and publishing new versions of packages based on the provided information.
-```
+> The changesets workflow is designed to help when people are making changes, all the way through to publishing. It lets contributors declare how their changes should be released, then we automate updating package versions, and changelogs, and publishing new versions of packages based on the provided information.
 
 Developers making modifications to any package in the haste-sdk should create a changeset. The developer flow will be:
 
 1. Identify change needed to the repository
-2. Create feature branch off of main.
+2. Create feature branch off of development.
 3. Implement changes
-4. Create changeset `pnpm changeset` at the root directory.
-5. Select (spacebar) which packages have been modified
+4. Create changeset by running `pnpm changeset` at the root directory.
+5. Select which packages have been modified by using the spacebar key.
 6. Give a description of the change. This description will flow through to the changelog of the package so please review the [contribution guide](./CONTRIBUTING.md).
-7. Push code
-8. Submit PR
+7. Push code to feature branch
+8. Submit PR to development and ask for review.
 
 ### Developer Tooling
 
@@ -136,7 +130,7 @@ No deploy process is utilized at this time.
 
 ## Documentation
 
-Currently there is no documentation setup, but please check back in the future.
+This `README` and each package's `README` provides high-level documentation. Additionally the code has been reviewed and comments provided to aid future developers in understanding why certain decisions were made. In the future the Haste team will be providing links here to the Haste API documentation and any quick start documentation.
 
 ## License
 
@@ -151,3 +145,7 @@ Please read our contribution [policy](https://github.com/playhaste/haste-sdk/blo
 - Keith LaForce ([klaforce](https://github.com/klaforce/))
 - Eric LaForce ([elaforc](https://github.com/elaforc/))
 - Dan Wagner ([danwag06](https://github.com/danwag06))
+
+```
+
+```

@@ -2,7 +2,13 @@
 
 ## Overview
 
-The haste game server is an example of the @haste-sdk/sdk package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.
+The haste game server is an example an ILP based game server. It leverages [matter-js](https://brm.io/matter-js/) for physics support and integrates with `haste-game-client`. The haste game server acts as the [authoritative server](https://www.gabrielgambetta.com/client-server-game-architecture.html). Since there is a monetary incentive with Haste games, it will attact malicious actors who try to cheat the system. While cheating cannot be completely prevented, the authoritative game server architecture does make it a lot more difficult to do so. As a game developer it is important to understand the various attack vectors and this example provides some perspective into how these vectors can be prevented.
+
+All game logic and scoring occurs within the haste-game-server. The client is used only to render the latest game state. No logic or scoring should occur on the client.
+
+The haste-game-server also leverages the @haste/sdk to integrate with the Haste API. This supports authz, submitting scores, and retrieving information about the latest leaderboard.
+
+Information is transferred between the client and server using socket.io.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
@@ -28,6 +34,8 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Background
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Setup) for a detailed setup guide.
 
 ### Environment Variables
+
+Since this is running on the server, these environment variables are not public, unlike the haste game client. These can store secrets as needed.
 
 - `PORT` - the port the haste game server will run on
 - `CORS_URL` - the haste game client url

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The @haste/haste-game-domain package includes common domain models and services used across the example game
+The @haste/haste-game-domain package includes common domain models used across the example game
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
