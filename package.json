@@ -13,6 +13,7 @@
     "cli": "./packages/cli/bin/run"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.16.0",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^6.0.0"
   },
