@@ -27,7 +27,7 @@ export class SocketServer {
   constructor(server: http.Server) {
     this.io = new Server(server, {
       cors: {
-        origin: process.env.CORS_URL,
+        origin: '*',
         methods: ['GET', 'POST'],
         credentials: true,
       },
