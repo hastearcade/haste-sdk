@@ -64,7 +64,7 @@ All new repositories in the haste ecosystem should contain the following:
 4. All top level `package.json` should have the following scripts: `test`, `lint`, `build`, `pretty`, `clean`, `prepare`.
 5. `.gitignore`
 6. Top level `package.json` should use the haste-sdk as a template for how to structure the `package.json`.
-7. If using a monorepository, you must include a `README` at the top level and in each package.
+7. If using Lerna, you must include a `README` at the top level and in each package.
 
 #### Coding Style
 

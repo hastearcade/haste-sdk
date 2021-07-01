@@ -17,8 +17,7 @@ Initially, TypeScript and JavaScript will be the only supported SDKs, but long t
   - [Installation](#installation)
   - [Environment Variables](#environment-variables)
 - [Usage](#usage)
-  - [PNPM Monorepo](#pnpm-monorepo)
-  - [Changesets](#changesets)
+  - [Lerna Monorepo](#lerna-monorepo)
   - [Developer Tooling](#developer-tooling)
 - [Deploy](#deploy)
 - [Documentation](#documentation)
@@ -49,18 +48,23 @@ In addition, you will need [NVM](https://github.com/nvm-sh/nvm) installed. NVM i
 
 ### Installation
 
-Once you have Node.js and NVM installed you can run the following commands to test haste-sdk. For dependency management and management of the monorepo, the repository is utilizing `pnpm`.
+Once you have Node.js and NVM installed you can run the following commands to test haste-sdk.
 
-```
-npm install -g pnpm
-pnpm install commitizen -D -g
-git clone git@github.com:playhaste/haste-sdk.git
-cd haste-sdk
-nvm use
-pnpm install
-pnpm run build
-pnpm run test
-```
+`npm install commitizen -D -g`
+
+`git clone git@github.com:playhaste/haste-sdk.git`
+
+`cd haste-sdk`
+
+`nvm use`
+
+`npm i -g lerna`
+
+`npm run boostrap`
+
+`npm run build`
+
+`npm run test`
 
 It is strongly recommended to develop haste-sdk using an editing ecosystem that supports [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/). The haste-sdk team uses VSCode with the following extensions:
 
@@ -75,13 +79,13 @@ Within this monorepository, developers can see that `haste-game-client` and `has
 
 The follow section describes the haste-sdk development experience.
 
-### PNPM Monorepo
+### Lerna Monorepo
 
-haste-sdk utilizes a monorepo via PNPM to manage dependencies between the packages that comprise the haste arcade sdk. If you are not familiar with PNPM, please see their [website](https://pnpm.io/) for additional information.
+haste-sdk utilizes a monorepo via Lerna to manage dependencies between the packages that comprise the haste arcade sdk. If you are not familiar with Lerna, please see their [website](https://lerna.js.org/) for additional information.
 
-haste-sdk is currently using a independent versioning strategy for all packages. This means that all packages' version numbers will remain independent and will be released separately as needed based on [change sets](#changesets).
+haste-sdk is currently using a shared versioning strategy for all packages. This means that all packages' version numbers will remain in sync and will be released together.
 
-Typically, you will need to interact with PNPM directly and standard tooling commands will be run via `pnpm`.
+Typically, you will not need to interact with Lerna directly as standard tooling commands will be run via `npm`.
 
 ### Changesets
 
@@ -105,24 +109,26 @@ Developers making modifications to any package in the haste-sdk should create a 
 haste-sdk uses the following tools to ensure a consistent, standard development environment:
 
 1. Typescript
-2. PNPM
+2. Lerna
 3. Prettier
 4. ESLint
 5. Husky with lint-staged
 6. Jest
 7. Commitizen
 
+_Through the use of npm package scripts and lerna, all commands can be run from the root directory of haste-sdk._
+
 #### Linting and Formatting
 
 haste-sdk is configured to run all linting rules as part of a precommit hook defined via husky, but if you want to manually check your linting before you commit you can run
 
-`pnpm run pretty && pnpm run lint`
+`npm run pretty && npm run lint`
 
 #### Testing
 
 haste-sdk utilizes Jest for running tests. To run all tests in the monorepo use the following command
 
-`pnpm run test`
+`npm run test`
 
 ## Deploy
 
