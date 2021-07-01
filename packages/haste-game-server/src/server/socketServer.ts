@@ -29,6 +29,7 @@ export class SocketServer {
       cors: {
         origin: process.env.CORS_URL,
         methods: ['GET', 'POST'],
+        credentials: true,
       },
     });
 
