@@ -1,1 +1,1 @@
-web: cd packages/haste-game-sever && npm run start
+web: cd packages/haste-game-server && npm run start
