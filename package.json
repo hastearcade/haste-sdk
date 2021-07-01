@@ -17,6 +17,9 @@
     "husky": "^6.0.0",
     "lerna": "^4.0.0"
   },
+  "engines": {
+    "node": "16.X"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

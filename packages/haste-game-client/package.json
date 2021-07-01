@@ -29,6 +29,9 @@
   "bugs": {
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
+  "engines": {
+    "node": "16.X"
+  },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.15.0",
     "@haste-sdk/domain": "0.0.0",
