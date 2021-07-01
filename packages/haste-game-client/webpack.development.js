@@ -36,4 +36,7 @@ if (fs.existsSync(path)) {
   });
 } else {
   console.log(`No .env file was found.`);
+  // this is needed for deploys so they do not fail in heroku,
+  // but ultimately is overwritten by the heroku-postbuild npm script
+  module.exports = common;
 }
