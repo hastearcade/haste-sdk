@@ -6,6 +6,8 @@ const { DefinePlugin } = require('webpack');
 const fs = require('fs');
 const path = __dirname + '/.env';
 
+console.log('building development');
+
 if (fs.existsSync(path)) {
   const dotenv = require('dotenv').config({ path });
   const env = dotenv.parsed;

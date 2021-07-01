@@ -16,14 +16,13 @@
     "url": "git+https://github.com/playhaste/haste-sdk.git"
   },
   "scripts": {
-    "build": "rimraf dist && webpack --config webpack.development.js",
+    "build": "if-env NODE_ENV=production && (rimraf dist && webpack --config webpack.production.js --progress && cp -R src/assets dist/assets) || (rimraf dist && webpack --config webpack.development.js)",
     "clean": "rimraf -rf ./dist ./coverage",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
     "start": "webpack serve --config webpack.development.js",
-    "startexpress": "node server.js",
-    "heroku-postbuild": "webpack --config webpack.production.js --progress && cp -R src/assets dist/assets"
+    "startexpress": "node server.js"
   },
   "lint-staged": {
     "*.ts": "eslint src --ext .ts --fix"
@@ -44,6 +43,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-force-https": "^1.0.0",
+    "if-env": "^1.0.4",
     "phaser": "^3.55.2",
     "socket.io-client": "^4.1.2"
   },
