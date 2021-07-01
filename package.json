@@ -1,7 +1,7 @@
 {
   "name": "root",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.0",
   "scripts": {
     "test": "pnpm recursive run test",
     "pretest": "pnpm recursive run build",
@@ -11,8 +11,7 @@
     "clean": "pnpm recursive run clean",
     "cleanNodeModules": "pnpm recursive exec -- rm -rf node_modules; rm -rf node_modules",
     "prepare": "husky install",
-    "cli": "./packages/cli/bin/run",
-    "preinstall": "npx only-allow pnpm"
+    "cli": "./packages/cli/bin/run"
   },
   "devDependencies": {
     "@changesets/cli": "^2.16.0",
