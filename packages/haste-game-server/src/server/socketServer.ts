@@ -29,7 +29,6 @@ export class SocketServer {
       cors: {
         origin: '*',
         methods: ['GET', 'POST'],
-        credentials: true,
       },
     });
 

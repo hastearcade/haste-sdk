@@ -19,7 +19,6 @@ export class SocketManager {
     this.socket = io(serverUrl, {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       auth: { token },
-      withCredentials: true,
     });
     this.initializeEvents();
   }
