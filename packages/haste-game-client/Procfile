@@ -1,0 +1,1 @@
+web: cd packages/haste-game-client && npm run startexpress
