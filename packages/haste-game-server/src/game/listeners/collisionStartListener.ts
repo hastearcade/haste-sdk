@@ -43,14 +43,13 @@ export function collisionStartListener(
       Engine.clear(engine.engine);
       World.clear(engine.engine.world, false);
 
-      await delay(3000);
-      const leaders = await haste.game.leaders();
-      engine.socket.emit('gameOver', leaders);
-      engine.socket.disconnect();
-
       // submit the score to the haste api
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       haste.game.score(engine.currentPlay, engine.score);
+      await delay(500);
+      const leaders = await haste.game.leaders();
+      engine.socket.emit('gameOver', leaders);
+      engine.socket.disconnect();
     }
 
     if (
