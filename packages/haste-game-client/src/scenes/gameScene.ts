@@ -4,6 +4,7 @@ import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { PlayerDirection } from '@haste-sdk/haste-game-domain';
+import { Leaderboard } from '../game-objects/leaderboard';
 
 // This is the primary rendering code for the game
 // and it accepts user input to move the player through
@@ -19,6 +20,7 @@ export class GameScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
   gameOver: boolean;
   logoutButton: Button;
+  leaderboard: Leaderboard;
   auth0: Auth0Client;
 
   constructor() {
@@ -45,8 +47,8 @@ export class GameScene extends Phaser.Scene {
       this.playerSprite.setTint(0xff0000);
       this.playerSprite.anims.play('turn');
       this.gameOver = true;
-      // console.log(leaders);
-      // TODO RENDER LEADERBOARD
+      this.leaderboard = new Leaderboard(this, 300, 100, leaders);
+      this.add.existing(this.leaderboard);
     });
 
     hasteGame.socketManager.gameStartEvent.emit();
