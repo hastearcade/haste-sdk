@@ -43,7 +43,7 @@ export function collisionStartListener(
       Engine.clear(engine.engine);
       World.clear(engine.engine.world, false);
 
-      await delay(1000);
+      await delay(3000);
       const leaders = await haste.game.leaders();
       engine.socket.emit('gameOver', leaders);
       engine.socket.disconnect();
