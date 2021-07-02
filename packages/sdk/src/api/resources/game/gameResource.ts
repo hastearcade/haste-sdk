@@ -16,6 +16,6 @@ export class GameResource extends BaseResource {
 
   async leaders() {
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/leaders`;
-    return await this.get<unknown, Leader[]>(path);
+    return await this.get<Leader[]>(path);
   }
 }

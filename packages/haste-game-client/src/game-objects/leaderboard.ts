@@ -30,11 +30,17 @@ export class Leaderboard extends Phaser.GameObjects.Container {
     });
     this.add(scoreText);
 
-    this.leaders.map((leader, index) => {
-      const leaderName = new Phaser.GameObjects.Text(scene, 20, 50 + index * 20, leader.playerId.substr(0, 10), {
-        fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-        color: '#F00',
-      });
+    this.leaders.forEach((leader, index) => {
+      const leaderName = new Phaser.GameObjects.Text(
+        scene,
+        20,
+        50 + index * 20,
+        leader.name ? leader.name.substr(0, 10) : leader.playerId,
+        {
+          fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+          color: '#F00',
+        },
+      );
 
       this.add(leaderName);
 
