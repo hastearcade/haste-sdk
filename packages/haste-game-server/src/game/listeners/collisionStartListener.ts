@@ -2,6 +2,10 @@ import { Haste } from '@haste-sdk/sdk';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
 
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // directly the matter-js simulation on what
 // to do when collisions between the various
 // game objects occur.
@@ -39,6 +43,7 @@ export function collisionStartListener(
       Engine.clear(engine.engine);
       World.clear(engine.engine.world, false);
 
+      await delay(1000);
       const leaders = await haste.game.leaders();
       engine.socket.emit('gameOver', leaders);
       engine.socket.disconnect();

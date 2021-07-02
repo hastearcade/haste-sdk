@@ -35,7 +35,7 @@ export class Leaderboard extends Phaser.GameObjects.Container {
         scene,
         20,
         50 + index * 20,
-        leader.name ? leader.name.substr(0, 10) : leader.playerId,
+        leader.name ? leader.name.substr(0, 10) : leader.playerId.substr(0, 10),
         {
           fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
           color: '#F00',
