@@ -28,6 +28,7 @@ export class GameEngine {
   world: World;
   score: number;
   socket: Socket;
+  gameOver: boolean;
 
   player: Player;
   floor: Floor;
@@ -83,16 +84,18 @@ export class GameEngine {
   }
 
   movePlayer(movement: PlayerMovement) {
-    const playerBody = this.world.bodies.find((b) => b.label === `Player`);
-    if (movement.direction === PlayerDirection.LEFT) {
-      Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: -0.001, y: 0 });
-    }
-    if (movement.direction === PlayerDirection.RIGHT) {
-      Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: 0.001, y: 0 });
-    }
-    if (movement.direction === PlayerDirection.UP && !this.player.isUp) {
-      this.player.isUp = true;
-      Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: 0, y: -0.05 });
+    if (!this.gameOver) {
+      const playerBody = this.world.bodies.find((b) => b.label === `Player`);
+      if (movement.direction === PlayerDirection.LEFT) {
+        Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: -0.001, y: 0 });
+      }
+      if (movement.direction === PlayerDirection.RIGHT) {
+        Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: 0.001, y: 0 });
+      }
+      if (movement.direction === PlayerDirection.UP && !this.player.isUp) {
+        this.player.isUp = true;
+        Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: 0, y: -0.05 });
+      }
     }
   }
 

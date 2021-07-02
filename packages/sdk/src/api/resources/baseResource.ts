@@ -12,6 +12,14 @@ export class BaseResource {
     this.configuration = configuration;
   }
 
+  protected async get<T, U>(path: string): Promise<U> {
+    const result = await axios.get<U>(`${this.url}${path}`, {
+      headers: { Authorization: `Bearer ${this.configuration.accessToken}` },
+    });
+
+    return result.data;
+  }
+
   protected async post<T, U>(payload: T, path: string): Promise<U> {
     const result = await axios.post<U>(`${this.url}${path}`, payload, {
       headers: { Authorization: `Bearer ${this.configuration.accessToken}` },

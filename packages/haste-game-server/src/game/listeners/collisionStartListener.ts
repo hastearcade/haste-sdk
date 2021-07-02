@@ -13,7 +13,7 @@ export function collisionStartListener(
 ) {
   const pairs = event.pairs;
 
-  pairs.forEach((pair) => {
+  pairs.forEach(async (pair) => {
     if (pair.bodyA.label === 'Player' || pair.bodyB.label === 'Player') {
       engine.player.isUp = false;
     }
@@ -32,12 +32,15 @@ export function collisionStartListener(
       (pair.bodyA.label.indexOf('Bomb') >= 0 && pair.bodyB.label === 'Player') ||
       (pair.bodyA.label === 'Player' && pair.bodyB.label.indexOf('Bomb') >= 0)
     ) {
+      engine.gameOver = true;
       Matter.Events.off(engine.runner, '', undefined);
       Matter.Events.off(engine.engine, '', undefined);
       Runner.stop(engine.runner);
       Engine.clear(engine.engine);
       World.clear(engine.engine.world, false);
-      engine.socket.emit('gameOver');
+
+      const leaders = await haste.game.leaders();
+      engine.socket.emit('gameOver', leaders);
       engine.socket.disconnect();
 
       // submit the score to the haste api

@@ -1,6 +1,7 @@
 import { HasteGameState, PlayerMovement } from '@haste-sdk/haste-game-domain';
 import { io, Socket } from 'socket.io-client';
 import { SocketMessage, WrappedClientSocket } from './socketManagerTypes';
+import { Leader } from '@haste-sdk/domain';
 
 // In order to clean up socket.io code from being
 // spread throughout the client application, this
@@ -10,7 +11,7 @@ export class SocketManager {
   gameInitEvent: WrappedClientSocket<void>;
   gameInitCompletedEvent: WrappedClientSocket<HasteGameState>;
   gameUpdateEvent: WrappedClientSocket<HasteGameState>;
-  gameOverEvent: WrappedClientSocket<void>;
+  gameOverEvent: WrappedClientSocket<Leader[]>;
   gameStartEvent: WrappedClientSocket<void>;
   playerUpdateEvent: WrappedClientSocket<PlayerMovement>;
   logoutEvent: WrappedClientSocket<void>;
@@ -28,7 +29,7 @@ export class SocketManager {
     this.gameInitCompletedEvent = this.createSocket('gameInitCompleted');
     this.gameUpdateEvent = this.createSocket('gameUpdate');
     this.gameStartEvent = this.createSocket('gameStart');
-    this.gameOverEvent = this.createSocket('gameOver');
+    this.gameOverEvent = this.createSocket<Leader[]>('gameOver');
     this.playerUpdateEvent = this.createSocket('playerUpdate');
     this.logoutEvent = this.createSocket('logout');
   }
