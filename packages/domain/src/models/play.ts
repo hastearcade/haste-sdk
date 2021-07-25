@@ -10,8 +10,10 @@ export class Play {
 
 export class CreatePlay {
   playerId: string;
+  leaderboardId: string;
 
-  constructor(playerId: string) {
+  constructor(playerId: string, leaderboardId: string) {
     this.playerId = playerId;
+    this.leaderboardId = leaderboardId;
   }
 }

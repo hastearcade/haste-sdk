@@ -3,17 +3,20 @@ import { GameResource } from './resources/game/gameResource';
 import { TokenRequest, TokenResponse } from '@haste-sdk/domain';
 import axios from 'axios';
 import { buildUrl } from '../util/urlBuilder';
+import { LeaderboardInstanceResource } from './resources/leaderboard/leaderboardinstances';
 export class Haste {
   private configuration?: HasteConfiguration;
   game: GameResource;
+  leaderboardinstances: LeaderboardInstanceResource;
 
   private constructor(configuration: HasteConfiguration) {
     this.configuration = configuration;
     this.game = new GameResource(this.configuration);
+    this.leaderboardinstances = new LeaderboardInstanceResource(this.configuration);
   }
 
   private static async getJwt(clientId: string, clientSecret: string, url: string) {
-    const path = '/oauth/token';
+    const path = '/oauth/writetoken';
     const payload: TokenRequest = {
       clientId,
       clientSecret,

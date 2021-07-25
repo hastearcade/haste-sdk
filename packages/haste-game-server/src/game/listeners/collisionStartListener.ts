@@ -1,3 +1,4 @@
+import { LeaderboardInstance } from '@haste-sdk/domain/src';
 import { Haste } from '@haste-sdk/sdk';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
@@ -17,7 +18,7 @@ export function collisionStartListener(
 ) {
   const pairs = event.pairs;
 
-  pairs.forEach(async (pair) => {
+  for (const pair of pairs) {
     if (pair.bodyA.label === 'Player' || pair.bodyB.label === 'Player') {
       engine.player.isUp = false;
     }
@@ -45,9 +46,9 @@ export function collisionStartListener(
 
       // submit the score to the haste api
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      haste.game.score(engine.currentPlay, engine.score);
-      await delay(500);
-      const leaders = await haste.game.leaders();
+      haste.game.score(engine.currentPlay, new LeaderboardInstance(''), engine.score);
+      // await delay(500);
+      const leaders = []; // await haste.game.leaders();
       engine.socket.emit('gameOver', leaders);
       engine.socket.disconnect();
     }
@@ -63,5 +64,5 @@ export function collisionStartListener(
 
       Body.setPosition(bodyToRemove, { x: 1000, y: 1000 });
     }
-  });
+  }
 }

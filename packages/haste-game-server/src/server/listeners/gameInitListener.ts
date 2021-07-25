@@ -1,7 +1,7 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { GameEngine } from '../../game/gameEngine';
 import { Haste } from '@haste-sdk/sdk';
-import { Player, UserDetails } from '@haste-sdk/domain';
+import { LeaderboardInstance, Player, UserDetails } from '@haste-sdk/domain';
 import { Socket } from 'socket.io';
 
 // This is called when the user hits "start" in
@@ -12,7 +12,7 @@ import { Socket } from 'socket.io';
 export async function gameInitListener(jwt: JwtPayload, haste: Haste, engine: GameEngine, socket: Socket) {
   const metadata = jwt['http://haste/metadata'] as UserDetails;
   const player = new Player(metadata.playerId);
-  const play = await haste.game.play(player);
+  const play = await haste.game.play(player, new LeaderboardInstance(''));
   engine.currentPlay = play;
 
   // if play comes back successfully, the game has finished initializing
