@@ -1,18 +1,15 @@
 import { HasteConfiguration } from '../config';
 import { GameResource } from './resources/game/gameResource';
-import { TokenRequest, TokenResponse } from '@haste-sdk/domain';
+import { Game, TokenRequest, TokenResponse } from '@haste-sdk/domain';
 import axios from 'axios';
 import { buildUrl } from '../util/urlBuilder';
-import { LeaderboardInstanceResource } from './resources/leaderboard/leaderboardinstances';
 export class Haste {
   private configuration?: HasteConfiguration;
   game: GameResource;
-  leaderboardinstances: LeaderboardInstanceResource;
 
-  private constructor(configuration: HasteConfiguration) {
+  private constructor(configuration: HasteConfiguration, gameDetails: Game) {
     this.configuration = configuration;
-    this.game = new GameResource(this.configuration);
-    this.leaderboardinstances = new LeaderboardInstanceResource(this.configuration);
+    this.game = new GameResource(this.configuration, gameDetails);
   }
 
   private static async getJwt(clientId: string, clientSecret: string, url: string) {
@@ -27,6 +24,16 @@ export class Haste {
     return tokenResponse;
   }
 
+  private static async getGameDetails(accessToken: string, url: string, playerId: string, gameId: string) {
+    const path = `${url}/players/${playerId}/games/${gameId}`;
+    const response = await axios.get<Game>(`${url}${path}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    const gameDetails = response.data;
+
+    return gameDetails;
+  }
+
   public static async build(
     clientId: string,
     clientSecret: string,
@@ -39,19 +46,24 @@ export class Haste {
       throw new Error(`You must initialize Haste with a client secret.`);
     }
 
+    const url = buildUrl(configuration.hostProtocol, configuration.host, configuration.port);
     if (!configuration) configuration = new HasteConfiguration();
-    const tokenResponse = await Haste.getJwt(
-      clientId,
-      clientSecret,
-      buildUrl(configuration.hostProtocol, configuration.host, configuration.port),
-    );
+    const tokenResponse = await Haste.getJwt(clientId, clientSecret, url);
 
     configuration.clientId = clientId;
     configuration.clientSecret = clientSecret;
     configuration.arcadeId = tokenResponse.arcadeId;
     configuration.gameId = tokenResponse.gameId;
     configuration.accessToken = tokenResponse.access_token;
+    configuration.playerId = tokenResponse.playerId;
 
-    return new Haste(configuration);
+    const gameDetails = await Haste.getGameDetails(
+      configuration.accessToken,
+      url,
+      configuration.playerId,
+      configuration.gameId,
+    );
+
+    return new Haste(configuration, gameDetails);
   }
 }

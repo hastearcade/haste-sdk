@@ -61,12 +61,13 @@ export class SocketServer {
   }
 
   private getEvents() {
-    const gameInitEvent = this.createSocket<void>('gameInit', listeners.gameInitListener);
+    const gameInitEvent = this.createSocket<string>('gameInit', listeners.gameInitListener);
     const gameStartEvent = this.createSocket<void>('gameStart', listeners.gameStartListener);
     const playerUpdateEvent = this.createSocket<PlayerMovement>('playerUpdate', listeners.playerUpdateListener);
     const logoutEvent = this.createSocket<void>('logout', listeners.logoutListener);
+    const getLevelsEvent = this.createSocket<void>('gameGetLevels', listeners.gameGetLevelsListener);
 
-    return [gameInitEvent, gameStartEvent, playerUpdateEvent, logoutEvent];
+    return [gameInitEvent, gameStartEvent, playerUpdateEvent, logoutEvent, getLevelsEvent];
   }
 
   private broadcast<T>(event: SocketMessage) {

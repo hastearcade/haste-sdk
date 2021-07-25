@@ -1,20 +1,22 @@
 import { HasteGameState, PlayerMovement } from '@haste-sdk/haste-game-domain';
 import { io, Socket } from 'socket.io-client';
 import { SocketMessage, WrappedClientSocket } from './socketManagerTypes';
-import { Leader } from '@haste-sdk/domain';
+import { Leader, Leaderboard } from '@haste-sdk/domain';
 
 // In order to clean up socket.io code from being
 // spread throughout the client application, this
 // manager class was created to wrap all socket events
 export class SocketManager {
   private socket: Socket;
-  gameInitEvent: WrappedClientSocket<void>;
+  gameInitEvent: WrappedClientSocket<string>;
   gameInitCompletedEvent: WrappedClientSocket<HasteGameState>;
   gameUpdateEvent: WrappedClientSocket<HasteGameState>;
   gameOverEvent: WrappedClientSocket<Leader[]>;
   gameStartEvent: WrappedClientSocket<void>;
   playerUpdateEvent: WrappedClientSocket<PlayerMovement>;
   logoutEvent: WrappedClientSocket<void>;
+  gameGetLevelsEvent: WrappedClientSocket<void>;
+  gameGetLevelsCompletedEvent: WrappedClientSocket<Leaderboard[]>;
 
   constructor(serverUrl: string, token: string) {
     this.socket = io(serverUrl, {
@@ -27,6 +29,8 @@ export class SocketManager {
   initializeEvents() {
     this.gameInitEvent = this.createSocket('gameInit');
     this.gameInitCompletedEvent = this.createSocket('gameInitCompleted');
+    this.gameGetLevelsEvent = this.createSocket('gameGetLevels');
+    this.gameGetLevelsCompletedEvent = this.createSocket('gameGetLevelsCompleted');
     this.gameUpdateEvent = this.createSocket('gameUpdate');
     this.gameStartEvent = this.createSocket('gameStart');
     this.gameOverEvent = this.createSocket<Leader[]>('gameOver');

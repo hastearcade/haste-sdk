@@ -1,4 +1,4 @@
-export class LeaderboardInstance {
+export class Leaderboard {
   id: string;
   name: string;
   cost: number;

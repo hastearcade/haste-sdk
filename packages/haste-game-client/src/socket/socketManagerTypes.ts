@@ -12,7 +12,9 @@ export type SocketMessage =
   | 'gameOver'
   | 'gameStart'
   | 'playerUpdate'
-  | 'logout';
+  | 'logout'
+  | 'gameGetLevels'
+  | 'gameGetLevelsCompleted';
 
 export interface EmitterCallback<T> {
   (data: T): void;

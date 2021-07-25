@@ -1,4 +1,4 @@
-import { LeaderboardInstance } from '@haste-sdk/domain/src';
+import { Leaderboard } from '@haste-sdk/domain';
 import { Haste } from '@haste-sdk/sdk';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
@@ -46,7 +46,7 @@ export function collisionStartListener(
 
       // submit the score to the haste api
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      haste.game.score(engine.currentPlay, new LeaderboardInstance(''), engine.score);
+      haste.game.score(engine.currentPlay, new Leaderboard(''), engine.score);
       // await delay(500);
       const leaders = []; // await haste.game.leaders();
       engine.socket.emit('gameOver', leaders);

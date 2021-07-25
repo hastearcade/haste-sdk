@@ -1,21 +1,28 @@
-import { Player, CreatePlay, Play, CreateScore, Score, Leader, LeaderboardInstance } from '@haste-sdk/domain';
+import { Player, CreatePlay, Play, CreateScore, Score, Leaderboard, Game } from '@haste-sdk/domain';
+import { HasteConfiguration } from '../../../config/hasteConfiguration';
 import { BaseResource } from '../baseResource';
 
 export class GameResource extends BaseResource {
-  async play(player: Player, leaderboardInstance: LeaderboardInstance) {
-    const payload = new CreatePlay(player.id, leaderboardInstance.id);
+  private details: Game;
+
+  constructor(configuration: HasteConfiguration, details: Game) {
+    super(configuration);
+    this.details = details;
+  }
+
+  async play(player: Player, leaderboard: Leaderboard) {
+    const payload = new CreatePlay(player.id, leaderboard.id);
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/play`;
     return await this.post<CreatePlay, Play>(payload, path);
   }
 
-  async score(play: Play, leaderboardInstance: LeaderboardInstance, score: number) {
-    const payload = new CreateScore(play.id, leaderboardInstance.id, score);
+  async score(play: Play, leaderboard: Leaderboard, score: number) {
+    const payload = new CreateScore(play.id, leaderboard.id, score);
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/score`;
     return await this.post<CreateScore, Score>(payload, path);
   }
 
-  async leaders() {
-    const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/leaders`;
-    return await this.get<Leader[]>(path);
+  leaderboards() {
+    return this.details.leaderboards;
   }
 }

@@ -7,4 +7,4 @@ export * from './score';
 export { TokenRequest } from './tokenRequest';
 export { TokenResponse } from './tokenResponse';
 export { UserDetails } from './userDetails';
-export { LeaderboardInstance } from './leaderboardinstance';
+export { Leaderboard } from './leaderboard';
