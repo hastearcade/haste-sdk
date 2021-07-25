@@ -63,23 +63,37 @@ export class BootScene extends Phaser.Scene {
   update() {
     if (this.isAuthenticated !== undefined && this.loginButton === undefined) {
       if (!this.isAuthenticated) {
-        this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async (): Promise<void> => {
-          return this.login();
-        });
+        this.loginButton = new Button(
+          this,
+          50,
+          25,
+          'Login',
+          { fill: '#f00' },
+          async (): Promise<void> => {
+            return this.login();
+          },
+        );
         this.add.existing(this.loginButton);
       } else {
         if (this.startButton === undefined) {
           const hasteGame = this.game as HasteGame;
 
-          this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
-            hasteGame.socketManager.gameGetLevelsCompletedEvent.on((data: Leaderboard[]) => {
-              hasteGame.leaderboards = data;
-              this.scene.start('LevelSelectionScene', { auth: this.auth0 } as GameSceneData);
-            });
+          this.startButton = new Button(
+            this,
+            50,
+            25,
+            'Start',
+            { fill: '#f00' },
+            (): Promise<void> => {
+              hasteGame.socketManager.gameGetLevelsCompletedEvent.on((data: Leaderboard[]) => {
+                hasteGame.leaderboards = data;
+                this.scene.start('LevelSelectionScene', { auth: this.auth0 } as GameSceneData);
+              });
 
-            hasteGame.socketManager.gameGetLevelsEvent.emit();
-            return Promise.resolve();
-          });
+              hasteGame.socketManager.gameGetLevelsEvent.emit();
+              return Promise.resolve();
+            },
+          );
           this.add.existing(this.startButton);
         }
       }
