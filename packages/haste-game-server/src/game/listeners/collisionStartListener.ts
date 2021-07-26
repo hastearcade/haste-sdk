@@ -1,11 +1,6 @@
-import { Leaderboard } from '@haste-sdk/domain';
 import { Haste } from '@haste-sdk/sdk';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
-
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 // directly the matter-js simulation on what
 // to do when collisions between the various
@@ -46,11 +41,8 @@ export function collisionStartListener(
 
       // submit the score to the haste api
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      haste.game.score(engine.currentPlay, new Leaderboard(''), engine.score);
-      // await delay(500);
-      const leaders = []; // await haste.game.leaders();
-      engine.socket.emit('gameOver', leaders);
-      engine.socket.disconnect();
+      haste.game.score(engine.currentPlay, engine.currentPlay.leaderboard, engine.score);
+      engine.socket.emit('gameOver');
     }
 
     if (

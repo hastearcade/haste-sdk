@@ -11,12 +11,14 @@ export class SocketManager {
   gameInitEvent: WrappedClientSocket<string>;
   gameInitCompletedEvent: WrappedClientSocket<HasteGameState>;
   gameUpdateEvent: WrappedClientSocket<HasteGameState>;
-  gameOverEvent: WrappedClientSocket<Leader[]>;
+  gameOverEvent: WrappedClientSocket<void>;
   gameStartEvent: WrappedClientSocket<void>;
   playerUpdateEvent: WrappedClientSocket<PlayerMovement>;
   logoutEvent: WrappedClientSocket<void>;
   gameGetLevelsEvent: WrappedClientSocket<void>;
   gameGetLevelsCompletedEvent: WrappedClientSocket<Leaderboard[]>;
+  gameGetLeadersEvent: WrappedClientSocket<string>;
+  gameGetLeadersCompletedEvent: WrappedClientSocket<Leader[]>;
 
   constructor(serverUrl: string, token: string) {
     this.socket = io(serverUrl, {
@@ -33,8 +35,10 @@ export class SocketManager {
     this.gameGetLevelsCompletedEvent = this.createSocket('gameGetLevelsCompleted');
     this.gameUpdateEvent = this.createSocket('gameUpdate');
     this.gameStartEvent = this.createSocket('gameStart');
-    this.gameOverEvent = this.createSocket<Leader[]>('gameOver');
+    this.gameOverEvent = this.createSocket('gameOver');
     this.playerUpdateEvent = this.createSocket('playerUpdate');
+    this.gameGetLeadersEvent = this.createSocket('gameGetLeaders');
+    this.gameGetLeadersCompletedEvent = this.createSocket('gameGetLeadersCompleted');
     this.logoutEvent = this.createSocket('logout');
   }
 

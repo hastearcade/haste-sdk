@@ -7,6 +7,7 @@ export class HasteGame extends Phaser.Game {
   state: HasteGameState;
   leaderboards: Leaderboard[];
   socketManager: SocketManager;
+  selectedLeaderboardId: string;
 
   constructor(gameConfig?: Phaser.Types.Core.GameConfig) {
     super(gameConfig);

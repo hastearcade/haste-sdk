@@ -39,6 +39,7 @@ export class LevelSelectionScene extends Phaser.Scene {
             this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
           });
 
+          hasteGame.selectedLeaderboardId = leaderboardId;
           hasteGame.socketManager.gameInitEvent.emit(leaderboardId);
           resolve();
         });
@@ -56,13 +57,6 @@ export class LevelSelectionScene extends Phaser.Scene {
 
   preload() {
     this.cameras.main.setBackgroundColor(0x98d687);
-  }
-
-  // As part of the Phaser lifecycle, update is called at every
-  // tick. Its important not to instantite things multiple times which
-  // is why the if guard is there.
-  update() {
-    const hasteGame = this.game as HasteGame;
   }
 
   async logout() {

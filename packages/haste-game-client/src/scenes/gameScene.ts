@@ -41,14 +41,13 @@ export class GameScene extends Phaser.Scene {
 
     // disable player when the game over
     // event is emitted
-    hasteGame.socketManager.gameOverEvent.on((leaders) => {
+    hasteGame.socketManager.gameOverEvent.on(() => {
       this.playerSprite.anims.play('turn');
       this.input.keyboard.enabled = false;
       this.playerSprite.setTint(0xff0000);
       this.playerSprite.anims.play('turn');
       this.gameOver = true;
-      this.leaderboard = new Leaderboard(this, 300, 100, leaders);
-      this.add.existing(this.leaderboard);
+      this.scene.start('ResultsScene', { auth: this.auth0 } as GameSceneData);
     });
 
     hasteGame.socketManager.gameStartEvent.emit();
