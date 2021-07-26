@@ -53,7 +53,7 @@ export class SocketServer {
 
       const registeredEvents = this.getEvents();
       registeredEvents.forEach(({ event, callback }) => {
-        socket.on(event, (message) => {
+        socket.on(event, (message: string & PlayerMovement & void) => {
           callback(jwt, haste, gameEngine, socket, message);
         });
       });

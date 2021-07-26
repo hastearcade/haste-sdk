@@ -102,7 +102,7 @@ export class GameEngine {
   addBombs(timestamp: number): void {
     timestamp = Math.round(timestamp);
 
-    if (timestamp !== 0 && timestamp % (10 * 1000) === 0) {
+    if (timestamp !== 0 && (Math.round(timestamp/10)*10) % (10 * 1000) === 0) {
       const bomb = new Bomb();
       bomb.height = 14;
       bomb.width = 14;
