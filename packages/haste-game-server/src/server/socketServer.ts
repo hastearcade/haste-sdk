@@ -53,7 +53,7 @@ export class SocketServer {
 
       const registeredEvents = this.getEvents();
       registeredEvents.forEach(({ event, callback }) => {
-        socket.on(event, (message) => {
+        socket.on(event, (message: string & PlayerMovement & void) => {
           callback(jwt, haste, gameEngine, socket, message);
         });
       });
@@ -61,12 +61,14 @@ export class SocketServer {
   }
 
   private getEvents() {
-    const gameInitEvent = this.createSocket<void>('gameInit', listeners.gameInitListener);
+    const gameInitEvent = this.createSocket<string>('gameInit', listeners.gameInitListener);
     const gameStartEvent = this.createSocket<void>('gameStart', listeners.gameStartListener);
     const playerUpdateEvent = this.createSocket<PlayerMovement>('playerUpdate', listeners.playerUpdateListener);
     const logoutEvent = this.createSocket<void>('logout', listeners.logoutListener);
+    const getLevelsEvent = this.createSocket<void>('gameGetLevels', listeners.gameGetLevelsListener);
+    const getLeadersEvent = this.createSocket<string>('gameGetLeaders', listeners.gameGetLeadersListener);
 
-    return [gameInitEvent, gameStartEvent, playerUpdateEvent, logoutEvent];
+    return [gameInitEvent, gameStartEvent, playerUpdateEvent, logoutEvent, getLevelsEvent, getLeadersEvent];
   }
 
   private broadcast<T>(event: SocketMessage) {

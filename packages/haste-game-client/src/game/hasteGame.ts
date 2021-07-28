@@ -1,10 +1,13 @@
 import { Floor, HasteGameState, Player } from '@haste-sdk/haste-game-domain';
 import { Auth0Client } from '@auth0/auth0-spa-js';
 import { SocketManager } from '../socket/socketManager';
+import { Leaderboard } from '@haste-sdk/domain';
 
 export class HasteGame extends Phaser.Game {
   state: HasteGameState;
+  leaderboards: Leaderboard[];
   socketManager: SocketManager;
+  selectedLeaderboardId: string;
 
   constructor(gameConfig?: Phaser.Types.Core.GameConfig) {
     super(gameConfig);

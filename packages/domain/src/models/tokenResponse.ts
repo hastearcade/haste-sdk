@@ -6,4 +6,5 @@ export class TokenResponse {
   scope?: string;
   arcadeId: string;
   gameId: string;
+  playerId: string;
 }

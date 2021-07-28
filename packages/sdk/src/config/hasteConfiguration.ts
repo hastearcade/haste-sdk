@@ -8,6 +8,7 @@ export class HasteConfiguration {
   clientId?: string;
   clientSecret?: string;
   accessToken?: string;
+  playerId?: string;
 
   constructor(host = 'api.hastearcade.com', hostProtocol = 'https', port = 0) {
     this.hostProtocol = hostProtocol;
