@@ -25,8 +25,8 @@ export class Haste {
     return tokenResponse;
   }
 
-  private static async getGameDetails(accessToken: string, url: string, playerId: string, gameId: string) {
-    const path = `/players/${playerId}/games/${gameId}`;
+  private static async getGameDetails(accessToken: string, url: string, gameId: string) {
+    const path = `/developergames/${gameId}`;
 
     const response = await axios.get<Game>(`${url}${path}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -57,14 +57,8 @@ export class Haste {
     configuration.arcadeId = tokenResponse.arcadeId;
     configuration.gameId = tokenResponse.gameId;
     configuration.accessToken = tokenResponse.access_token;
-    configuration.playerId = tokenResponse.playerId;
 
-    const gameDetails = await Haste.getGameDetails(
-      configuration.accessToken,
-      url,
-      configuration.playerId,
-      configuration.gameId,
-    );
+    const gameDetails = await Haste.getGameDetails(configuration.accessToken, url, configuration.gameId);
 
     return new Haste(configuration, gameDetails);
   }

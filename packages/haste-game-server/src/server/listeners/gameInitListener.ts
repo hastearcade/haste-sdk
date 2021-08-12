@@ -16,6 +16,8 @@ export async function gameInitListener(
   socket: Socket,
   leaderboardId: string,
 ) {
+  // eslint-disable-next-line no-console
+  console.log(jwt);
   const metadata = jwt['http://haste/metadata'] as UserDetails;
   const player = new Player(metadata.playerId);
   const play = await haste.game.play(player, new Leaderboard(leaderboardId));
