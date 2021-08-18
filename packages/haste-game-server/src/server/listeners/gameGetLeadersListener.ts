@@ -1,8 +1,6 @@
-import { JwtPayload } from 'jsonwebtoken';
 import { GameEngine } from '../../game/gameEngine';
-import { Haste } from '@haste-sdk/sdk';
+import { Haste, Leaderboard } from '@haste-sdk/sdk';
 import { Socket } from 'socket.io';
-import { Leaderboard } from '@haste-sdk/domain';
 
 // This is called when the user logs in
 // the haste client game. The gameGetLevels event is emitted
@@ -10,7 +8,7 @@ import { Leaderboard } from '@haste-sdk/domain';
 // and then leverages the Haste SDK to retrieve all the levels for
 // the current game.
 export async function gameGetLeadersListener(
-  jwt: JwtPayload,
+  _1,
   haste: Haste,
   engine: GameEngine,
   socket: Socket,

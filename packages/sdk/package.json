@@ -10,7 +10,7 @@
   "homepage": "https://playhaste.com",
   "license": "MIT",
   "main": "dist/cjs/index.js",
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/cjs/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/playhaste/haste-sdk.git"
@@ -32,7 +32,9 @@
   "dependencies": {
     "@haste-sdk/domain": "0.0.0",
     "@types/axios": "^0.14.0",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.0.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
@@ -52,6 +54,6 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.5.4",
-    "typescript": "^4.2.3"
+    "typescript": "^4.3.5"
   }
 }

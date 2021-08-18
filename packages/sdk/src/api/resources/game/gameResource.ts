@@ -1,4 +1,4 @@
-import { Player, CreatePlay, Play, CreateScore, Score, Leaderboard, Game } from '@haste-sdk/domain';
+import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player } from '@haste-sdk/domain';
 import { HasteConfiguration } from '../../../config/hasteConfiguration';
 import { BaseResource } from '../baseResource';
 
@@ -11,10 +11,10 @@ export class GameResource extends BaseResource {
   }
 
   async play(player: Player, leaderboard: Leaderboard) {
-    const payload = new CreatePlay(player.id, leaderboard.id);
+    const createPayload = new CreatePlay(player.id, leaderboard.id);
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/play`;
-    const play = await this.post<CreatePlay, Play>(payload, path);
-    play.leaderboard = leaderboard;
+    const play = await this.post<CreatePlay, Play>(createPayload, path);
+    play.leaderboard = new Leaderboard(leaderboard.id);
     return play;
   }
 

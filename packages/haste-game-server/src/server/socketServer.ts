@@ -4,8 +4,6 @@
 import http from 'http';
 import { Server, Socket } from 'socket.io';
 import { ExtendedError } from 'socket.io/dist/namespace';
-import { JwksClient, SigningKey } from 'jwks-rsa';
-import jwt, { JwtHeader, JwtPayload, SigningKeyCallback } from 'jsonwebtoken';
 import { GameEngine } from '../game/gameEngine';
 import { Haste } from '@haste-sdk/sdk';
 import { SocketActionFn, SocketMessage, WrappedServerSocket } from './socketServerTypes';
@@ -22,7 +20,8 @@ import { PlayerMovement } from '@haste-sdk/haste-game-domain';
 // authoritative server.
 export class SocketServer {
   private io: Server;
-  private jwtClient: JwksClient;
+  private playerId: string;
+  private haste: Haste;
 
   constructor(server: http.Server) {
     this.io = new Server(server, {
@@ -32,30 +31,24 @@ export class SocketServer {
       },
     });
 
-    this.jwtClient = new JwksClient({
-      jwksUri: 'https://playhaste.us.auth0.com/.well-known/jwks.json',
-    });
-
     this.io.use(this.jwtMiddleware);
   }
 
   initEvents() {
     this.io.on('connection', async (socket: Socket) => {
-      const jwt = socket.data as JwtPayload;
-
-      const haste = await Haste.build(process.env.HASTE_CLIENT_ID, process.env.HASTE_CLIENT_SECRET, {
+      this.haste = await Haste.build(process.env.HASTE_CLIENT_ID, process.env.HASTE_CLIENT_SECRET, {
         hostProtocol: process.env.HASTE_API_PROTOCOL,
         host: process.env.HASTE_API_HOST,
         port: parseInt(process.env.HASTE_API_PORT, 10),
         accessToken: '',
       });
 
-      const gameEngine = new GameEngine(socket, haste);
+      const gameEngine = new GameEngine(socket, this.haste);
 
       const registeredEvents = this.getEvents();
       registeredEvents.forEach(({ event, callback }) => {
         socket.on(event, (message: string & PlayerMovement & void) => {
-          callback(jwt, haste, gameEngine, socket, message);
+          callback(this.playerId, this.haste, gameEngine, socket, message);
         });
       });
     });
@@ -81,24 +74,16 @@ export class SocketServer {
     return { event, callback };
   }
 
-  private getKey = (header: JwtHeader, callback: SigningKeyCallback) => {
-    this.jwtClient.getSigningKey(header.kid, (err: Error, key: SigningKey) => {
-      const signingKey = key.getPublicKey();
-      callback(err, signingKey);
-    });
-  };
-
   private jwtMiddleware = (socket: Socket, next: (err?: ExtendedError) => void) => {
     if (socket.handshake.auth && socket.handshake.auth.token) {
-      jwt.verify(socket.handshake.auth.token as string, this.getKey, {}, (err, decoded) => {
-        if (err) return next(new Error('Authentication error'));
-        if (decoded.iss === process.env.AUTH0_ISSUER && decoded.exp > new Date().getTime() / 1000) {
-          socket.data = decoded;
-          return next();
-        } else {
-          return next(new Error('Authentication error'));
-        }
-      });
+      Haste.authenticate(socket.handshake.auth.token, process.env.AUTH_URL)
+        .then((playerId) => {
+          this.playerId = playerId;
+          next();
+        })
+        .catch((err: Error) => {
+          next(err);
+        });
     } else {
       next(new Error('Authentication error'));
     }

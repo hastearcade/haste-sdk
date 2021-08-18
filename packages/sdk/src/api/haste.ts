@@ -3,6 +3,7 @@ import { GameResource } from './resources/game/gameResource';
 import { Game, TokenRequest, TokenResponse } from '@haste-sdk/domain';
 import axios from 'axios';
 import { buildUrl } from '../util/urlBuilder';
+import { validateAuthenticationToken } from './auth/validate';
 export class Haste {
   private configuration?: HasteConfiguration;
   game: GameResource;
@@ -31,6 +32,12 @@ export class Haste {
     });
 
     return response.data;
+  }
+
+  public static async authenticate(playerAccessToken: string, authUrl = 'haste-production.us.auth0.com') {
+    const jwt = await validateAuthenticationToken(playerAccessToken, authUrl);
+    const playerId = jwt['https://hastearcade.com/playerId'] as string;
+    return playerId;
   }
 
   public static async build(

@@ -1,4 +1,3 @@
-import { JwtPayload } from 'jsonwebtoken';
 import { GameEngine } from '../../game/gameEngine';
 import { Haste } from '@haste-sdk/sdk';
 import { Socket } from 'socket.io';
@@ -8,7 +7,7 @@ import { Socket } from 'socket.io';
 // from the client and received by the server. The server is listening
 // and then leverages the Haste SDK to retrieve all the levels for
 // the current game.
-export function gameGetLevelsListener(jwt: JwtPayload, haste: Haste, engine: GameEngine, socket: Socket) {
+export function gameGetLevelsListener(_1, haste: Haste, engine: GameEngine, socket: Socket) {
   const instances = haste.game.leaderboards();
   socket.emit('gameGetLevelsCompleted', instances);
 }

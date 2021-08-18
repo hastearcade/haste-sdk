@@ -1,7 +1,5 @@
-import { JwtPayload } from 'jsonwebtoken';
 import { GameEngine } from '../../game/gameEngine';
-import { Haste } from '@haste-sdk/sdk';
-import { Leaderboard, Player } from '@haste-sdk/domain';
+import { Haste, Leaderboard, Player } from '@haste-sdk/sdk';
 import { Socket } from 'socket.io';
 
 // This is called when the user hits "start" in
@@ -10,15 +8,13 @@ import { Socket } from 'socket.io';
 // and then leverages the Haste SDK to create a "Play". A "play" is essentially
 // like putting in a physical quarter at a physical arcade.
 export async function gameInitListener(
-  jwt: JwtPayload,
+  playerId: string,
   haste: Haste,
   engine: GameEngine,
   socket: Socket,
   leaderboardId: string,
 ) {
-  const playerId = jwt['https://hastearcade.com/playerId'] as string;
-  const player = new Player(playerId);
-  const play = await haste.game.play(player, new Leaderboard(leaderboardId));
+  const play = await haste.game.play(new Player(playerId), new Leaderboard(leaderboardId));
   engine.currentPlay = play;
 
   // if play comes back successfully, the game has finished initializing

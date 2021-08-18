@@ -8,6 +8,7 @@ declare global {
       HASTE_API_PROTOCOL: string;
       HASTE_API_HOST: string;
       HASTE_API_PORT: string;
+      AUTH_URL: string;
     }
   }
 }
