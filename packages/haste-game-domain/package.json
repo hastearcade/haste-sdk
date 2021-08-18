@@ -1,5 +1,5 @@
 {
-  "name": "@haste-sdk/haste-game-domain",
+  "name": "@haste/haste-game-domain",
   "version": "0.0.0",
   "description": "The @haste/haste-game-domain package includes common domain models and services used across the example game.",
   "contributors": [

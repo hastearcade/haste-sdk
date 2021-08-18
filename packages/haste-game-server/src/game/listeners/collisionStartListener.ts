@@ -1,4 +1,4 @@
-import { Haste } from '@haste-sdk/sdk';
+import { Haste, Play } from '@haste/haste';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
 
@@ -45,6 +45,10 @@ export function collisionStartListener(
       if (engine.currentPlay && engine.currentPlay.id && engine.currentPlay.id.length > 0) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         haste.game.score(engine.currentPlay, engine.currentPlay.leaderboard, engine.score);
+
+        // reset the play so it does not get used again.
+        // this only matters if the user logs out before starting a new game.
+        engine.currentPlay = new Play();
       }
       engine.socket.emit('gameOver');
     }

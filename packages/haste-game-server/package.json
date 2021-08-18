@@ -1,7 +1,7 @@
 {
-  "name": "@haste-sdk/haste-game-server",
+  "name": "@haste/haste-game-server",
   "version": "0.0.0",
-  "description": "The haste game server is an example of the @haste-sdk/sdk package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.",
+  "description": "The haste game server is an example of the @haste/haste package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and payouts.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",
@@ -37,8 +37,8 @@
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
   "dependencies": {
-    "@haste-sdk/sdk": "0.0.0",
-    "@haste-sdk/haste-game-domain": "^0.0.0",
+    "@haste/haste": "0.0.0",
+    "@haste/haste-game-domain": "^0.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

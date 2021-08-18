@@ -1,4 +1,4 @@
-import { Haste } from '@haste-sdk/sdk';
+import { Haste } from '@haste/haste';
 import { GameEngine } from './gameEngine';
 
 export type GameEngineEvent = 'tick' | 'afterUpdate' | 'collisionStart';

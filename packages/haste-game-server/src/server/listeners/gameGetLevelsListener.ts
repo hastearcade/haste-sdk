@@ -1,5 +1,5 @@
 import { GameEngine } from '../../game/gameEngine';
-import { Haste } from '@haste-sdk/sdk';
+import { Haste } from '@haste/haste';
 import { Socket } from 'socket.io';
 
 // This is called when the user logs in

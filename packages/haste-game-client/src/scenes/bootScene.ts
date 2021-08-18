@@ -1,7 +1,7 @@
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
-import { Leaderboard, HasteClient } from '@haste-sdk/sdk-client';
+import { Leaderboard, HasteClient } from '@haste/haste-web';
 
 // The BootScene loads all the image assets,
 // displays the login and start buttons, and

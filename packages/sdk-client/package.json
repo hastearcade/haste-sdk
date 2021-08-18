@@ -1,5 +1,5 @@
 {
-  "name": "@haste-sdk/sdk-client",
+  "name": "@haste/haste-web",
   "version": "0.0.0",
   "description": "The client sdk to be used to empower developers to leverage the Haste Arcade. The client SDK is intended to be used in client side code alongside the developers game logic.",
   "contributors": [
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.17.0",
-    "@haste-sdk/domain": "0.0.0",
+    "@haste/domain": "0.0.0",
     "@types/axios": "^0.14.0",
     "axios": "^0.21.1",
     "jsonwebtoken": "^8.5.1",

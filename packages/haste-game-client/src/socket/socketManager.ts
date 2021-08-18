@@ -1,7 +1,7 @@
-import { HasteGameState, PlayerMovement } from '@haste-sdk/haste-game-domain';
+import { HasteGameState, PlayerMovement } from '@haste/haste-game-domain';
 import { io, Socket } from 'socket.io-client';
 import { SocketMessage, WrappedClientSocket } from './socketManagerTypes';
-import { Leader, Leaderboard } from '@haste-sdk/sdk-client';
+import { Leader, Leaderboard } from '@haste/haste-web';
 
 // In order to clean up socket.io code from being
 // spread throughout the client application, this

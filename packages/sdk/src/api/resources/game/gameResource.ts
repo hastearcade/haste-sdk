@@ -1,4 +1,4 @@
-import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player } from '@haste-sdk/domain';
+import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player } from '@haste/domain';
 import { HasteConfiguration } from '../../../config/hasteConfiguration';
 import { BaseResource } from '../baseResource';
 

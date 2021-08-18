@@ -1,2 +1,2 @@
 export * from './api';
-export * from '@haste-sdk/domain';
+export * from '@haste/domain';

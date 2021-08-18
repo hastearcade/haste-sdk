@@ -1,5 +1,5 @@
 {
-  "name": "@haste-sdk/domain",
+  "name": "@haste/domain",
   "version": "0.0.0",
   "description": "The @haste/domain package includes common domain models and services used across the client SDK, server SDK, and the Haste CLI.",
   "contributors": [

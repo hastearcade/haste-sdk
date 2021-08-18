@@ -1,3 +1,3 @@
 export * from './api';
 export * from './config/hasteConfiguration';
-export * from '@haste-sdk/domain';
+export * from '@haste/domain';

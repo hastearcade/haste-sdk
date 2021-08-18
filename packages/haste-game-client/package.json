@@ -1,7 +1,7 @@
 {
-  "name": "@haste-sdk/haste-game-client",
+  "name": "@haste/haste-game-client",
   "version": "0.0.0",
-  "description": "The haste game client is an example of the @haste-sdk/client package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and secure ILP interactions.",
+  "description": "The haste game client is an example of the @haste/client package. It utilizes the haste arcade api to demonstrate how to leverge a shared leaderboard and secure ILP interactions.",
   "contributors": [
     "Keith LaForce <keith@playhaste.com>",
     "Eric LaForce <eric@playhaste.com>",
@@ -35,8 +35,8 @@
     "node": "16.X"
   },
   "dependencies": {
-    "@haste-sdk/sdk-client": "0.0.0",
-    "@haste-sdk/haste-game-domain": "^0.0.0",
+    "@haste/haste-web": "0.0.0",
+    "@haste/haste-game-domain": "^0.0.0",
     "axios": "^0.21.1",
     "component-emitter": "^1.3.0",
     "dotenv": "^10.0.0",

@@ -112,7 +112,7 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 ### Testing
 
-@haste/sdk utilizes Jest for running tests. To run all tests in the server package use the following command
+@haste/haste utilizes Jest for running tests. To run all tests in the server package use the following command
 
 `npm run test`
 

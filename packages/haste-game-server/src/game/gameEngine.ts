@@ -9,12 +9,12 @@ import {
   PlayerMovement,
   Star,
   Wall,
-} from '@haste-sdk/haste-game-domain';
+} from '@haste/haste-game-domain';
 import { mapMattertoHasteBody } from '../util/helper';
 import { Socket } from 'socket.io';
 import { GameEngineActionFn, GameEngineEvent, WrappedGameEngineEvent } from './gameEngineEventTypes';
 import * as listeners from './listeners';
-import { Haste, Play } from '@haste-sdk/sdk';
+import { Haste, Play } from '@haste/haste';
 
 // controls the initialization of the matter-js simulation
 // as well as managing the events throughout the system
