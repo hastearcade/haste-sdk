@@ -3,7 +3,7 @@ import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
 import { configureClient } from '../utils/auth';
 import { Auth0Client } from '@auth0/auth0-spa-js';
-import { Leaderboard } from '@haste-sdk/domain';
+import { Leaderboard } from '@haste-sdk/sdk';
 
 // The BootScene loads all the image assets,
 // displays the login and start buttons, and

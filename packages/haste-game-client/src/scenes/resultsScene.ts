@@ -3,7 +3,7 @@ import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
 import { Auth0Client } from '@auth0/auth0-spa-js';
 import { Leaderboard } from '../game-objects/leaderboard';
-import { Leader } from '@haste-sdk/domain';
+import { Leader } from '@haste-sdk/sdk';
 
 // The ResultsScene loads the leaderboard with the
 // top results

@@ -57,6 +57,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin({
       dangerouslyAllowCleanPatternsOutsideProject: true,
+      dry: false,
     }),
     new HtmlWebPackPlugin({
       title: 'Haste Game',

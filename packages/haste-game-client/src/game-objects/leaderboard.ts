@@ -1,4 +1,4 @@
-import { Leader } from '@haste-sdk/domain';
+import { Leader } from '@haste-sdk/sdk';
 import { Scene } from 'phaser';
 
 export class Leaderboard extends Phaser.GameObjects.Container {

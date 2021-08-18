@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.15.0",
-    "@haste-sdk/domain": "0.0.0",
+    "@haste-sdk/sdk": "0.0.0",
     "@haste-sdk/haste-game-domain": "^0.0.0",
     "@types/socket.io-client": "^3.0.0",
     "axios": "^0.21.1",
