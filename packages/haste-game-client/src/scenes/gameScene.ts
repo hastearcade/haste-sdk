@@ -2,9 +2,9 @@ import 'phaser';
 import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
-import { PlayerDirection } from '@haste/haste-game-domain';
+import { PlayerDirection } from '@hastearcade/haste-game-domain';
 import { Leaderboard } from '../game-objects/leaderboard';
-import { HasteClient } from '@haste/haste-web';
+import { HasteClient } from '@hastearcade/haste-web';
 
 // This is the primary rendering code for the game
 // and it accepts user input to move the player through

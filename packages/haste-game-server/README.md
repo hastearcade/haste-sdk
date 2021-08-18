@@ -6,7 +6,7 @@ The haste game server is an example an ILP based game server. It leverages [matt
 
 All game logic and scoring occurs within the haste-game-server. The client is used only to render the latest game state. No logic or scoring should occur on the client.
 
-The haste-game-server also leverages the @haste/haste to integrate with the Haste API. This supports authz, submitting scores, and retrieving information about the latest leaderboard.
+The haste-game-server also leverages the @hastearcade/haste to integrate with the Haste API. This supports authz, submitting scores, and retrieving information about the latest leaderboard.
 
 Information is transferred between the client and server using socket.io.
 
@@ -52,7 +52,7 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 ### Testing
 
-@haste/haste-game-server utilizes Jest for running tests. To run all tests in the haste-game-server package use the following command
+@hastearcade/haste-game-server utilizes Jest for running tests. To run all tests in the haste-game-server package use the following command
 
 `npm run test`
 
@@ -70,6 +70,6 @@ Please read our contribution [policy](https://github.com/playhaste/haste-sdk/blo
 
 ## Authors
 
-- Keith LaForce ([klaforce](https://github.com/klaforce/))
-- Eric LaForce ([elaforc](https://github.com/elaforc/))
+- Keith LaForce ([klaforce](https://github.com/rallieon/))
+- Eric LaForce ([elaforc](https://github.com/foundrium/))
 - Dan Wagner ([danwag06](https://github.com/danwag06))

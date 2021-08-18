@@ -1,6 +1,6 @@
 import { HasteConfiguration } from '../config';
 import { GameResource } from './resources/game/gameResource';
-import { Game, TokenRequest, TokenResponse } from '@haste/domain';
+import { Game, TokenRequest, TokenResponse } from '@hastearcade/domain';
 import axios from 'axios';
 import { buildUrl } from '../util/urlBuilder';
 import { validateAuthenticationToken } from './auth/validate';

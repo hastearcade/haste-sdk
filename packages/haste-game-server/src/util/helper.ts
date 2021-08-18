@@ -1,5 +1,5 @@
 import { Body } from 'matter-js';
-import { HasteBody } from '@haste/haste-game-domain';
+import { HasteBody } from '@hastearcade/haste-game-domain';
 
 // matter-js does not expose certain properties
 // for the actual object. Most properties on Body

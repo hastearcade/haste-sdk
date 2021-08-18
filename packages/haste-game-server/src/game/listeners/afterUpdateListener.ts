@@ -1,4 +1,4 @@
-import { HasteGameState } from '@haste/haste-game-domain';
+import { HasteGameState } from '@hastearcade/haste-game-domain';
 import Matter, { Body } from 'matter-js';
 import { mapMattertoHasteBody } from '../../util/helper';
 import { GameEngine } from '../gameEngine';

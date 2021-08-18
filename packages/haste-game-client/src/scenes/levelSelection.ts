@@ -2,8 +2,8 @@ import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
 import { Levels } from '../game-objects/levels';
-import { HasteGameState } from '@haste/haste-game-domain';
-import { HasteClient } from '@haste/haste-web';
+import { HasteGameState } from '@hastearcade/haste-game-domain';
+import { HasteClient } from '@hastearcade/haste-web';
 
 // The LevelSelectionScene loads the levels available
 // from the arcade and allows the user to select

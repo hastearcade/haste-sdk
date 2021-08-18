@@ -2,7 +2,7 @@
 
 ## Overview
 
-A monorepo that contains the tooling required to create games quickly and easily for the [Haste Arcade](https://www.playhaste.com/). Additionally it includes a sample game to provide a comprehensive example of how the Haste SDK can be used.
+A monorepo that contains the tooling required to create games quickly and easily for the [Haste Arcade](https://playhaste.com/). Additionally it includes a sample game to provide a comprehensive example of how the Haste SDK can be used.
 
 Initially, TypeScript and JavaScript will be the only supported SDKs, but long term Haste will build SDKs for other technology stacks and will help support community driven SDKs. Haste plans to keep client SDKs open source to ensure a good developer experience and will make available documented APIs.
 
@@ -148,8 +148,8 @@ Please read our contribution [policy](https://github.com/playhaste/haste-sdk/blo
 
 ## Authors
 
-- Keith LaForce ([klaforce](https://github.com/klaforce/))
-- Eric LaForce ([elaforc](https://github.com/elaforc/))
+- Keith LaForce ([klaforce](https://github.com/rallieon/))
+- Eric LaForce ([elaforc](https://github.com/foundrium/))
 - Dan Wagner ([danwag06](https://github.com/danwag06))
 
 ```

@@ -1,5 +1,5 @@
 import { GameEngine } from '../game/gameEngine';
-import { Haste } from '@haste/haste';
+import { Haste } from '@hastearcade/haste';
 import { Socket } from 'socket.io';
 
 // create strong types for socket.io

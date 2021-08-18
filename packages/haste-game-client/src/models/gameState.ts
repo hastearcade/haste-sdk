@@ -1,4 +1,4 @@
-import { HasteClient } from '@haste/haste-web';
+import { HasteClient } from '@hastearcade/haste-web';
 
 // This is a way to type a simple
 // JavaScript object to pass the haste

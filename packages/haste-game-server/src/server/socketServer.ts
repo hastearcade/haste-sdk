@@ -5,10 +5,10 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 import { ExtendedError } from 'socket.io/dist/namespace';
 import { GameEngine } from '../game/gameEngine';
-import { Haste } from '@haste/haste';
+import { Haste } from '@hastearcade/haste';
 import { SocketActionFn, SocketMessage, WrappedServerSocket } from './socketServerTypes';
 import * as listeners from './listeners';
-import { PlayerMovement } from '@haste/haste-game-domain';
+import { PlayerMovement } from '@hastearcade/haste-game-domain';
 
 // The socket server is the primary communication mechanism
 // between the game client and the game server. On the client its

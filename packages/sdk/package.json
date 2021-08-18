@@ -1,13 +1,13 @@
 {
-  "name": "@haste/haste",
+  "name": "@hastearcade/haste",
   "version": "0.0.0",
   "description": "The sdk to be used to empower developers to leverage the Haste Arcade. The SDK is intended to be used in server side code alongside the developers game logic.",
   "contributors": [
-    "Keith LaForce <keith@playhaste.com>",
-    "Eric LaForce <eric@playhaste.com>",
-    "Dan Wagner <dan@playhaste.com>"
+    "Keith LaForce <keith@hastearcade.com>",
+    "Eric LaForce <eric@hastearcade.com>",
+    "Dan Wagner <dan@hastearcade.com>"
   ],
-  "homepage": "https://playhaste.com",
+  "homepage": "https://hastearcade.com",
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -30,11 +30,19 @@
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
   "dependencies": {
-    "@haste/domain": "0.0.0",
+    "@hastearcade/domain": "0.0.0",
     "axios": "^0.21.1",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.4"
   },
+  "keywords": [
+    "haste",
+    "game",
+    "arcade",
+    "ilp",
+    "bsv",
+    "payout"
+  ],
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/jsonwebtoken": "^8.5.4",

@@ -1,5 +1,5 @@
 import { GameEngine } from '../../game/gameEngine';
-import { PlayerMovement } from '@haste/haste-game-domain';
+import { PlayerMovement } from '@hastearcade/haste-game-domain';
 
 // this listener is fired when the haste game client
 // emits the playerUpdate event. The message contains

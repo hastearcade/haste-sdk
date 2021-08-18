@@ -112,7 +112,7 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 ### Testing
 
-@haste/haste utilizes Jest for running tests. To run all tests in the server package use the following command
+@hastearcade/haste utilizes Jest for running tests. To run all tests in the server package use the following command
 
 `npm run test`
 
@@ -130,6 +130,6 @@ Please read our contribution [policy](https://github.com/playhaste/haste-sdk/blo
 
 ## Authors
 
-- Keith LaForce ([klaforce](https://github.com/klaforce/))
-- Eric LaForce ([elaforc](https://github.com/elaforc/))
+- Keith LaForce ([klaforce](https://github.com/rallieon/))
+- Eric LaForce ([elaforc](https://github.com/foundrium/))
 - Dan Wagner ([danwag06](https://github.com/danwag06))

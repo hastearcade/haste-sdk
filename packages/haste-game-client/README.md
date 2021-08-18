@@ -47,7 +47,7 @@ The haste-game-client can only be run in conjunction with the haste-game-server.
 
 ### Testing
 
-@haste/haste-game-client utilizes Jest for running tests. To run all tests in the haste-game-client package use the following command
+@hastearcade/haste-game-client utilizes Jest for running tests. To run all tests in the haste-game-client package use the following command
 
 `npm run test`
 
@@ -65,6 +65,6 @@ Please read our contribution [policy](https://github.com/playhaste/haste-sdk/blo
 
 ## Authors
 
-- Keith LaForce ([klaforce](https://github.com/klaforce/))
-- Eric LaForce ([elaforc](https://github.com/elaforc/))
+- Keith LaForce ([klaforce](https://github.com/rallieon/))
+- Eric LaForce ([elaforc](https://github.com/foundrium/))
 - Dan Wagner ([danwag06](https://github.com/danwag06))

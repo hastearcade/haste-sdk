@@ -1,4 +1,4 @@
-import { Haste, Play } from '@haste/haste';
+import { Haste, Play } from '@hastearcade/haste';
 import { GameEngine } from '../../game/gameEngine';
 export function logoutListener(_1, haste: Haste, engine: GameEngine) {
   if (engine.currentPlay && engine.currentPlay.id && engine.currentPlay.id.length > 0) {
