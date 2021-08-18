@@ -29,6 +29,7 @@ export class Haste {
     const response = await axios.get<Game>(`${url}${path}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
+
     return response.data;
   }
 
@@ -45,7 +46,7 @@ export class Haste {
     }
 
     if (!configuration) {
-      throw new Error(`You must provide a hate configuration.`);
+      throw new Error(`You must provide a haste configuration.`);
     }
 
     const url = buildUrl(configuration.hostProtocol, configuration.host, configuration.port);

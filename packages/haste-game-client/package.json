@@ -10,7 +10,6 @@
   "homepage": "https://playhaste.com",
   "license": "MIT",
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "repository": {
     "type": "git",

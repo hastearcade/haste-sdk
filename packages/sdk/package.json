@@ -10,7 +10,6 @@
   "homepage": "https://playhaste.com",
   "license": "MIT",
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "repository": {
     "type": "git",
@@ -18,7 +17,7 @@
   },
   "scripts": {
     "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
-    "build": "tsc -b && tsc -b tsconfig.cjs.json",
+    "build": "tsc -b",
     "prepare": "npm run clean && npm run build",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",

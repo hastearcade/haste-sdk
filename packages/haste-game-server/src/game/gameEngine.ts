@@ -56,7 +56,6 @@ export class GameEngine {
     this.currentPlay = new Play();
     this.gameOver = false;
     this.score = 0;
-    this.runner = new Runner();
 
     this.init();
   }

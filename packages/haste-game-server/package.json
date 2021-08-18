@@ -10,7 +10,6 @@
   "homepage": "https://playhaste.com",
   "license": "MIT",
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "repository": {
     "type": "git",
@@ -21,13 +20,14 @@
   },
   "scripts": {
     "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
-    "build": "tsc -b && tsc -b tsconfig.cjs.json",
+    "build": "tsc -b",
+    "build:watch": "tsc -b -w",
     "prepare": "npm run clean && npm run build",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
-    "start:dev": "nodemon --config nodemon.json src/index.ts",
-    "start": "node dist/esm/index.js",
+    "start:dev": "concurrently --kill-others \"npm run build:watch\" \"nodemon --config nodemon.json src/index.ts\"",
+    "start": "node dist/cjs/index.js",
     "prestart": "npm run build"
   },
   "lint-staged": {
