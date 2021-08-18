@@ -9,15 +9,17 @@
   ],
   "homepage": "https://playhaste.com",
   "license": "MIT",
-  "main": "dist/index",
-  "types": "dist/index",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/playhaste/haste-sdk.git"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "clean": "rimraf -rf ./dist ./coverage",
+    "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
+    "build": "tsc -b && tsc -b tsconfig.cjs.json",
+    "prepare": "npm run clean && npm run build",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\""

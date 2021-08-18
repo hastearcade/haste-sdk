@@ -1,3 +1,10 @@
 {
-  "extends": "../../tsconfig.json"
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist/esm"
+  },
+  "include": ["src"],
+  "exclude": ["**/__tests__/**/*"],
+  "references": [{ "path": "../sdk" }, { "path": "../domain" }, { "path": "../haste-game-domain" }]
 }

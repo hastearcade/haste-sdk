@@ -33,7 +33,8 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
-              configFile: 'tsconfig.build.json',
+              configFile: 'tsconfig.json',
+              projectReferences: true,
             },
           },
         ],
@@ -54,7 +55,9 @@ module.exports = {
     },
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      dangerouslyAllowCleanPatternsOutsideProject: true,
+    }),
     new HtmlWebPackPlugin({
       title: 'Haste Game',
     }),

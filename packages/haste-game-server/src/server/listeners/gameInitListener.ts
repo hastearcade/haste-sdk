@@ -1,7 +1,7 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { GameEngine } from '../../game/gameEngine';
 import { Haste } from '@haste-sdk/sdk';
-import { Leaderboard, Player, UserDetails } from '@haste-sdk/domain';
+import { Leaderboard, Player } from '@haste-sdk/domain';
 import { Socket } from 'socket.io';
 
 // This is called when the user hits "start" in
@@ -16,10 +16,8 @@ export async function gameInitListener(
   socket: Socket,
   leaderboardId: string,
 ) {
-  // eslint-disable-next-line no-console
-  console.log(jwt);
-  const metadata = jwt['http://haste/metadata'] as UserDetails;
-  const player = new Player(metadata.playerId);
+  const playerId = jwt['https://hastearcade.com/playerId'] as string;
+  const player = new Player(playerId);
   const play = await haste.game.play(player, new Leaderboard(leaderboardId));
   engine.currentPlay = play;
 

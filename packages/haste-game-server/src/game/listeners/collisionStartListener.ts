@@ -25,6 +25,8 @@ export function collisionStartListener(
       const bodyToMove = pair.bodyA.label.indexOf('Bomb') >= 0 ? pair.bodyA : pair.bodyB;
       const bombBody = engine.world.bodies.find((b) => b.label === bodyToMove.label);
 
+      if (!bombBody) throw new Error(`A bomb could not be found with label ${bodyToMove.label}`);
+
       Body.setVelocity(bombBody, { x: Matter.Common.random(-1, 1) * 10, y: 12 });
     }
 
@@ -52,6 +54,8 @@ export function collisionStartListener(
       engine.score += 10;
       const bodyToRemove = pair.bodyA.label.indexOf('Star') >= 0 ? pair.bodyA : pair.bodyB;
       const star = engine.stars.find((s) => s.body.name === bodyToRemove.label);
+
+      if (!star) throw new Error(`A star could not be found with id ${bodyToRemove.label}`);
       star.disabled = true;
 
       Body.setPosition(bodyToRemove, { x: 1000, y: 1000 });

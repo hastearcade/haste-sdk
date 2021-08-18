@@ -2,6 +2,10 @@ import { BaseEntity } from './baseEntity';
 
 export class Player extends BaseEntity {
   isUp: boolean;
+  constructor() {
+    super();
+    this.isUp = false;
+  }
 }
 
 export enum PlayerDirection {
@@ -11,4 +15,8 @@ export enum PlayerDirection {
 }
 export class PlayerMovement {
   direction: PlayerDirection;
+
+  constructor() {
+    this.direction = PlayerDirection.LEFT;
+  }
 }

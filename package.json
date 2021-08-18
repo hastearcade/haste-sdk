@@ -1,22 +1,23 @@
 {
   "name": "root",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "test": "lerna exec -- npm run test",
-    "pretest": "lerna exec -- npm run build",
-    "lint": "lerna exec -- npm run lint",
-    "bootstrap": "lerna bootstrap --hoist",
-    "build": "lerna exec -- npm run build",
-    "pretty": "lerna exec -- npm run pretty",
-    "clean": "lerna exec -- npm run clean",
+    "clean": "npm run clean --workspaces",
+    "lint": "npm run lint --workspaces",
     "prepare": "husky install",
-    "cli": "./packages/cli/bin/run",
-    "postinstall": "npm run bootstrap"
+    "pretty": "npm run pretty --workspaces",
+    "test": "npm run test --workspaces",
+    "build": "npm run build --workspaces"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^6.0.0",
-    "lerna": "^4.0.0"
+    "@types/node": "^14.14.36",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "engines": {
     "node": "16.X"

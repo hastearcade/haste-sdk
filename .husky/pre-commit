@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-lerna run --concurrency 1 lint
-lerna run --concurrency 1 pretty
+npm run pretty
+npm run lint

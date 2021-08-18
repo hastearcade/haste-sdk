@@ -13,5 +13,11 @@ export class Game {
 
   constructor(id: string) {
     this.id = id;
+    this.name = '';
+    this.description = '';
+    this.category = '';
+    this.url = '';
+    this.leaderboards = [];
+    this.playerId = '';
   }
 }

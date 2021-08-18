@@ -6,6 +6,14 @@ export class Score {
   updatedAt: Date;
   deletedAt?: Date;
   deleted?: boolean;
+
+  constructor() {
+    this.id = '';
+    this.playId = '';
+    this.score = 0;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
 }
 
 export class CreateScore {

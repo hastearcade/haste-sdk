@@ -12,7 +12,7 @@ export class Haste {
     this.game = new GameResource(this.configuration, gameDetails);
   }
 
-  private static async getJwt(clientId: string, clientSecret: string, url: string) {
+  private static async getJwt(clientId: string, clientSecret: string, url: string): Promise<TokenResponse> {
     const path = '/oauth/writetoken';
     const payload: TokenRequest = {
       clientId,
@@ -20,20 +20,16 @@ export class Haste {
     };
 
     const response = await axios.post<TokenResponse>(`${url}${path}`, payload);
-    const tokenResponse = response.data;
-
-    return tokenResponse;
+    return response.data;
   }
 
-  private static async getGameDetails(accessToken: string, url: string, gameId: string) {
+  private static async getGameDetails(accessToken: string, url: string, gameId: string): Promise<Game> {
     const path = `/developergames/${gameId}`;
 
     const response = await axios.get<Game>(`${url}${path}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    const gameDetails = response.data;
-
-    return gameDetails;
+    return response.data;
   }
 
   public static async build(
@@ -46,6 +42,10 @@ export class Haste {
     }
     if (!clientSecret || clientSecret.length === 0) {
       throw new Error(`You must initialize Haste with a client secret.`);
+    }
+
+    if (!configuration) {
+      throw new Error(`You must provide a hate configuration.`);
     }
 
     const url = buildUrl(configuration.hostProtocol, configuration.host, configuration.port);

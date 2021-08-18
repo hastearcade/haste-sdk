@@ -8,5 +8,7 @@ export class Leaderboard {
 
   constructor(id: string) {
     this.id = id;
+    this.name = '';
+    this.cost = 0;
   }
 }

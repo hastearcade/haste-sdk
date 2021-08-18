@@ -46,6 +46,7 @@ export class ResultsScene extends Phaser.Scene {
     await new Promise((resolve) => {
       const hasteGame = this.game as HasteGame;
       hasteGame.socketManager.logoutEvent.emit();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.auth0.logout({
         returnTo: window.location.origin,
       });

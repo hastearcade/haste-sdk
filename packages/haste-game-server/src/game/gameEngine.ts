@@ -46,6 +46,18 @@ export class GameEngine {
     this.world = this.engine.world;
     this.socket = socket;
 
+    this.player = new Player();
+    this.floor = new Floor();
+    this.leftWall = new Wall();
+    this.rightWall = new Wall();
+    this.bombs = [];
+    this.stars = [];
+    this.platforms = [];
+    this.currentPlay = new Play();
+    this.gameOver = false;
+    this.score = 0;
+    this.runner = new Runner();
+
     this.init();
   }
 
@@ -86,6 +98,8 @@ export class GameEngine {
   movePlayer(movement: PlayerMovement) {
     if (!this.gameOver) {
       const playerBody = this.world.bodies.find((b) => b.label === `Player`);
+      if (!playerBody) throw new Error(`A player could not be found in the world.`);
+
       if (movement.direction === PlayerDirection.LEFT) {
         Body.applyForce(playerBody, { x: playerBody.position.x, y: playerBody.position.y }, { x: -0.001, y: 0 });
       }

@@ -47,6 +47,7 @@ export class SocketServer {
         hostProtocol: process.env.HASTE_API_PROTOCOL,
         host: process.env.HASTE_API_HOST,
         port: parseInt(process.env.HASTE_API_PORT, 10),
+        accessToken: '',
       });
 
       const gameEngine = new GameEngine(socket, haste);

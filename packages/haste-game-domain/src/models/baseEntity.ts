@@ -11,4 +11,10 @@ export class BaseEntity {
   body: HasteBody;
   width: number;
   height: number;
+
+  constructor() {
+    this.body = new HasteBody();
+    this.width = 0;
+    this.height = 0;
+  }
 }

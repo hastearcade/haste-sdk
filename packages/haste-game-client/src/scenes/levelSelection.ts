@@ -24,27 +24,21 @@ export class LevelSelectionScene extends Phaser.Scene {
     const hasteGame = this.game as HasteGame;
     this.auth0 = data.auth;
     this.addLogoutButton();
-    this.levels = new Levels(
-      this,
-      300,
-      100,
-      hasteGame.leaderboards,
-      async (leaderboardId: string): Promise<void> => {
-        return new Promise<void>((resolve) => {
-          hasteGame.socketManager.gameInitCompletedEvent.on((data: HasteGameState) => {
-            hasteGame.state = data;
-            // once a user is authenticated and hits the start button
-            // transition to the main game. Pass in auth0 to support the logout
-            // button
-            this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
-          });
-
-          hasteGame.selectedLeaderboardId = leaderboardId;
-          hasteGame.socketManager.gameInitEvent.emit(leaderboardId);
-          resolve();
+    this.levels = new Levels(this, 300, 100, hasteGame.leaderboards, async (leaderboardId: string): Promise<void> => {
+      return new Promise<void>((resolve) => {
+        hasteGame.socketManager.gameInitCompletedEvent.on((data: HasteGameState) => {
+          hasteGame.state = data;
+          // once a user is authenticated and hits the start button
+          // transition to the main game. Pass in auth0 to support the logout
+          // button
+          this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
         });
-      },
-    );
+
+        hasteGame.selectedLeaderboardId = leaderboardId;
+        hasteGame.socketManager.gameInitEvent.emit(leaderboardId);
+        resolve();
+      });
+    });
     this.add.existing(this.levels);
   }
 
@@ -63,6 +57,7 @@ export class LevelSelectionScene extends Phaser.Scene {
     await new Promise((resolve) => {
       const hasteGame = this.game as HasteGame;
       hasteGame.socketManager.logoutEvent.emit();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.auth0.logout({
         returnTo: window.location.origin,
       });

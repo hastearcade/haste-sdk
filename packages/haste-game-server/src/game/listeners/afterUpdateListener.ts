@@ -22,18 +22,27 @@ export function afterUpdateListener(
     for (let i = 0; i < 12; i++) {
       engine.stars[i].disabled = false;
       const newStar = engine.world.bodies.find((b) => b.label === `Star${i}`);
+
+      if (!newStar) throw new Error(`A star is missing from the world with label Star${i}`);
+
       Body.setPosition(newStar, { x: 12 + 70 * i, y: 0 });
     }
   }
 
-  engine.player.body = mapMattertoHasteBody(engine.world.bodies.find((b) => b.label === `Player`));
+  const player = engine.world.bodies.find((b) => b.label === `Player`);
+  if (!player) throw new Error(`The player could not be found`);
+  engine.player.body = mapMattertoHasteBody(player);
 
   engine.stars.forEach((s, idx) => {
-    s.body = mapMattertoHasteBody(engine.world.bodies.find((b) => b.label === `Star${idx}`));
+    const star = engine.world.bodies.find((b) => b.label === `Star${idx}`);
+    if (!star) throw new Error(`A star could not be found with id Star${idx}`);
+    s.body = mapMattertoHasteBody(star);
   });
 
   engine.bombs.forEach((b, idx) => {
-    b.body = mapMattertoHasteBody(engine.world.bodies.find((b) => b.label === `Bomb${idx}`));
+    const bomb = engine.world.bodies.find((b) => b.label === `Bomb${idx}`);
+    if (!bomb) throw new Error(`A bomb with id Bomb${idx} could not be found`);
+    b.body = mapMattertoHasteBody(bomb);
   });
 
   const state = new HasteGameState(

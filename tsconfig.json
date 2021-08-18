@@ -1,10 +1,22 @@
 {
-  "extends": "./tsconfig.build.json",
-
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@haste-sdk/*": ["./packages/*/src"]
-    }
-  }
+    "module": "esnext",
+    "declaration": true,
+    "declarationMap": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "esnext",
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "downlevelIteration": true,
+    "moduleResolution": "node"
+  },
+  "exclude": ["node_modules"]
 }
