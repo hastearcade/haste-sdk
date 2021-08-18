@@ -36,6 +36,7 @@ export class HasteClient {
   }
 
   public async getTokenSilently() {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await this.auth0Client.getTokenSilently();
   }
 

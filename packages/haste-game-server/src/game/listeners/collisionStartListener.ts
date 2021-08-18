@@ -42,8 +42,10 @@ export function collisionStartListener(
       World.clear(engine.engine.world, false);
 
       // submit the score to the haste api
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      haste.game.score(engine.currentPlay, engine.currentPlay.leaderboard, engine.score);
+      if (engine.currentPlay && engine.currentPlay.id && engine.currentPlay.id.length > 0) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        haste.game.score(engine.currentPlay, engine.currentPlay.leaderboard, engine.score);
+      }
       engine.socket.emit('gameOver');
     }
 
