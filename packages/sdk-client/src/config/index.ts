@@ -1,0 +1,1 @@
+export { HasteClientConfiguration } from './hasteClientConfiguration';

@@ -4,6 +4,7 @@ import { Game, TokenRequest, TokenResponse } from '@haste-sdk/domain';
 import axios from 'axios';
 import { buildUrl } from '../util/urlBuilder';
 import { validateAuthenticationToken } from './auth/validate';
+import { isBrowser } from '../util/environmentCheck';
 export class Haste {
   private configuration?: HasteConfiguration;
   game: GameResource;
@@ -34,7 +35,8 @@ export class Haste {
     return response.data;
   }
 
-  public static async authenticate(playerAccessToken: string, authUrl = 'haste-production.us.auth0.com') {
+  public static async validatePlayerAccess(playerAccessToken: string, authUrl = 'haste-production.us.auth0.com') {
+    if (isBrowser()) throw new Error(`validatePlayerAccess may only be called from a server environment.`);
     const jwt = await validateAuthenticationToken(playerAccessToken, authUrl);
     const playerId = jwt['https://hastearcade.com/playerId'] as string;
     return playerId;
@@ -45,6 +47,8 @@ export class Haste {
     clientSecret: string,
     configuration?: HasteConfiguration,
   ): Promise<Haste> {
+    if (isBrowser()) throw new Error(`build may only be called from a server environment.`);
+
     if (!clientId || clientId.length === 0) {
       throw new Error(`You must initialize Haste with a client id.`);
     }

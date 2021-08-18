@@ -1,7 +1,6 @@
 import { Floor, HasteGameState, Player } from '@haste-sdk/haste-game-domain';
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { SocketManager } from '../socket/socketManager';
-import { Leaderboard } from '@haste-sdk/sdk';
+import { HasteClient, Leaderboard } from '@haste-sdk/sdk-client';
 
 export class HasteGame extends Phaser.Game {
   state: HasteGameState;
@@ -16,12 +15,12 @@ export class HasteGame extends Phaser.Game {
 
   // the haste game client integrates with haste-game-server using
   // socket.io. In order to ensure a secure connection between client
-  // and server, a JWT from the auth0 game is leveraged. This JWT will
+  // and server, a JWT from the haste game is leveraged. This JWT will
   // contain the necessary information necessary to validate the client
   // to the server, and contain the player id from the user metadata
-  async setupSocket(auth0: Auth0Client) {
+  async setupSocket(hasteClient: HasteClient) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const token = await auth0.getTokenSilently();
+    const token = await hasteClient.getTokenSilently();
     const serverUrl = `${process.env.SERVER_PROTOCOL}://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`;
     this.socketManager = new SocketManager(serverUrl, token);
 

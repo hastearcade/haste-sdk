@@ -1,14 +1,13 @@
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { Leaderboard } from '../game-objects/leaderboard';
-import { Leader } from '@haste-sdk/sdk';
+import { HasteClient, Leader } from '@haste-sdk/sdk-client';
 
 // The ResultsScene loads the leaderboard with the
 // top results
 export class ResultsScene extends Phaser.Scene {
-  private auth0: Auth0Client;
+  private hasteClient: HasteClient;
   logoutButton: Button;
   leaderboard: Leaderboard;
 
@@ -20,7 +19,7 @@ export class ResultsScene extends Phaser.Scene {
 
   init(data: GameSceneData) {
     const hasteGame = this.game as HasteGame;
-    this.auth0 = data.auth;
+    this.hasteClient = data.hasteClient;
     this.addLogoutButton();
 
     hasteGame.socketManager.gameGetLeadersCompletedEvent.on((data: Leader[]) => {
@@ -47,9 +46,7 @@ export class ResultsScene extends Phaser.Scene {
       const hasteGame = this.game as HasteGame;
       hasteGame.socketManager.logoutEvent.emit();
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.auth0.logout({
-        returnTo: window.location.origin,
-      });
+      this.hasteClient.logout();
       resolve(undefined);
     });
   }

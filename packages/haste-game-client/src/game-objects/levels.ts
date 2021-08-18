@@ -1,4 +1,4 @@
-import { Leaderboard } from '@haste-sdk/sdk';
+import { Leaderboard } from '@haste-sdk/sdk-client';
 import { Scene } from 'phaser';
 import { Button } from './button';
 

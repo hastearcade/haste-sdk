@@ -1,0 +1,1 @@
+export { HasteClient } from './hasteClient';

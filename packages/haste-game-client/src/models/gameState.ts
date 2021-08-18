@@ -1,9 +1,9 @@
-import { Auth0Client } from '@auth0/auth0-spa-js';
+import { HasteClient } from '@haste-sdk/sdk-client';
 
 // This is a way to type a simple
-// JavaScript object to pass the auth0
+// JavaScript object to pass the haste
 // client between scenes to support the
 // login and logout buttons
 export class GameSceneData {
-  auth: Auth0Client;
+  hasteClient: HasteClient;
 }

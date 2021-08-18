@@ -1,16 +1,16 @@
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { Levels } from '../game-objects/levels';
 import { HasteGameState } from '@haste-sdk/haste-game-domain';
+import { HasteClient } from '@haste-sdk/sdk-client';
 
 // The LevelSelectionScene loads the levels available
 // from the arcade and allows the user to select
 // which level they will play. Each level will
 // have a different cost associated with it.
 export class LevelSelectionScene extends Phaser.Scene {
-  private auth0: Auth0Client;
+  private hasteClient: HasteClient;
   logoutButton: Button;
   levels: Levels;
 
@@ -22,16 +22,16 @@ export class LevelSelectionScene extends Phaser.Scene {
 
   init(data: GameSceneData) {
     const hasteGame = this.game as HasteGame;
-    this.auth0 = data.auth;
+    this.hasteClient = data.hasteClient;
     this.addLogoutButton();
     this.levels = new Levels(this, 300, 100, hasteGame.leaderboards, async (leaderboardId: string): Promise<void> => {
       return new Promise<void>((resolve) => {
         hasteGame.socketManager.gameInitCompletedEvent.on((data: HasteGameState) => {
           hasteGame.state = data;
           // once a user is authenticated and hits the start button
-          // transition to the main game. Pass in auth0 to support the logout
+          // transition to the main game. Pass in authentication service to support the logout
           // button
-          this.scene.start('GameScene', { auth: this.auth0 } as GameSceneData);
+          this.scene.start('GameScene', { hasteClient: this.hasteClient } as GameSceneData);
         });
 
         hasteGame.selectedLeaderboardId = leaderboardId;
@@ -58,9 +58,7 @@ export class LevelSelectionScene extends Phaser.Scene {
       const hasteGame = this.game as HasteGame;
       hasteGame.socketManager.logoutEvent.emit();
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.auth0.logout({
-        returnTo: window.location.origin,
-      });
+      this.hasteClient.logout();
       resolve(undefined);
     });
   }

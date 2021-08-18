@@ -76,7 +76,7 @@ export class SocketServer {
 
   private jwtMiddleware = (socket: Socket, next: (err?: ExtendedError) => void) => {
     if (socket.handshake.auth && socket.handshake.auth.token) {
-      Haste.authenticate(socket.handshake.auth.token, process.env.AUTH_URL)
+      Haste.validatePlayerAccess(socket.handshake.auth.token, process.env.AUTH_URL)
         .then((playerId) => {
           this.playerId = playerId;
           next();

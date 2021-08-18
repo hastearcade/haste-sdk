@@ -1,9 +1,7 @@
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
-import { configureClient } from '../utils/auth';
-import { Auth0Client } from '@auth0/auth0-spa-js';
-import { Leaderboard } from '@haste-sdk/sdk';
+import { Leaderboard, HasteClient } from '@haste-sdk/sdk-client';
 
 // The BootScene loads all the image assets,
 // displays the login and start buttons, and
@@ -13,8 +11,8 @@ export class BootScene extends Phaser.Scene {
   private progressBar: Phaser.GameObjects.Graphics;
   private loginButton: Button;
   private startButton: Button;
-  private auth0: Auth0Client;
   private isAuthenticated: boolean;
+  private hasteClient: HasteClient;
 
   constructor() {
     super({
@@ -22,37 +20,35 @@ export class BootScene extends Phaser.Scene {
     });
   }
 
-  // This will take the user to the auth0
+  // This will take the user to the authentication
   // universal login screen and then redirect
   // back to the game. It assumes that your game
   // has the appropriately configured callback
   // urls.
   async login() {
-    await this.auth0.loginWithRedirect({
-      redirect_uri: window.location.origin,
-    });
+    await this.hasteClient.loginWithRedirect();
   }
 
   async init(): Promise<void> {
-    this.auth0 = await configureClient();
+    this.hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID, process.env.AUTH_URL);
     const query = window.location.search;
 
     // this is necessary to handle the redirect from the universal
     // login screen
     if (query.includes('code=') && query.includes('state=')) {
-      await this.auth0.handleRedirectCallback();
-      this.isAuthenticated = await this.auth0.isAuthenticated();
+      await this.hasteClient.handleRedirectCallback();
+      this.isAuthenticated = await this.hasteClient.isAuthenticated();
       window.history.replaceState({}, document.title, '/');
       if (this.isAuthenticated) {
         const hasteGame = this.game as HasteGame;
-        await hasteGame.setupSocket(this.auth0);
+        await hasteGame.setupSocket(this.hasteClient);
       }
     } else {
       // this else is used for other page loads when a user is likely already authenticated
-      this.isAuthenticated = await this.auth0.isAuthenticated();
+      this.isAuthenticated = await this.hasteClient.isAuthenticated();
       if (this.isAuthenticated) {
         const hasteGame = this.game as HasteGame;
-        await hasteGame.setupSocket(this.auth0);
+        await hasteGame.setupSocket(this.hasteClient);
       }
     }
   }
@@ -74,7 +70,7 @@ export class BootScene extends Phaser.Scene {
           this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
             hasteGame.socketManager.gameGetLevelsCompletedEvent.on((data: Leaderboard[]) => {
               hasteGame.leaderboards = data;
-              this.scene.start('LevelSelectionScene', { auth: this.auth0 } as GameSceneData);
+              this.scene.start('LevelSelectionScene', { hasteClient: this.hasteClient } as GameSceneData);
             });
 
             hasteGame.socketManager.gameGetLevelsEvent.emit();

@@ -1,10 +1,10 @@
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import 'phaser';
 import { Button } from '../game-objects/button';
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { PlayerDirection } from '@haste-sdk/haste-game-domain';
 import { Leaderboard } from '../game-objects/leaderboard';
+import { HasteClient } from '@haste-sdk/sdk-client';
 
 // This is the primary rendering code for the game
 // and it accepts user input to move the player through
@@ -21,7 +21,7 @@ export class GameScene extends Phaser.Scene {
   gameOver: boolean;
   logoutButton: Button;
   leaderboard: Leaderboard;
-  auth0: Auth0Client;
+  hasteClient: HasteClient;
 
   constructor() {
     super('GameScene');
@@ -30,7 +30,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   init(data: GameSceneData) {
-    this.auth0 = data.auth;
+    this.hasteClient = data.hasteClient;
     const hasteGame = this.game as HasteGame;
 
     this.initializeSprites(hasteGame);
@@ -47,7 +47,7 @@ export class GameScene extends Phaser.Scene {
       this.playerSprite.setTint(0xff0000);
       this.playerSprite.anims.play('turn');
       this.gameOver = true;
-      this.scene.start('ResultsScene', { auth: this.auth0 } as GameSceneData);
+      this.scene.start('ResultsScene', { hasteClient: this.hasteClient } as GameSceneData);
     });
 
     hasteGame.socketManager.gameStartEvent.emit();
@@ -98,9 +98,7 @@ export class GameScene extends Phaser.Scene {
       const hasteGame = this.game as HasteGame;
       hasteGame.socketManager.logoutEvent.emit();
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.auth0.logout({
-        returnTo: window.location.origin,
-      });
+      this.hasteClient.logout();
       resolve(undefined);
     });
   }
