@@ -148,8 +148,8 @@ Please read our contribution [policy](https://github.com/playhaste/haste-sdk/blo
 
 ## Authors
 
-- Keith LaForce ([klaforce](https://github.com/rallieon/))
-- Eric LaForce ([elaforc](https://github.com/foundrium/))
+- Keith LaForce ([rallieon](https://github.com/rallieon/))
+- Eric LaForce ([foundrium](https://github.com/foundrium/))
 - Dan Wagner ([danwag06](https://github.com/danwag06))
 
 ```
