@@ -17,7 +17,6 @@
   },
   "scripts": {
     "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
-    "prepare": "npm run clean && npm run build",
     "build": "if-env NODE_ENV=production && (rimraf dist && webpack --config webpack.production.js --progress && cp -R src/assets dist/assets) || (rimraf dist && webpack --config webpack.development.js)",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
