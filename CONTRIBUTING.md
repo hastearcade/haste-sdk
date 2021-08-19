@@ -72,7 +72,7 @@ In order to maintain consistency in the coding style of the project, the haste d
 
 #### Package naming
 
-All package names should scoped to `@haste`. For example, the `haste-sdk` has packages `@hastearcade/domain` and `@hastearcade/client`.
+All package names should scoped to `@haste`. For example, the `haste-sdk` has packages `@hastearcade/models` and `@hastearcade/client`.
 
 #### Tooling
 

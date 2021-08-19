@@ -5,7 +5,7 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 import { ExtendedError } from 'socket.io/dist/namespace';
 import { GameEngine } from '../game/gameEngine';
-import { Haste } from '@hastearcade/haste';
+import { Haste } from '@hastearcade/server';
 import { SocketActionFn, SocketMessage, WrappedServerSocket } from './socketServerTypes';
 import * as listeners from './listeners';
 import { PlayerMovement } from '@hastearcade/haste-game-domain';

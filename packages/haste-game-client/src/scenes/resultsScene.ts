@@ -2,7 +2,7 @@ import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
 import { Leaderboard } from '../game-objects/leaderboard';
-import { HasteClient, Leader } from '@hastearcade/haste-web';
+import { HasteClient, Leader } from '@hastearcade/web';
 
 // The ResultsScene loads the leaderboard with the
 // top results

@@ -24,20 +24,20 @@ jobs:
           restore-keys: npm-
       - name: Install dependencies
         run: npm ci
-      - name: Release Domain Package
-        working-directory: ./packages/domain
+      - name: Release Models Package
+        working-directory: ./packages/models
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release
-      - name: Release SDK Package
-        working-directory: ./packages/sdk
+      - name: Release Server Package
+        working-directory: ./packages/server
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release
-      - name: Release Web SDK Package
-        working-directory: ./packages/sdk-client
+      - name: Release Web Package
+        working-directory: ./packages/web
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

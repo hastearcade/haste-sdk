@@ -1,7 +1,7 @@
 {
-  "name": "@hastearcade/haste-web",
+  "name": "@hastearcade/models",
   "version": "0.0.0",
-  "description": "The client sdk to be used to empower developers to leverage the Haste Arcade. The client SDK is intended to be used in client side code alongside the developers game logic.",
+  "description": "The @hastearcade/models package includes common domain models and services used across the client SDK, server SDK, and the Haste CLI.",
   "contributors": [
     "Keith LaForce <keith@hastearcade.com>",
     "Eric LaForce <eric@hastearcade.com>",
@@ -22,29 +22,13 @@
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
-    "semantic-release": "semantic-release -d"
+    "semantic-release": "semantic-release"
   },
   "lint-staged": {
     "*.ts": "eslint src --ext .ts --fix"
   },
   "bugs": {
     "url": "https://github.com/playhaste/haste-sdk/issues"
-  },
-  "keywords": [
-    "haste",
-    "game",
-    "arcade",
-    "ilp",
-    "bsv",
-    "payout"
-  ],
-  "dependencies": {
-    "@auth0/auth0-spa-js": "^1.17.0",
-    "@hastearcade/domain": "0.0.0",
-    "@types/axios": "^0.14.0",
-    "axios": "^0.21.1",
-    "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^2.0.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",

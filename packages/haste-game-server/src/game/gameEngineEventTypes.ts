@@ -1,4 +1,4 @@
-import { Haste } from '@hastearcade/haste';
+import { Haste } from '@hastearcade/server';
 import { GameEngine } from './gameEngine';
 
 export type GameEngineEvent = 'tick' | 'afterUpdate' | 'collisionStart';

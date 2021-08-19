@@ -1,4 +1,4 @@
-import { Leaderboard } from '@hastearcade/haste-web';
+import { Leaderboard } from '@hastearcade/web';
 import { Scene } from 'phaser';
 import { Button } from './button';
 

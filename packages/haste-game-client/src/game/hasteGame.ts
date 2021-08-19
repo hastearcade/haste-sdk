@@ -1,6 +1,6 @@
 import { Floor, HasteGameState, Player } from '@hastearcade/haste-game-domain';
 import { SocketManager } from '../socket/socketManager';
-import { HasteClient, Leaderboard } from '@hastearcade/haste-web';
+import { HasteClient, Leaderboard } from '@hastearcade/web';
 
 export class HasteGame extends Phaser.Game {
   state: HasteGameState;

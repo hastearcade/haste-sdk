@@ -1,4 +1,4 @@
-import { Haste, Play } from '@hastearcade/haste';
+import { Haste, Play } from '@hastearcade/server';
 import Matter, { Body, Engine, Runner, World } from 'matter-js';
 import { GameEngine } from '../gameEngine';
 

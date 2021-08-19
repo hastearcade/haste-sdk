@@ -1,8 +1,8 @@
-# @hastearcade/domain
+# @hastearcade/models
 
 ## Overview
 
-The @hastearcade/domain package includes common domain models and services used in the SDK. Eventually it will also be used to support tooling such as a CLI tool.
+The @hastearcade/models package includes common domain models and services used in the SDK. Eventually it will also be used to support tooling such as a CLI tool.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
@@ -33,7 +33,7 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for
 
 ### Testing
 
-@hastearcade/domain utilizes Jest for running tests. To run all tests in the domain package use the following command
+@hastearcade/models utilizes Jest for running tests. To run all tests in the domain package use the following command
 
 `pnpm run test`
 

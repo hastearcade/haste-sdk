@@ -1,5 +1,5 @@
 {
-  "name": "@hastearcade/haste",
+  "name": "@hastearcade/server",
   "version": "0.0.0",
   "description": "The sdk to be used to empower developers to leverage the Haste Arcade. The SDK is intended to be used in server side code alongside the developers game logic.",
   "contributors": [
@@ -31,7 +31,7 @@
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
   "dependencies": {
-    "@hastearcade/domain": "0.0.0",
+    "@hastearcade/models": "0.0.0",
     "axios": "^0.21.1",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.4"

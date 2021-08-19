@@ -1,7 +1,7 @@
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
-import { Leaderboard, HasteClient } from '@hastearcade/haste-web';
+import { Leaderboard, HasteClient } from '@hastearcade/web';
 
 // The BootScene loads all the image assets,
 // displays the login and start buttons, and
@@ -35,6 +35,7 @@ export class BootScene extends Phaser.Scene {
 
     // this is necessary to handle the redirect from the universal
     // login screen
+    // TODO Fix this
     if (query.includes('code=') && query.includes('state=')) {
       await this.hasteClient.handleRedirectCallback();
       this.isAuthenticated = await this.hasteClient.isAuthenticated();
