@@ -4,7 +4,7 @@ export class Game {
   id: string;
   name: string;
   description: string;
-  category: string; // TODO Change this to Enum
+  category: string;
   developerInfo?: string;
   tagLine?: string;
   url: string;
