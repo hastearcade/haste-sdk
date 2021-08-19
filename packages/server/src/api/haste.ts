@@ -48,7 +48,7 @@ export class Haste {
     clientSecret: string,
     configuration?: HasteConfiguration,
   ): Promise<Haste> {
-    if (isBrowser()) throw new Error(`build may only be called from a server environment. Do not use in browser.`);
+    if (isBrowser()) throw new Error(`build may only be called from a server environment.`);
 
     if (!clientId || clientId.length === 0) {
       throw new Error(`You must initialize Haste with a client id.`);

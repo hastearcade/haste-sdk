@@ -39,7 +39,7 @@ const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.
 
 The client id and secret are defined in the developer portal on your game page. See image below for reference:
 
-![](docs/assets/gameserverkeys.png)
+![](https://github.com/playhaste/haste-sdk/blob/main/docs/assets/gameserverkeys.png)
 
 **NOTE: It is recommneded to create an abstraction (service, lib, etc) around the haste-sdk in your codebase. This will allow you to initialize one haste object.**
 
