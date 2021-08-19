@@ -21,7 +21,8 @@
     "prepare": "npm run clean && npm run build",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
-    "pretty": "prettier --write \"src/**/*.ts\""
+    "pretty": "prettier --write \"src/**/*.ts\"",
+    "semantic-release": "semantic-release -d"
   },
   "lint-staged": {
     "*.ts": "eslint src --ext .ts --fix"
@@ -46,6 +47,8 @@
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
+    "semantic-release": "^17.4.5",
+    "semantic-release-monorepo": "^7.0.5",
     "ts-jest": "^26.5.4",
     "typescript": "^4.3.5"
   }
