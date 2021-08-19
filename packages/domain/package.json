@@ -22,7 +22,7 @@
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
-    "semantic-release": "semantic-release -d"
+    "semantic-release": "semantic-release"
   },
   "lint-staged": {
     "*.ts": "eslint src --ext .ts --fix"
