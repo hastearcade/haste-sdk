@@ -31,41 +31,35 @@ export class BootScene extends Phaser.Scene {
 
   async init(): Promise<void> {
     this.hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID, process.env.AUTH_URL);
-    const query = window.location.search;
+    this.isAuthenticated = await this.hasteClient.isAuthenticated();
 
-    // this is necessary to handle the redirect from the universal
-    // login screen
-    // TODO Fix this
-    if (query.includes('code=') && query.includes('state=')) {
-      await this.hasteClient.handleRedirectCallback();
+    await this.hasteClient.handleRedirect(async () => {
+      // This is needed again becasue once the redirect is handled its a separate callback.
       this.isAuthenticated = await this.hasteClient.isAuthenticated();
-      window.history.replaceState({}, document.title, '/');
-      if (this.isAuthenticated) {
-        const hasteGame = this.game as HasteGame;
-        await hasteGame.setupSocket(this.hasteClient);
-      }
-    } else {
-      // this else is used for other page loads when a user is likely already authenticated
-      this.isAuthenticated = await this.hasteClient.isAuthenticated();
-      if (this.isAuthenticated) {
-        const hasteGame = this.game as HasteGame;
-        await hasteGame.setupSocket(this.hasteClient);
-      }
-    }
+      const hasteGame = this.game as HasteGame;
+      await hasteGame.setupSocket(this.hasteClient);
+      this.update();
+    });
   }
 
   // As part of the Phaser lifecycle, update is called at every
   // tick. Its important not to instantite things multiple times which
   // is why the if guard is there.
   update() {
-    if (this.isAuthenticated !== undefined && this.loginButton === undefined) {
+    if (this.isAuthenticated !== undefined) {
       if (!this.isAuthenticated) {
-        this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async (): Promise<void> => {
-          return this.login();
-        });
-        this.add.existing(this.loginButton);
+        if (this.loginButton === undefined) {
+          this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async (): Promise<void> => {
+            return this.login();
+          });
+          this.add.existing(this.loginButton);
+        }
       } else {
         if (this.startButton === undefined) {
+          if (this.loginButton !== undefined) {
+            this.children.remove(this.loginButton);
+          }
+
           const hasteGame = this.game as HasteGame;
 
           this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {

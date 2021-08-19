@@ -29,6 +29,23 @@ export class HasteClient {
     );
   }
 
+  public async handleRedirect(callback: () => Promise<void>) {
+    const isAuthenticated = await this.isAuthenticated();
+    const query = window.location.search;
+
+    if (query.includes('code=') && query.includes('state=')) {
+      await this.handleRedirectCallback();
+      window.history.replaceState({}, document.title, '/');
+      if (this.isAuthenticated) {
+        await callback();
+      }
+    } else {
+      if (isAuthenticated) {
+        await callback();
+      }
+    }
+  }
+
   public logout() {
     return this.auth0Client.logout({
       returnTo: window.location.origin,
@@ -50,7 +67,7 @@ export class HasteClient {
     });
   }
 
-  public async handleRedirectCallback() {
+  private async handleRedirectCallback() {
     return await this.auth0Client.handleRedirectCallback();
   }
 }
