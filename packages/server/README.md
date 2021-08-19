@@ -39,9 +39,9 @@ const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.
 
 The client id and secret are defined in the developer portal on your game page. See image below for reference:
 
-![](docs\assets\gameserverkeys.png)
+![](docs/assets/gameserverkeys.png)
 
-NOTE: It is recommneded to create an abstraction (service, lib, etc) around the haste-sdk in your codebase. This will allow you to initialize one haste object.
+**NOTE: It is recommneded to create an abstraction (service, lib, etc) around the haste-sdk in your codebase. This will allow you to initialize one haste object.**
 
 #### Authentication
 
@@ -49,7 +49,9 @@ Integrating the Haste authentication system into your server is one of the first
 
 ```typescript
 import { Haste } from '@hastearcade/server';
+/// this is custom code specific to your server to retrieve the token from the web request
 const token = receiveTokenFromRequest();
+
 try {
   const playerId = await Haste.validatePlayerAccess(token);
   console.log(`The player authenticated has an id of ${playerId}`);
@@ -58,11 +60,30 @@ try {
 }
 ```
 
-Note: the above code does not use the haste object created from `build`. `build` and `validatePlayerAccess` are both static async functions. All other functions (get leaderboards, submit score, etc should utilize the haste object created from `build`)
+Note: the above code does not use the haste object created from `build`. `build` and `validatePlayerAccess` are both static async functions. All other functions (get leaderboards, submit score, etc should utilize the haste object created from `build`).
+
+As an example of retreieving an auth token in a socket.io based environment, here is the code from the `haste-game-server`:
+
+```typescript
+private jwtMiddleware = (socket: Socket, next: (err?: ExtendedError) => void) => {
+    if (socket.handshake.auth && socket.handshake.auth.token) {
+      Haste.validatePlayerAccess(socket.handshake.auth.token, process.env.AUTH_URL)
+        .then((playerId) => {
+          this.playerId = playerId;
+          next();
+        })
+        .catch((err: Error) => {
+          next(err);
+        });
+    } else {
+      next(new Error('Authentication error'));
+    }
+  };
+```
 
 #### Leaderboard management
 
-The Haste ecosystem currently has multiple leaderboards that can be played for every game. Each tier requires additional funds to play the game (i.e. paying a penny vs paying a quarter). Every game in the arcade must support this concept in game. Thus, most games will display a dropdown UI to allow the player to select what leaderboard they wish to participate in. In order to retrieve the list of leaderboards to show in your dropdown you can use the following:
+The Haste ecosystem currently has multiple leaderboards that can be played for every game. Each tier requires additional funds to play the game (i.e. paying a penny vs paying a "quarter"). Every game in the arcade must support this concept in game. Thus, most games will display a dropdown UI to allow the player to select what leaderboard they wish to participate in. In order to retrieve the list of leaderboards to show in your dropdown you can use the following:
 
 ```typescript
 const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
@@ -105,7 +126,7 @@ output:
 
 Once the play submission is you completed you should allow the user the play your game.
 
-_Always maintain the business logic and scoring logic server side for security reasons in your game. Do not keep score or make any important game state decisions on the client._
+**Always maintain the business logic and scoring logic server side for security reasons in your game. Do not keep score or make any important game state decisions on the client.**
 
 Upon hitting an end state for your game (i.e. the player gets hit by a bomb and dies) it is time to submit your score. To submit a score, you'll need the original play object. The play object can be maintained however you choose (memory, database, cache, etc). The score sdk method takes the current Play object, the Leaderboard the score is being submitted against, and the score.
 

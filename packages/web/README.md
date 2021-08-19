@@ -39,7 +39,7 @@ const hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
 
 The client id used here can be found in the developer portal and will be for your game _not your server_. See image below for a reference point:
 
-![](docs\assets\gameclientkeys.png)
+![](docs/assets/gameclientkeys.png)
 
 #### Login
 
