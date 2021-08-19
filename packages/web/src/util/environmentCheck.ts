@@ -14,4 +14,6 @@ export const isBrowser = () => {
   if (typeof window === 'object') {
     return true;
   }
+
+  return false; // catch all
 };
