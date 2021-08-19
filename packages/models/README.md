@@ -1,19 +1,17 @@
 # @hastearcade/models
 
+[![npm version](https://badge.fury.io/js/%40hastearcade%2Fmodels.svg)](https://badge.fury.io/js/%40hastearcade%2Fmodels)
+
 ## Overview
 
-The @hastearcade/models package includes common domain models and services used in the SDK. Eventually it will also be used to support tooling such as a CLI tool.
+The `@hastearcade/models` package includes common domain models and services used in the SDK. Eventually it will also be used to support tooling such as a CLI tool. At the current time this package should not be used on its own. Please use the `@hastearcade/server` and `@hastearcade/web` packages.
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
-
-<Add deploy badge here>
 
 ## Table of Contents
 
 - [Background and Use Case](#background)
 - [Setup](#setup)
-- [Usage](#usage)
-- [Deploy](#deploy)
 - [Documentation](#documentation)
 - [License](#license)
 - [Contributing](#contributing)
@@ -27,27 +25,20 @@ See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Background
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Setup) for a detailed setup guide.
 
-## Usage
-
-See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Usage) for a detailed usage guide.
-
-### Testing
-
-@hastearcade/models utilizes Jest for running tests. To run all tests in the domain package use the following command
-
-`pnpm run test`
-
 ## Documentation
 
-See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md#Documentation) for more documentation.
+This `README` and each package's `README` provides high-level documentation. Additionally the code has been reviewed and comments provided to aid future developers in understanding why certain decisions were made.
+
+More comprehensive documentation can be found [here](https://haste-arcade.stoplight.io/).
 
 ## License
 
-haste-sdk is currently licensed under [MIT](https://github.com/playhaste/haste-sdk/blob/main/LICENSE)
+The haste-sdk repository along with the corresponding npm packages are currently licensed under [MIT](https://github.com/playhaste/haste-sdk/blob/main/LICENSE)
 
 ## Contributing
 
-Please read our contribution [policy](https://github.com/playhaste/haste-sdk/blob/main/CONTRIBUTING.md).
+If you are a developer looking to contribute to the Haste ecosystem please review our
+[Contributing Readme](https://github.com/playhaste/haste-sdk/blob/main/ContributingReadme.md) and our [Contributing Guidelines](https://github.com/playhaste/haste-sdk/blob/main/CONTRIBUTING.md)
 
 ## Authors
 

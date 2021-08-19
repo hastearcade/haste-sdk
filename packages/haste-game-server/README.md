@@ -6,7 +6,7 @@ The haste game server is an example an ILP based game server. It leverages [matt
 
 All game logic and scoring occurs within the haste-game-server. The client is used only to render the latest game state. No logic or scoring should occur on the client.
 
-The haste-game-server also leverages the @hastearcade/haste to integrate with the Haste API. This supports authz, submitting scores, and retrieving information about the latest leaderboard.
+The haste-game-server also leverages the `@hastearcade/server` to integrate with the Haste API. This supports authz, submitting scores, and retrieving information about the latest leaderboard.
 
 Information is transferred between the client and server using socket.io.
 
