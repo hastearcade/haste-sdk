@@ -22,7 +22,6 @@ export class SocketManager {
 
   constructor(serverUrl: string, token: string) {
     this.socket = io(serverUrl, {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       auth: { token },
     });
     this.initializeEvents();

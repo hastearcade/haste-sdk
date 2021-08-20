@@ -10,8 +10,8 @@ export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
   private progressBar: Phaser.GameObjects.Graphics;
   private loginButton: Button;
-  private startButton: Button;
   private isAuthenticated: boolean;
+  private handlingAuth: boolean;
   private hasteClient: HasteClient;
 
   constructor() {
@@ -34,12 +34,29 @@ export class BootScene extends Phaser.Scene {
     this.isAuthenticated = await this.hasteClient.isAuthenticated();
 
     await this.hasteClient.handleRedirect(async () => {
-      // This is needed again becasue once the redirect is handled its a separate callback.
-      this.isAuthenticated = await this.hasteClient.isAuthenticated();
+      await this.handleLoggedInUser();
+    });
+  }
+
+  async handleLoggedInUser() {
+    this.isAuthenticated = await this.hasteClient.isAuthenticated();
+    if (this.isAuthenticated) {
       const hasteGame = this.game as HasteGame;
       await hasteGame.setupSocket(this.hasteClient);
-      this.update();
-    });
+
+      // eslint-disable-next-line no-console
+      console.log(`setting up`);
+      hasteGame.socketManager.gameGetLevelsCompletedEvent.on((data: Leaderboard[]) => {
+        // eslint-disable-next-line no-console
+        console.log(`data = ${JSON.stringify(data)}`);
+        hasteGame.leaderboards = data;
+        this.scene.start('LevelSelectionScene', { hasteClient: this.hasteClient } as GameSceneData);
+      });
+
+      setTimeout(() => {
+        hasteGame.socketManager.gameGetLevelsEvent.emit();
+      }, 700); // TODO There does not appear to be a way to await the socket-io connection
+    }
   }
 
   // As part of the Phaser lifecycle, update is called at every
@@ -49,29 +66,14 @@ export class BootScene extends Phaser.Scene {
     if (this.isAuthenticated !== undefined) {
       if (!this.isAuthenticated) {
         if (this.loginButton === undefined) {
-          this.loginButton = new Button(this, 50, 25, 'Login', { fill: '#f00' }, async (): Promise<void> => {
+          this.loginButton = new Button(this, 50, 25, 'Play Game', { fill: '#f00' }, async (): Promise<void> => {
             return this.login();
           });
           this.add.existing(this.loginButton);
         }
       } else {
-        if (this.startButton === undefined) {
-          if (this.loginButton !== undefined) {
-            this.children.remove(this.loginButton);
-          }
-
-          const hasteGame = this.game as HasteGame;
-
-          this.startButton = new Button(this, 50, 25, 'Start', { fill: '#f00' }, (): Promise<void> => {
-            hasteGame.socketManager.gameGetLevelsCompletedEvent.on((data: Leaderboard[]) => {
-              hasteGame.leaderboards = data;
-              this.scene.start('LevelSelectionScene', { hasteClient: this.hasteClient } as GameSceneData);
-            });
-
-            hasteGame.socketManager.gameGetLevelsEvent.emit();
-            return Promise.resolve();
-          });
-          this.add.existing(this.startButton);
+        if (this.loginButton) {
+          this.children.remove(this.loginButton);
         }
       }
     }
