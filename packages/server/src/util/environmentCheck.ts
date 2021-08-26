@@ -1,7 +1,10 @@
 export const isBrowser = () => {
   // Check if the environment is Node.js
   if (typeof process === 'object' && typeof require === 'function') {
-    return false;
+    if (process.argv && process.argv.length > 0) {
+      const hasNode = process.argv.filter((arg) => arg.includes('node'));
+      if (hasNode.length > 0) return false;
+    }
   }
 
   // Check if the environment is a

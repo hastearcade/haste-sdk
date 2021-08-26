@@ -35,7 +35,7 @@ export class Haste {
     return response.data;
   }
 
-  public static async validatePlayerAccess(playerAccessToken: string, authUrl = 'haste-production.us.auth0.com') {
+  public static async validatePlayerAccess(playerAccessToken: string, authUrl = 'haste-development.us.auth0.com') {
     if (isBrowser())
       throw new Error(`validatePlayerAccess may only be called from a server environment. Do not use in browser.`);
     const jwt = await validateAuthenticationToken(playerAccessToken, authUrl);
