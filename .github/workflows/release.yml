@@ -8,8 +8,6 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: development
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,11 +24,15 @@ jobs:
           key: npm-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       - name: Install dependencies
+        env:
+          NODE_ENV: development
         run: npm ci
       - name: Build
         run: npm run cibuild
       - name: Tests
         run: npm run citest
+      - name: Lint
+        run: npm run lint
       - name: Release Models Package
         working-directory: ./packages/models
         env:
