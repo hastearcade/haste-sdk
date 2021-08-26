@@ -290,6 +290,10 @@ Once you have Node.js and NVM installed you can run the following commands to te
 
 `npm install commitizen -D -g`
 
+`npm install`
+
+`npm run huskyinstall`
+
 `npm run build`
 
 `npm run test`

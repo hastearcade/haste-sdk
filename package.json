@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "npm run clean --workspaces",
     "lint": "npm run lint --workspaces",
-    "prepare": "husky install",
+    "huskyinstall": "husky install",
     "pretty": "npm run pretty --workspaces",
     "test": "npm run test --workspaces",
     "build": "npm run build --workspaces",
