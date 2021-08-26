@@ -2,9 +2,9 @@
   "extends": "semantic-release-monorepo",
   "branches": [{ "name": "main" }, { "name": "next", "channel": "beta", "prerelease": true }],
   "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
     [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
       "@semantic-release/git",
       {
         "assets": ["package.json"],
