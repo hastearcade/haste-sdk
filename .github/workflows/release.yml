@@ -24,7 +24,11 @@ jobs:
           key: npm-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       - name: Install dependencies
-        run: npm ci
+        run: npm install
+      - name: Build
+        run: npm run cibuild
+      - name: Tests
+        run: npm run citest
       - name: Release Models Package
         working-directory: ./packages/models
         env:

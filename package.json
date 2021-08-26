@@ -10,7 +10,9 @@
     "prepare": "husky install",
     "pretty": "npm run pretty --workspaces",
     "test": "npm run test --workspaces",
-    "build": "npm run build --workspaces"
+    "build": "npm run build --workspaces",
+    "cibuild": "npm run build --workspace=@hastearcade/models --workspace=@hastearcade/server --workspace=@hastearcade/web",
+    "citest": "npm run test --workspace=@hastearcade/models --workspace=@hastearcade/server --workspace=@hastearcade/web"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
