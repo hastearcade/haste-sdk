@@ -15,6 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/playhaste/haste-sdk.git"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
     "build": "tsc -b",
