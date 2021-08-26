@@ -188,15 +188,34 @@ await hasteClient.loginWithRedirect();
 
 This code will redirect your user to Haste's authentication system for the player to login with their Haste credentials
 
-Once the user authenticates, the authentication system will redirect the user back to your game's url. Additional code will be needed in your implementation to handle this redirect.
+Once the user authenticates, the authentication system will redirect the user back to your game's url. Additional code will be needed in your implementation to handle this redirect. `handleRedirect` is an asynchronous function that will return a `HasteAuthentication` object. This object will contain the current token of the logged in user and whether or not the user is authenticated. The type of HasteAuthentication is:
 
 ```typescript
-await hasteClient.handleRedirect(async () => {
+export type HasteAuthentication = {
+  token: string;
+  isAuthenticated: boolean;
+};
+```
+
+If an error occurs during authentication and the redirect the function will throw an Error. Please remember to wrap this function in a try/catch and handle the error appropriately.
+
+```typescript
+try {
+  const authResult = await hasteClient.handleRedirect();
+  /*
+  authResult: {
+    token: 'valid jwt',
+    isAuthenticated: true,
+  }
+  */
+
   /// perform any code necessary to initialize your game with
   /// the player ready to initiate a start action like a start
   /// button
-  this.update();
-});
+  this.update(authResult);
+} catch (err) {
+  console.error(`An authentication error occurred`);
+}
 ```
 
 #### Check Authenticated status

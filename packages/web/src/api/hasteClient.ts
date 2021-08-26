@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { isBrowser } from '../util/environmentCheck';
 import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
 
+export type HasteAuthentication = {
+  token: string;
+  isAuthenticated: boolean;
+};
 export class HasteClient {
   private auth0Client: Auth0Client;
   private configuration: HasteClientConfiguration;
@@ -29,7 +34,7 @@ export class HasteClient {
     );
   }
 
-  public async handleRedirect(callback: () => Promise<void>) {
+  public async handleRedirect() {
     const isAuthenticated = await this.isAuthenticated();
     const query = window.location.search;
 
@@ -37,13 +42,28 @@ export class HasteClient {
       await this.handleRedirectCallback();
       window.history.replaceState({}, document.title, '/');
       if (this.isAuthenticated) {
-        await callback();
+        const token = await this.getTokenSilently();
+        return {
+          token: token,
+          isAuthenticated: true,
+        } as HasteAuthentication;
+      } else {
+        throw new Error(`An error occurred during authentication`);
       }
     } else {
       if (isAuthenticated) {
-        await callback();
+        const token = await this.getTokenSilently();
+        return {
+          token: token,
+          isAuthenticated: true,
+        } as HasteAuthentication;
       }
     }
+
+    return {
+      token: '',
+      isAuthenticated: false,
+    } as HasteAuthentication;
   }
 
   public logout() {

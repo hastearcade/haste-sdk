@@ -1,7 +1,7 @@
 import { HasteGame } from '../game/hasteGame';
 import { GameSceneData } from '../models/gameState';
 import { Button } from '../game-objects/button';
-import { Leaderboard, HasteClient } from '@hastearcade/web';
+import { Leaderboard, HasteClient, HasteAuthentication } from '@hastearcade/web';
 
 // The BootScene loads all the image assets,
 // displays the login and start buttons, and
@@ -31,24 +31,17 @@ export class BootScene extends Phaser.Scene {
 
   async init(): Promise<void> {
     this.hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID, process.env.AUTH_URL);
-    this.isAuthenticated = await this.hasteClient.isAuthenticated();
-
-    await this.hasteClient.handleRedirect(async () => {
-      await this.handleLoggedInUser();
-    });
+    const authResult = await this.hasteClient.handleRedirect();
+    await this.handleLoggedInUser(authResult);
   }
 
-  async handleLoggedInUser() {
-    this.isAuthenticated = await this.hasteClient.isAuthenticated();
-    if (this.isAuthenticated) {
+  async handleLoggedInUser(hasteAuth: HasteAuthentication) {
+    this.isAuthenticated = hasteAuth.isAuthenticated;
+    if (hasteAuth.isAuthenticated) {
       const hasteGame = this.game as HasteGame;
       await hasteGame.setupSocket(this.hasteClient);
 
-      // eslint-disable-next-line no-console
-      console.log(`setting up`);
       hasteGame.socketManager.gameGetLevelsCompletedEvent.on((data: Leaderboard[]) => {
-        // eslint-disable-next-line no-console
-        console.log(`data = ${JSON.stringify(data)}`);
         hasteGame.leaderboards = data;
         this.scene.start('LevelSelectionScene', { hasteClient: this.hasteClient } as GameSceneData);
       });

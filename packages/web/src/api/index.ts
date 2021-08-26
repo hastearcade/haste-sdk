@@ -1,1 +1,1 @@
-export { HasteClient } from './hasteClient';
+export { HasteClient, HasteAuthentication } from './hasteClient';
