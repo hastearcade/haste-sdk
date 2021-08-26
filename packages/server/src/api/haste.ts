@@ -37,9 +37,7 @@ export class Haste {
 
   public static async validatePlayerAccess(playerAccessToken: string, authUrl = 'haste-development.us.auth0.com') {
     if (isBrowser())
-      throw new Error(
-        `validatePlayerAccess may only be called from a server environment. Do not use in browser please.`,
-      );
+      throw new Error(`validatePlayerAccess may only be called from a server environment. Do not use in browser.`);
     const jwt = await validateAuthenticationToken(playerAccessToken, authUrl);
     const playerId = jwt['https://hastearcade.com/playerId'] as string;
     return playerId;

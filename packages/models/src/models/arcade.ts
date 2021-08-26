@@ -6,6 +6,5 @@ export class Arcade {
   constructor(id: string) {
     this.id = id;
     this.name = '';
-    this.description = '';
   }
 }
