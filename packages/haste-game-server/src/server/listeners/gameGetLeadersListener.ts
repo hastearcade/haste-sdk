@@ -14,6 +14,11 @@ export async function gameGetLeadersListener(
   socket: Socket,
   leaderboardId: string,
 ) {
+  // TODO find a way to make the call to score async/await
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  });
+
   const leaders = await haste.game.leaders(new Leaderboard(leaderboardId));
   socket.emit('gameGetLeadersCompleted', leaders);
 }
