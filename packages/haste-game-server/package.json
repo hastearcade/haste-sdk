@@ -36,7 +36,7 @@
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
   "dependencies": {
-    "@hastearcade/server": "0.0.0",
+    "@hastearcade/server": "*",
     "@hastearcade/haste-game-domain": "^0.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
