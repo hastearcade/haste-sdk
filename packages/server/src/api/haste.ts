@@ -60,7 +60,7 @@ export class Haste {
     }
 
     if (!configuration) {
-      throw new Error(`You must provide a haste configuration.`);
+      throw new Error(`You must provide a haste configuration object.`);
     }
 
     const url = buildUrl(configuration.hostProtocol, configuration.host, configuration.port);
