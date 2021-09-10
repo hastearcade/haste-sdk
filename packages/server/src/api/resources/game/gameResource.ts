@@ -21,7 +21,7 @@ export class GameResource extends BaseResource {
   async score(play: Play, leaderboard: Leaderboard, score: number) {
     const payload = new CreateScore(play.id, leaderboard.id, score);
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/score`;
-    return await this.post<CreateScore, Score>(payload, path);
+    return await this.post<CreateScore, Leaderboard>(payload, path);
   }
 
   leaderboards() {
