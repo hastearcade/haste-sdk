@@ -44,7 +44,7 @@ export function collisionStartListener(
       // submit the score to the haste api
       if (engine.currentPlay && engine.currentPlay.id && engine.currentPlay.id.length > 0) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        haste.game.score(engine.currentPlay, engine.currentPlay.leaderboard, engine.score);
+        haste.game.score(engine.currentPlay, engine.score);
 
         // reset the play so it does not get used again.
         // this only matters if the user logs out before starting a new game.

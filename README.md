@@ -149,7 +149,7 @@ Once the play submission is you completed you should allow the user the play you
 Upon hitting an end state for your game (i.e. the player gets hit by a bomb and dies) it is time to submit your score. To submit a score, you'll need the original play object. The play object can be maintained however you choose (memory, database, cache, etc). The score sdk method takes the current Play object, the Leaderboard the score is being submitted against, and the score.
 
 ```typescript
-await haste.game.score(currentPlay, leaderboard, score);
+await haste.game.score(currentPlay, score);
 ```
 
 #### Payouts
