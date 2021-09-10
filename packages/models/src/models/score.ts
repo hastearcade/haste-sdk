@@ -1,18 +1,17 @@
+import { Leader } from './leader';
+
 export class Score {
   id: string;
-  playId: string;
   score: number;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
-  deleted?: boolean;
+  leaders: Leader[];
+  isWinner: boolean;
+  leaderRank: number;
 
   constructor() {
     this.id = '';
-    this.playId = '';
+    this.isWinner = false;
     this.score = 0;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.leaderRank = 0;
   }
 }
 
