@@ -48,7 +48,7 @@ export class HasteClient {
           isAuthenticated: true,
         } as HasteAuthentication;
       } else {
-        throw new Error(`An error occurred during authentication`);
+        throw new Error(`An error occurred during authentication process`);
       }
     } else {
       if (isAuthenticated) {
