@@ -10,8 +10,6 @@ export const isBrowser = () => {
   // Check if the environment is a
   // Service worker
   if (typeof importScripts === 'function') {
-    // eslint-disable-next-line no-console
-    console.log('yolo5');
     return false;
   }
 

@@ -1,6 +1,6 @@
-import React from "react";
-import { useHasteState } from "./HasteContext";
-import { HasteClient } from "@hastearcade/web";
+import React from 'react';
+import { useHasteState } from './HasteContext';
+import { HasteClient } from '@hastearcade/web';
 
 const login = async (client: HasteClient) => {
   await client.loginWithRedirect();
@@ -16,11 +16,10 @@ function Main() {
         className="App-link"
         onClick={() => {
           if (hasteState.hasteClient) {
-            console.log("here2");
             login(hasteState.hasteClient);
           }
         }}
-        value={"Login"}
+        value={'Login'}
       />
     </div>
   );

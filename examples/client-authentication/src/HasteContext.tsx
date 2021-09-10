@@ -1,6 +1,6 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { HasteClient } from "@hastearcade/web";
+import { HasteClient } from '@hastearcade/web';
 
 export type HasteProviderProps = {
   initialized: boolean;
@@ -20,8 +20,8 @@ export const HasteProvider: React.FC = ({ children }) => {
 
   const getHaste = useCallback(async () => {
     const client = await HasteClient.build(
-      process.env.REACT_APP_HASTE_GAME_CLIENT_ID ?? "",
-      process.env.REACT_APP_AUTH_URL ?? ""
+      process.env.REACT_APP_HASTE_GAME_CLIENT_ID ?? '',
+      process.env.REACT_APP_AUTH_URL ?? '',
     );
 
     try {
@@ -30,7 +30,7 @@ export const HasteProvider: React.FC = ({ children }) => {
       const isAuthenticated = await client.isAuthenticated();
       console.log(isAuthenticated);
     } catch (err) {
-      console.error("an error occurred in auth");
+      console.error('an error occurred in auth');
     }
 
     setHasteState({ initialized: true, hasteClient: client });
@@ -40,17 +40,13 @@ export const HasteProvider: React.FC = ({ children }) => {
     getHaste();
   }, [getHaste]);
 
-  return (
-    <HasteProviderContext.Provider value={hasteState}>
-      {children}
-    </HasteProviderContext.Provider>
-  );
+  return <HasteProviderContext.Provider value={hasteState}>{children}</HasteProviderContext.Provider>;
 };
 
 export function useHasteState() {
   const context = useContext(HasteProviderContext);
   if (context === undefined) {
-    throw new Error("useHasteState must be used within a HasteProvider");
+    throw new Error('useHasteState must be used within a HasteProvider');
   }
 
   return context;
