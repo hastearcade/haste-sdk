@@ -1,4 +1,4 @@
-import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player } from '@hastearcade/models';
+import { CreatePlay, Play, CreateScore, Leaderboard, Game, Player } from '@hastearcade/models';
 import { HasteConfiguration } from '../../../config/hasteConfiguration';
 import { BaseResource } from '../baseResource';
 
