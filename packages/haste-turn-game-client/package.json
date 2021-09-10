@@ -16,7 +16,7 @@
     "url": "git+https://github.com/playhaste/haste-sdk.git"
   },
   "dependencies": {
-    "@hastearcade/web": "0.0.0",
+    "@hastearcade/web": "*",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
