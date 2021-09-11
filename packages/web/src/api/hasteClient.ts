@@ -16,7 +16,7 @@ export class HasteClient {
     this.auth0Client = auth0Client;
   }
 
-  public static async build(clientId: string, domain = 'haste-development.us.auth0.com') {
+  public static async build(clientId: string, domain = 'auth.hastearcade.com') {
     if (!isBrowser()) throw new Error(`Haste client build may only be called from a browser based environment`);
 
     const auth0 = await createAuth0Client({
