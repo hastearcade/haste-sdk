@@ -36,11 +36,12 @@ export class SocketServer {
 
   initEvents() {
     this.io.on('connection', async (socket: Socket) => {
-      this.haste = await Haste.build(process.env.HASTE_CLIENT_ID, process.env.HASTE_CLIENT_SECRET, {
+      this.haste = await Haste.build(process.env.HASTE_CLIENT_ID, process.env.HASTE_CLIENT_SECRET, 'nonproduction', {
         hostProtocol: process.env.HASTE_API_PROTOCOL,
         host: process.env.HASTE_API_HOST,
         port: parseInt(process.env.HASTE_API_PORT, 10),
         accessToken: '',
+        environment: 'nonproduction',
       });
 
       const gameEngine = new GameEngine(socket, this.haste);

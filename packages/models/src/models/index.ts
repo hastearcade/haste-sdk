@@ -7,3 +7,4 @@ export * from './score';
 export { TokenRequest } from './tokenRequest';
 export { TokenResponse } from './tokenResponse';
 export { Leaderboard } from './leaderboard';
+export { HasteEnvironment } from './hasteEnvironment';

@@ -1,6 +1,6 @@
 import { HasteConfiguration } from '../config';
 import { GameResource } from './resources/game/gameResource';
-import { Game, TokenRequest, TokenResponse } from '@hastearcade/models';
+import { Game, HasteEnvironment, TokenRequest, TokenResponse } from '@hastearcade/models';
 import axios from 'axios';
 import { buildUrl } from '../util/urlBuilder';
 import { validateAuthenticationToken } from './auth/validate';
@@ -14,11 +14,17 @@ export class Haste {
     this.game = new GameResource(this.configuration, gameDetails);
   }
 
-  private static async getJwt(clientId: string, clientSecret: string, url: string): Promise<TokenResponse> {
+  private static async getJwt(
+    clientId: string,
+    clientSecret: string,
+    url: string,
+    environment: HasteEnvironment,
+  ): Promise<TokenResponse> {
     const path = '/oauth/writetoken';
     const payload: TokenRequest = {
       clientId,
       clientSecret,
+      environment,
     };
 
     const response = await axios.post<TokenResponse>(`${url}${path}`, payload);
@@ -48,6 +54,7 @@ export class Haste {
   public static async build(
     clientId: string,
     clientSecret: string,
+    environment: HasteEnvironment,
     configuration?: HasteConfiguration,
   ): Promise<Haste> {
     if (isBrowser()) throw new Error(`build may only be called from a server environment.`);
@@ -58,14 +65,13 @@ export class Haste {
     if (!clientSecret || clientSecret.length === 0) {
       throw new Error(`You must initialize Haste with a client secret.`);
     }
-
-    if (!configuration) {
-      throw new Error(`You must provide a haste configuration object.`);
+    if (!environment) {
+      throw new Error(`You must initialize Haste with an environment equal to production or nonproduction.`);
     }
 
     const url = buildUrl(configuration.hostProtocol, configuration.host, configuration.port);
-    if (!configuration) configuration = new HasteConfiguration();
-    const tokenResponse = await Haste.getJwt(clientId, clientSecret, url);
+    if (!configuration) configuration = new HasteConfiguration(environment);
+    const tokenResponse = await Haste.getJwt(clientId, clientSecret, url, configuration.environment);
 
     configuration.clientId = clientId;
     configuration.clientSecret = clientSecret;

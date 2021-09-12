@@ -1,3 +1,5 @@
+import { HasteEnvironment } from '@hastearcade/models';
+
 export class HasteConfiguration {
   apiVersion?: string;
   hostProtocol: string;
@@ -9,11 +11,13 @@ export class HasteConfiguration {
   clientSecret?: string;
   accessToken: string;
   playerId?: string;
+  environment: HasteEnvironment;
 
-  constructor(host = 'api.hastearcade.com', hostProtocol = 'https', port = 0) {
+  constructor(environment: HasteEnvironment, host = 'api.hastearcade.com', hostProtocol = 'https', port = 0) {
     this.hostProtocol = hostProtocol;
     this.port = port;
     this.host = host;
     this.accessToken = '';
+    this.environment = environment;
   }
 }
