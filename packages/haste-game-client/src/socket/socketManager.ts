@@ -19,6 +19,7 @@ export class SocketManager {
   gameGetLevelsCompletedEvent: WrappedClientSocket<Leaderboard[]>;
   gameGetLeadersEvent: WrappedClientSocket<string>;
   gameGetLeadersCompletedEvent: WrappedClientSocket<Leader[]>;
+  gameError: WrappedClientSocket<string>;
 
   constructor(serverUrl: string, token: string) {
     this.socket = io(serverUrl, {
@@ -39,6 +40,7 @@ export class SocketManager {
     this.gameGetLeadersEvent = this.createSocket('gameGetLeaders');
     this.gameGetLeadersCompletedEvent = this.createSocket('gameGetLeadersCompleted');
     this.logoutEvent = this.createSocket('logout');
+    this.gameError = this.createSocket<string>('gameError');
   }
 
   private createSocket<T>(event: SocketMessage): WrappedClientSocket<T> {

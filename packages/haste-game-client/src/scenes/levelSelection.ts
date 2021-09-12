@@ -39,6 +39,16 @@ export class LevelSelectionScene extends Phaser.Scene {
         resolve();
       });
     });
+
+    hasteGame.socketManager.gameError.on((data: string) => {
+      const errorText = new Phaser.GameObjects.Text(this, 40, 10, data, {
+        fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+        color: '#F00',
+      });
+
+      this.add.existing(errorText);
+    });
+
     this.add.existing(this.levels);
   }
 

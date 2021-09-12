@@ -14,10 +14,15 @@ export async function gameInitListener(
   socket: Socket,
   leaderboardId: string,
 ) {
-  const play = await haste.game.play(new Player(playerId), new Leaderboard(leaderboardId));
-  engine.currentPlay = play;
+  try {
+    const play = await haste.game.play(new Player(playerId), new Leaderboard(leaderboardId));
+    engine.currentPlay = play;
 
-  // if play comes back successfully, the game has finished initializing
-  // and the client can render the initial game state
-  socket.emit('gameInitCompleted', engine.getInitialState());
+    // if play comes back successfully, the game has finished initializing
+    // and the client can render the initial game state
+    socket.emit('gameInitCompleted', engine.getInitialState());
+  } catch (err: unknown) {
+    const trueError = err as Error;
+    socket.emit('gameError', trueError.message);
+  }
 }
