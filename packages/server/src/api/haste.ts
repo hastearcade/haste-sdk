@@ -37,7 +37,7 @@ export class Haste {
     arcadeId: string,
     gameId: string,
   ): Promise<Game> {
-    const path = `arcades/${arcadeId}/developergames/${gameId}`;
+    const path = `/arcades/${arcadeId}/developergames/${gameId}`;
 
     const response = await axios.get<Game>(`${url}${path}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
