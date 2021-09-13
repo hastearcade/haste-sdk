@@ -31,8 +31,13 @@ export class Haste {
     return response.data;
   }
 
-  private static async getGameDetails(accessToken: string, url: string, gameId: string): Promise<Game> {
-    const path = `/developergames/${gameId}`;
+  private static async getGameDetails(
+    accessToken: string,
+    url: string,
+    arcadeId: string,
+    gameId: string,
+  ): Promise<Game> {
+    const path = `arcades/${arcadeId}/developergames/${gameId}`;
 
     const response = await axios.get<Game>(`${url}${path}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -79,7 +84,12 @@ export class Haste {
     configuration.gameId = tokenResponse.gameId;
     configuration.accessToken = tokenResponse.access_token;
 
-    const gameDetails = await Haste.getGameDetails(configuration.accessToken, url, configuration.gameId);
+    const gameDetails = await Haste.getGameDetails(
+      configuration.accessToken,
+      url,
+      configuration.arcadeId,
+      configuration.gameId,
+    );
 
     return new Haste(configuration, gameDetails);
   }
