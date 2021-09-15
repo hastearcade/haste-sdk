@@ -1,0 +1,30 @@
+name: API
+on:
+  push:
+    tags:
+      - v*.*.*-examplegameserver-*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: View release version
+        run: echo ${{ env.RELEASE_VERSION }}
+      - name: Set release environment
+        run: echo RELEASE_ENVIRONMENT=${RELEASE_VERSION##*-} >> $GITHUB_ENV
+      - name: Set release environment upper
+        run: echo RELEASE_ENVIRONMENT_UPPER=${{ env.RELEASE_ENVIRONMENT }} | awk '{print toupper($0)}' >> $GITHUB_ENV
+      - name: View release environement
+        run: echo ${{ env.RELEASE_ENVIRONMENT }}
+      - name: View release environement upper
+        run: echo ${{ env.RELEASE_ENVIRONMENT_UPPER }}
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'example-game-server-${{ env.RELEASE_ENVIRONMENT }}' #Must be unique in Heroku
+          heroku_email: 'keith@hastearcade.com'
