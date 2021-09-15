@@ -2,7 +2,7 @@ name: API
 on:
   push:
     tags:
-      - v*.*.*-example-game-server-*
+      - v*.*.*-examplegameserver-*
 jobs:
   build:
     runs-on: ubuntu-latest
