@@ -10,8 +10,6 @@ const envKeys = Object.keys(process.env).reduce((prev, next) => {
   return prev;
 }, {});
 
-console.log(JSON.stringify(envKeys));
-
 module.exports = merge(common, {
   mode: 'production',
   plugins: [new DefinePlugin(envKeys)],
