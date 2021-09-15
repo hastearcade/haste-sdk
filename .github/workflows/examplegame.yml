@@ -70,4 +70,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'example-game-client-dev' #Must be unique in Heroku
           heroku_email: 'keith@hastearcade.com'
-        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_COINGEEK_DEVELOPMENT' }}
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_DEVELOPMENT' }}
