@@ -1,0 +1,63 @@
+name: Example Game
+on:
+  push:
+    tags:
+      - v*.*.*-examplegame-*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: View release version
+        run: echo ${{ env.RELEASE_VERSION }}
+      - name: Set release environment
+        run: echo RELEASE_ENVIRONMENT=${RELEASE_VERSION##*-} >> $GITHUB_ENV
+      - name: Set release environment upper
+        run: echo RELEASE_ENVIRONMENT_UPPER=${{ env.RELEASE_ENVIRONMENT }} | awk '{print toupper($0)}' >> $GITHUB_ENV
+      - name: View release environement
+        run: echo ${{ env.RELEASE_ENVIRONMENT }}
+      - name: View release environement upper
+        run: echo ${{ env.RELEASE_ENVIRONMENT_UPPER }}
+      - name: Set bucket name
+        run: echo "BUCKET_NAME=haste-example-game-${{ env.RELEASE_ENVIRONMENT }}" >> $GITHUB_ENV
+      - name: View bucket name
+        run: echo ${{ env.BUCKET_NAME }}
+      - name: Install CLI
+        uses: dopplerhq/cli-action@v1
+      - name: Set Doppler Secret String Var
+        run: echo "DOPPLER_SECRET=${{ format('secrets.DOPPLER_EXAMPLE_{0}', env.RELEASE_ENVIRONMENT_UPPER) }}" >> $GITHUB_ENV
+      - name: Configure Production Doppler Service Token
+        run: doppler configure set token ${{ secrets.DOPPLER_EXAMPLE_PROD }}
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_PRODUCTION' }}
+      - name: Configure Staging Doppler Service Token
+        run: doppler configure set token ${{ secrets.DOPPLER_EXAMPLE_STAGE }}
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_STAGE' }}
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        env:
+          APP_BASE: packages/haste-game-client
+          SKIP_PREFLIGHT_CHECK: true
+        run: doppler run -- npm run build --if-present
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_S3_UPLOAD_USER }}
+          aws-secret-access-key: ${{ secrets.AWS_S3_UPLOAD_USER_SECRET_KEY }}
+          aws-region: us-east-1
+      - name: Deploy Arcade to S3 bucket
+        run: aws s3 sync ./packages/haste-game-client/dist/ s3://${{ env.BUCKET_NAME }} --delete
