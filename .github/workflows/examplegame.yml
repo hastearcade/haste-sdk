@@ -48,16 +48,26 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_STAGE' || env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_PRODUCTION' }}
       - name: Build
         env:
           APP_BASE: packages/haste-game-client
           SKIP_PREFLIGHT_CHECK: true
         run: doppler run -- npm run build --if-present
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_STAGE' || env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_PRODUCTION' }}
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_S3_UPLOAD_USER }}
           aws-secret-access-key: ${{ secrets.AWS_S3_UPLOAD_USER_SECRET_KEY }}
           aws-region: us-east-1
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_STAGE' || env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_PRODUCTION' }}
       - name: Deploy Arcade to S3 bucket
         run: aws s3 sync ./packages/haste-game-client/dist/ s3://${{ env.BUCKET_NAME }} --delete
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_STAGE' || env.DOPPLER_SECRET == 'secrets.DOPPLER_EXAMPLE_PRODUCTION' }}
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'example-game-client-dev' #Must be unique in Heroku
+          heroku_email: 'keith@hastearcade.com'
+        if: ${{ env.DOPPLER_SECRET == 'secrets.DOPPLER_COINGEEK_DEVELOPMENT' }}
