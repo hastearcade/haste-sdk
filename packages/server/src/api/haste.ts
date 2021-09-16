@@ -74,8 +74,8 @@ export class Haste {
       throw new Error(`You must initialize Haste with an environment equal to production or nonproduction.`);
     }
 
-    const url = buildUrl(configuration.hostProtocol, configuration.host, configuration.port);
     if (!configuration) configuration = new HasteConfiguration(environment);
+    const url = buildUrl(configuration.hostProtocol, configuration.host, configuration.port);
     const tokenResponse = await Haste.getJwt(clientId, clientSecret, url, configuration.environment);
 
     configuration.clientId = clientId;
