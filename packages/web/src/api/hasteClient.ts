@@ -77,8 +77,9 @@ export class HasteClient {
     return await this.auth0Client.getTokenSilently();
   }
 
-  public async isAuthenticated() {
-    return await this.auth0Client.isAuthenticated();
+  public async isAuthenticated(): Promise<boolean> {
+    await this.auth0Client.checkSession({});
+    return this.auth0Client.isAuthenticated();
   }
 
   public async loginWithRedirect() {
