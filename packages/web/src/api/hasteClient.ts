@@ -24,9 +24,7 @@ export class HasteClient {
     const auth0 = await createAuth0Client({
       domain: domain,
       client_id: clientId,
-      responseType: 'token id_token' || '',
-      scope: 'openid profile email offline_access',
-      useRefreshTokens: true,
+      cacheLocation: 'localstorage',
     });
 
     return new HasteClient(

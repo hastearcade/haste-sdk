@@ -42,7 +42,7 @@
     "payout"
   ],
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.17.0",
+    "@auth0/auth0-spa-js": "^1.18.0",
     "@hastearcade/models": "^1.1.0",
     "@types/axios": "^0.14.0",
     "axios": "^0.21.1",
