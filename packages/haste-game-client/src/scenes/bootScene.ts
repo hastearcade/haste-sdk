@@ -25,7 +25,7 @@ export class BootScene extends Phaser.Scene {
   // back to the game. It assumes that your game
   // has the appropriately configured callback
   // urls.
-  async login() {
+  login() {
     this.hasteClient.login();
   }
 
@@ -63,8 +63,12 @@ export class BootScene extends Phaser.Scene {
     if (this.isAuthenticated !== undefined) {
       if (!this.isAuthenticated) {
         if (this.loginButton === undefined) {
-          this.loginButton = new Button(this, 50, 25, 'Play Game', { fill: '#f00' }, async (): Promise<void> => {
-            return this.login();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          this.loginButton = new Button(this, 50, 25, 'Play Game', { fill: '#f00' }, (): Promise<void> => {
+            return new Promise((resolve) => {
+              this.login();
+              resolve();
+            });
           });
           this.add.existing(this.loginButton);
         }
