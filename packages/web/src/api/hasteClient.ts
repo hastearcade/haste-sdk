@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { isBrowser } from '../util/environmentCheck';
 import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
@@ -22,7 +24,9 @@ export class HasteClient {
     const auth0 = await createAuth0Client({
       domain: domain,
       client_id: clientId,
-      audience: 'https://hastegame.api',
+      responseType: 'token id_token' || '',
+      scope: 'openid profile email offline_access',
+      useRefreshTokens: true,
     });
 
     return new HasteClient(
@@ -35,15 +39,17 @@ export class HasteClient {
   }
 
   public async handleRedirect() {
+    console.log(`in handling redirect`);
     const query = window.location.search;
 
     if (query.includes('code=') && query.includes('state=')) {
       await this.handleRedirectCallback();
       window.history.replaceState({}, document.title, '/');
       if (this.isAuthenticated) {
-        const token = await this.getTokenSilently();
+        await this.auth0Client.getTokenSilently();
+        const idTokenClaims = await this.auth0Client.getIdTokenClaims();
         return {
-          token: token,
+          token: idTokenClaims.__raw,
           isAuthenticated: true,
         } as HasteAuthentication;
       } else {
@@ -51,14 +57,19 @@ export class HasteClient {
       }
     } else {
       try {
-        const token = await this.getTokenSilently();
-        if (token) {
+        const accessToken = await this.auth0Client.getTokenSilently();
+        const idTokenClaims = await this.auth0Client.getIdTokenClaims();
+        console.log(`the access token is ${accessToken}`);
+        console.log(`the idTokenClaims is ${idTokenClaims}`);
+        if (accessToken) {
           return {
-            token: token,
+            token: idTokenClaims.__raw,
             isAuthenticated: true,
           } as HasteAuthentication;
         }
-      } catch (err) {}
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     return {
@@ -75,11 +86,12 @@ export class HasteClient {
 
   public async getTokenSilently() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return await this.auth0Client.getTokenSilently();
+    await this.auth0Client.getTokenSilently();
+    const idTokenClaims = await this.auth0Client.getIdTokenClaims();
+    return idTokenClaims.__raw;
   }
 
   public async isAuthenticated(): Promise<boolean> {
-    await this.auth0Client.checkSession({});
     return this.auth0Client.isAuthenticated();
   }
 
