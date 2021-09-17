@@ -26,13 +26,17 @@ export class BootScene extends Phaser.Scene {
   // has the appropriately configured callback
   // urls.
   async login() {
-    await this.hasteClient.loginWithRedirect();
+    this.hasteClient.login();
   }
 
   async init(): Promise<void> {
-    this.hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID, process.env.AUTH_URL);
-    const authResult = await this.hasteClient.handleRedirect();
-    await this.handleLoggedInUser(authResult);
+    this.hasteClient = await HasteClient.build(
+      process.env.HASTE_GAME_CLIENT_ID,
+      process.env.AUTH_URL,
+      process.env.LOGIN_URL,
+    );
+    const details = await this.hasteClient.getTokenDetails();
+    await this.handleLoggedInUser(details);
   }
 
   async handleLoggedInUser(hasteAuth: HasteAuthentication) {

@@ -20,9 +20,9 @@ export class HasteGame extends Phaser.Game {
   // to the server, and contain the player id from the user metadata
   async setupSocket(hasteClient: HasteClient) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const token = await hasteClient.getTokenSilently();
+    const details = await hasteClient.getTokenDetails();
     const serverUrl = `${process.env.SERVER_PROTOCOL}://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`;
-    this.socketManager = new SocketManager(serverUrl, token);
+    this.socketManager = new SocketManager(serverUrl, details.token);
 
     this.socketManager.gameUpdateEvent.on((data: HasteGameState) => {
       this.state = data;

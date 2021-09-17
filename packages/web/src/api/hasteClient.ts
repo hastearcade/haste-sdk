@@ -16,7 +16,11 @@ export class HasteClient {
     this.auth0Client = auth0Client;
   }
 
-  public static async build(clientId: string, domain = 'auth.hastearcade.com') {
+  public static async build(
+    clientId: string,
+    domain = 'auth.hastearcade.com',
+    signinUrl = 'https://app.hastearcade.com/signin',
+  ) {
     if (!isBrowser()) throw new Error(`Haste client build may only be called from a browser based environment`);
 
     const auth0 = await createAuth0Client({
@@ -29,52 +33,14 @@ export class HasteClient {
       {
         domain: domain,
         clientId: clientId,
+        signinUrl: signinUrl,
       },
       auth0,
     );
   }
 
-  public async handleRedirect() {
-    const query = window.location.search;
-
-    if (query.includes('code=') && query.includes('state=')) {
-      await this.handleRedirectCallback();
-      window.history.replaceState({}, document.title, '/');
-      if (this.isAuthenticated) {
-        await this.auth0Client.getTokenSilently();
-        const idTokenClaims = await this.auth0Client.getIdTokenClaims();
-        return {
-          token: idTokenClaims.__raw,
-          isAuthenticated: true,
-        } as HasteAuthentication;
-      } else {
-        throw new Error(`An error occurred during authentication process. Please check your client key`);
-      }
-    } else {
-      try {
-        const accessToken = await this.auth0Client.getTokenSilently();
-        const idTokenClaims = await this.auth0Client.getIdTokenClaims();
-
-        if (accessToken) {
-          return {
-            token: idTokenClaims.__raw,
-            isAuthenticated: true,
-          } as HasteAuthentication;
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (err.error !== 'login_required') {
-          // eslint-disable-next-line no-console
-          console.error(err);
-        }
-      }
-    }
-
-    return {
-      token: '',
-      isAuthenticated: false,
-    } as HasteAuthentication;
+  public login() {
+    window.location.href = `${this.configuration.signinUrl}?redirectUrl=${window.location.href}`;
   }
 
   public logout() {
@@ -83,24 +49,29 @@ export class HasteClient {
     });
   }
 
-  public async getTokenSilently() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    await this.auth0Client.getTokenSilently();
-    const idTokenClaims = await this.auth0Client.getIdTokenClaims();
-    return idTokenClaims.__raw;
-  }
+  public async getTokenDetails() {
+    try {
+      const accessToken = await this.auth0Client.getTokenSilently();
+      const idTokenClaims = await this.auth0Client.getIdTokenClaims();
 
-  public async isAuthenticated(): Promise<boolean> {
-    return this.auth0Client.isAuthenticated();
-  }
+      if (accessToken) {
+        return {
+          token: idTokenClaims.__raw,
+          isAuthenticated: true,
+        } as HasteAuthentication;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (err.error !== 'login_required') {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      }
+    }
 
-  public async loginWithRedirect() {
-    return await this.auth0Client.loginWithRedirect({
-      redirect_uri: window.location.origin,
-    });
-  }
-
-  private async handleRedirectCallback() {
-    return await this.auth0Client.handleRedirectCallback();
+    return {
+      token: '',
+      isAuthenticated: false,
+    } as HasteAuthentication;
   }
 }
