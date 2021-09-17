@@ -35,7 +35,6 @@ export class HasteClient {
   }
 
   public async handleRedirect() {
-    const isAuthenticated = await this.isAuthenticated();
     const query = window.location.search;
 
     if (query.includes('code=') && query.includes('state=')) {
@@ -51,13 +50,15 @@ export class HasteClient {
         throw new Error(`An error occurred during authentication process`);
       }
     } else {
-      if (isAuthenticated) {
+      try {
         const token = await this.getTokenSilently();
-        return {
-          token: token,
-          isAuthenticated: true,
-        } as HasteAuthentication;
-      }
+        if (token) {
+          return {
+            token: token,
+            isAuthenticated: true,
+          } as HasteAuthentication;
+        }
+      } catch (err) {}
     }
 
     return {
