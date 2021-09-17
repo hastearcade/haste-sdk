@@ -48,7 +48,7 @@ export class HasteClient {
           isAuthenticated: true,
         } as HasteAuthentication;
       } else {
-        throw new Error(`An error occurred during authentication process`);
+        throw new Error(`An error occurred during authentication process. Please check your client key`);
       }
     } else {
       try {
