@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { isBrowser } from '../util/environmentCheck';
 import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
@@ -37,7 +35,6 @@ export class HasteClient {
   }
 
   public async handleRedirect() {
-    console.log(`in handling redirect`);
     const query = window.location.search;
 
     if (query.includes('code=') && query.includes('state=')) {
@@ -57,16 +54,20 @@ export class HasteClient {
       try {
         const accessToken = await this.auth0Client.getTokenSilently();
         const idTokenClaims = await this.auth0Client.getIdTokenClaims();
-        console.log(`the access token is ${accessToken}`);
-        console.log(`the idTokenClaims is ${idTokenClaims}`);
+
         if (accessToken) {
           return {
             token: idTokenClaims.__raw,
             isAuthenticated: true,
           } as HasteAuthentication;
         }
-      } catch (err) {
-        console.error(err);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (err.error !== 'login_required') {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }
       }
     }
 
