@@ -33,9 +33,9 @@ Initially, TypeScript and JavaScript will be the only supported SDKs, but long t
 
 ## Quickstart
 
-This quick start guide will demonstrate the use of the haste-sdk in a server side node environment and a browser based environment. To build a game for the haste arcade you will need both if you are building a web based game. If you are building a desktop or mobile game please see our advanced documentation [here](https://haste-arcade.stoplight.io/).
+This quick start guide will demonstrate the use of the haste-sdk in a server side node environment and a browser based environment. To build a game for the haste arcade you will need both if you are building a web based game. If you are building a desktop or mobile game please contact us on [Discord](https://discord.gg/mqPN8gDF3A).
 
-To start you need to register your game with Haste through the developer [portal](https://developerportal.hastearcade.com). Once you login, you can create a game to generate a set of access keys to be used by the SDK.
+To start you need to register your game with Haste through the developer [portal](https://developer.hastearcade.com). Once you login, you can create a game to generate a set of access keys to be used by the SDK.
 
 ### Server
 
@@ -43,7 +43,7 @@ The `@hastearcade/server` package is the primary entry point to the Haste ecosys
 
 1. Authentication
 2. Leaderboard management
-3. Payouts to the leaderboard
+3. Payouts to the leaderboard and game developers
 4. Play & Score submission
 
 #### Initialize Haste
@@ -51,7 +51,12 @@ The `@hastearcade/server` package is the primary entry point to the Haste ecosys
 To initialize the Haste sdk for use in your server, you need to perform the following:
 
 ```typescript
-const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
+const environment = 'nonproduction';
+const haste = await Haste.build(
+  process.env.HASTE_SERVER_CLIENT_ID,
+  process.env.HASTE_SERVER_CLIENT_SECRET,
+  environment,
+);
 /// Now do things with the haste object like submit a play or a score.
 ```
 
@@ -60,6 +65,8 @@ The client id and secret are defined in the developer portal on your game page. 
 ![](https://github.com/playhaste/haste-sdk/blob/main/docs/assets/gameserverkeys.png)
 
 **NOTE: It is recommneded to create an abstraction (service, lib, etc) around the haste-sdk in your codebase. This will allow you to initialize one haste object.**
+
+For the third parameter to build you can use `nonproduction` or `production`. Please use `nonproduction` when testing as it will not send payouts. When you are ready to test payouts and/or you are in your true production environment please change the third parameter to `production`. The best practice is to use an environment variable to manage this process.
 
 #### Authentication
 
@@ -107,6 +114,25 @@ The Haste ecosystem currently has multiple leaderboards that can be played for e
 const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
 const leaderBoards = haste.game.leaderboards();
 console.log(leaderBoards);
+
+/*
+output:
+
+[{
+  id: "guid",
+  name: "Beginner",
+  cost: 2000, // cost to play in this leaderboard in satoshis.
+}]
+```
+
+#### Get Leaders
+
+In order to get a list of the current leaders for your game you can use the following function:
+
+```typescript
+const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
+const leaders = await haste.game.leaders(new Leaderboard(leaderboardId));
+console.log(leaders);
 
 /*
 output:
