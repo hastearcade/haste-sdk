@@ -40,7 +40,9 @@ export class HasteClient {
   }
 
   public login() {
-    window.location.href = `${this.configuration.signinUrl}?redirectUrl=${window.location.href}`;
+    window.location.href = `${
+      this.configuration.signinUrl
+    }?redirectUrl=${`${window.location.href}?redirectClientId=${this.configuration.clientId}`}`;
   }
 
   public logout() {
