@@ -65,6 +65,13 @@ export class HasteClient {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (err.error === 'consent_required') {
+        await this.auth0Client.loginWithRedirect({
+          redirect_uri: window.location.origin,
+        });
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (err.error !== 'login_required') {
         // eslint-disable-next-line no-console
         console.error(err);
