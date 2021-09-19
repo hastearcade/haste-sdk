@@ -41,7 +41,11 @@ export class SocketServer {
         host: process.env.HASTE_API_HOST,
         port: parseInt(process.env.HASTE_API_PORT, 10),
         accessToken: '',
-        environment: 'nonproduction',
+        environment: process.env.HASTE_ENVIRONMENT
+          ? process.env.HASTE_ENVIRONMENT === 'production'
+            ? 'production'
+            : 'nonproduction'
+          : 'nonproduction',
       });
 
       const gameEngine = new GameEngine(socket, this.haste);
