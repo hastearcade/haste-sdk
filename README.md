@@ -137,11 +137,26 @@ console.log(leaders);
 /*
 output:
 
-[{
-  id: "guid",
-  name: "Beginner",
-  cost: 2000, // cost to play in this leaderboard in satoshis.
-}]
+{
+  "id": "leaderboard guid",
+  "createdAt": "2021-09-18T18:48:11.231Z",
+  "updatedAt": "2021-09-18T18:48:11.231Z",
+  "deletedAt": null,
+  "deleted": false,
+  "gameId": "game guid",
+  "gameArcadeId": "game arcade guid",
+  "name": "Practice",
+  "cost": 2000,
+  "leaders": [
+    {
+      "playerId": "player guid",
+      "name": "coolUser1",
+      "score": 8426,
+      "avatar": "https://www.gravatar.com/avatar/af89ae3186660885da0fffa0f9f578e5.jpeg"
+    }
+  ]
+}
+
 ```
 
 #### Submit Play & Score
