@@ -37,6 +37,8 @@ This quick start guide will demonstrate the use of the haste-sdk in a server sid
 
 To start you need to register your game with Haste through the developer [portal](https://developer.hastearcade.com). Once you login, you can create a game to generate a set of access keys to be used by the SDK.
 
+Additionally, you will need to adhere to the Haste [Security](./security.md) and [Branding](./branding.md) requirements before a game can be published. Once you request your game to be published, the Haste technical team will reach out to your team to ensure these requirements are met.
+
 ### Server
 
 The `@hastearcade/server` package is the primary entry point to the Haste ecosystem. The sdk is a wrapper for the Haste API and allows developers to ILP enable a game. The Haste ecosystem provides tools to handle the following components of ILP:
