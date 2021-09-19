@@ -100,6 +100,28 @@ output:
 }]
 ```
 
+#### Get Leaders
+
+In order to get a list of the current leaders for your game you can use the following function:
+
+```typescript
+const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
+const leaders = await haste.game.leaders(new Leaderboard(leaderboardId));
+console.log(leaders);
+
+/*
+output:
+
+[
+  {
+    playerId: 'player guid',
+    name: 'player username',
+    score: 150,
+    avatar: 'https://www.gravatar.com/avatar/fb69ae3186660885da0fffa0f9f578e5.jpg'
+  }
+]
+```
+
 #### Submit Play & Score
 
 When playing a game in an arcade, in order to play you must first insert your quarter. The `@hastearcade/server` sdk requires a similar flow. Once a player has selected their leaderboard, the developer will need to submit a "play" to the Haste api via the sdk. The following code shows a demonstration of this concept:
