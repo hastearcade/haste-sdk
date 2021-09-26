@@ -2,18 +2,24 @@
 import { isBrowser } from '../util/environmentCheck';
 import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
+import SecureLS from 'secure-ls';
 
 export type HasteAuthentication = {
   token: string;
   isAuthenticated: boolean;
 };
+
 export class HasteClient {
   private auth0Client: Auth0Client;
   private configuration: HasteClientConfiguration;
+  private ls: SecureLS;
 
   private constructor(configuration: HasteClientConfiguration, auth0Client: Auth0Client) {
     this.configuration = configuration;
     this.auth0Client = auth0Client;
+    this.ls = new SecureLS({
+      encodingType: 'aes',
+    });
   }
 
   public static async build(
@@ -46,6 +52,7 @@ export class HasteClient {
   }
 
   public logout() {
+    this.ls.removeAll();
     return this.auth0Client.logout({
       returnTo: window.location.origin,
     });
@@ -53,14 +60,31 @@ export class HasteClient {
 
   public async getTokenDetails() {
     try {
-      const accessToken = await this.auth0Client.getTokenSilently();
-      const idTokenClaims = await this.auth0Client.getIdTokenClaims();
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const idToken = urlSearchParams.get('id_token');
+      const cachedToken = this.ls.get('haste:config');
 
-      if (accessToken) {
+      if (cachedToken) {
         return {
-          token: idTokenClaims.__raw,
+          token: cachedToken,
           isAuthenticated: true,
         } as HasteAuthentication;
+      } else if (idToken) {
+        this.ls.set('haste:config', idToken);
+        return {
+          token: idToken,
+          isAuthenticated: true,
+        } as HasteAuthentication;
+      } else {
+        const accessToken = await this.auth0Client.getTokenSilently();
+        const idTokenClaims = await this.auth0Client.getIdTokenClaims();
+
+        if (accessToken) {
+          return {
+            token: idTokenClaims.__raw,
+            isAuthenticated: true,
+          } as HasteAuthentication;
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

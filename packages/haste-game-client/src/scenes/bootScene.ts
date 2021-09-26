@@ -52,7 +52,7 @@ export class BootScene extends Phaser.Scene {
 
       setTimeout(() => {
         hasteGame.socketManager.gameGetLevelsEvent.emit();
-      }, 700); // TODO There does not appear to be a way to await the socket-io connection
+      }, 5000); // TODO There does not appear to be a way to await the socket-io connection
     }
   }
 
