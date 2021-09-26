@@ -1,6 +1,6 @@
 {
   "name": "@hastearcade/server",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "The sdk to be used to empower developers to leverage the Haste Arcade. The SDK is intended to be used in server side code alongside the developers game logic.",
   "contributors": [
     "Keith LaForce <keith@hastearcade.com>",
