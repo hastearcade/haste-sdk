@@ -27,7 +27,10 @@ export class HasteClient {
     domain = 'auth.hastearcade.com',
     signinUrl = 'https://app.hastearcade.com/signin',
   ) {
-    if (!isBrowser()) throw new Error(`Haste client build may only be called from a browser based environment`);
+    if (!isBrowser())
+      throw new Error(
+        `Haste client build may only be called from a browser based environment. If you are on a server, please use the server package.`,
+      );
 
     const auth0 = await createAuth0Client({
       domain: domain,
