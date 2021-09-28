@@ -26,8 +26,17 @@
         "key": "dude",
         "url": "./assets/images/dude.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 48
+          "frameWidth": 24,
+          "frameHeight": 24
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dude-left",
+        "url": "./assets/images/dude-left.png",
+        "frameConfig": {
+          "frameWidth": 24,
+          "frameHeight": 24
         }
       }
     ]
