@@ -62,7 +62,7 @@ export class Haste {
     environment: HasteEnvironment,
     configuration?: HasteConfiguration,
   ): Promise<Haste> {
-    if (isBrowser()) throw new Error(`build may only be called from a server environment.`);
+    if (isBrowser()) throw new Error(`Build may only be called from a server environment.`);
 
     if (!clientId || clientId.length === 0) {
       throw new Error(`You must initialize Haste with a client id.`);
