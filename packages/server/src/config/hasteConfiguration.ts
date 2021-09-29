@@ -12,12 +12,14 @@ export class HasteConfiguration {
   accessToken: string;
   playerId?: string;
   environment: HasteEnvironment;
+  tokenExpiration?: Date;
 
   constructor(environment: HasteEnvironment, host = 'api.hastearcade.com', hostProtocol = 'https', port = 0) {
     this.hostProtocol = hostProtocol;
     this.port = port;
     this.host = host;
     this.accessToken = '';
+    this.tokenExpiration = new Date();
     this.environment = environment;
   }
 }

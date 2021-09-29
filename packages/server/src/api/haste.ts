@@ -14,7 +14,7 @@ export class Haste {
     this.game = new GameResource(this.configuration, gameDetails);
   }
 
-  private static async getJwt(
+  static async getJwt(
     clientId: string,
     clientSecret: string,
     url: string,
@@ -83,7 +83,7 @@ export class Haste {
     configuration.arcadeId = tokenResponse.arcadeId;
     configuration.gameId = tokenResponse.gameId;
     configuration.accessToken = tokenResponse.access_token;
-
+    configuration.tokenExpiration = new Date(new Date().getTime() + parseInt(tokenResponse.expires_in, 10) * 500);
     const gameDetails = await Haste.getGameDetails(
       configuration.accessToken,
       url,
