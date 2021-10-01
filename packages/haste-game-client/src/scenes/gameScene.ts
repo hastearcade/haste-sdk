@@ -130,7 +130,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   private initializeSprites(hasteGame: HasteGame) {
-    this.add.sprite(400, 300, 'sky');
+    this.add.sprite(400, 300, 'sky').setOrigin(0.5, 0.6);
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', color: '#000' });
 
     const ground = hasteGame.state.floor;
@@ -150,13 +150,13 @@ export class GameScene extends Phaser.Scene {
     this.bombSprites = new Map<string, Phaser.GameObjects.Sprite>();
 
     const player = hasteGame.state.player;
-    this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setOrigin(0.5, 0.5);
+    this.playerSprite = this.add.sprite(player.body.x, player.body.y, 'dude').setScale(2, 2).setOrigin(0.5, 0.5);
   }
 
   private initializeAnimations() {
     this.anims.create({
       key: 'left',
-      frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+      frames: this.anims.generateFrameNumbers('dude-left', { start: 19, end: 16 }),
       frameRate: 10,
       repeat: -1,
     });

@@ -60,7 +60,7 @@ export class LevelSelectionScene extends Phaser.Scene {
   }
 
   preload() {
-    this.cameras.main.setBackgroundColor(0x98d687);
+    this.cameras.main.setBackgroundColor(0xadd8e6);
   }
 
   async logout() {

@@ -30,7 +30,7 @@ export class HasteClient {
   ) {
     if (!isBrowser())
       throw new Error(
-        `Haste client build may only be called from a browser based environment. If you are on a server, please use the server package.`,
+        `Haste client build can only be called from a browser based environment. If you are on a server, please use the server package.`,
       );
 
     const auth0 = await createAuth0Client({

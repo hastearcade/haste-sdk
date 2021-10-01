@@ -6,7 +6,7 @@ import { ResultsScene } from '../scenes/resultsScene';
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   title: 'Haste Sample',
-  backgroundColor: '#125555',
+  backgroundColor: '#ADD8E6',
   width: 800,
   height: 600,
   url: 'https://github.com/playhaste/haste-sdk/tree/main/packages/haste-game-client',

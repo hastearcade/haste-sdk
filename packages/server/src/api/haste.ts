@@ -14,7 +14,7 @@ export class Haste {
     this.game = new GameResource(this.configuration, gameDetails);
   }
 
-  private static async getJwt(
+  static async getJwt(
     clientId: string,
     clientSecret: string,
     url: string,
@@ -62,7 +62,7 @@ export class Haste {
     environment: HasteEnvironment,
     configuration?: HasteConfiguration,
   ): Promise<Haste> {
-    if (isBrowser()) throw new Error(`build may only be called from a server environment.`);
+    if (isBrowser()) throw new Error(`Build may only be called from a server environment.`);
 
     if (!clientId || clientId.length === 0) {
       throw new Error(`You must initialize Haste with a client id.`);
@@ -83,7 +83,7 @@ export class Haste {
     configuration.arcadeId = tokenResponse.arcadeId;
     configuration.gameId = tokenResponse.gameId;
     configuration.accessToken = tokenResponse.access_token;
-
+    configuration.tokenExpiration = new Date(new Date().getTime() + parseInt(tokenResponse.expires_in, 10) * 500);
     const gameDetails = await Haste.getGameDetails(
       configuration.accessToken,
       url,

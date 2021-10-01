@@ -25,7 +25,7 @@ The `@hastearcade/server` package is the primary entry point to the Haste ecosys
 
 1. Authentication
 2. Leaderboard management
-3. Payouts to the leaderboard
+3. Payouts to the leaderboard and game developers
 4. Play & Score submission
 
 #### Initialize Haste
@@ -33,7 +33,12 @@ The `@hastearcade/server` package is the primary entry point to the Haste ecosys
 To initialize the Haste sdk for use in your server, you need to perform the following:
 
 ```typescript
-const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
+const environment = 'nonproduction';
+const haste = await Haste.build(
+  process.env.HASTE_SERVER_CLIENT_ID,
+  process.env.HASTE_SERVER_CLIENT_SECRET,
+  environment,
+);
 /// Now do things with the haste object like submit a play or a score.
 ```
 
@@ -42,6 +47,8 @@ The client id and secret are defined in the developer portal on your game page. 
 ![](https://github.com/playhaste/haste-sdk/blob/main/docs/assets/gameserverkeys.png)
 
 **NOTE: It is recommneded to create an abstraction (service, lib, etc) around the haste-sdk in your codebase. This will allow you to initialize one haste object.**
+
+For the third parameter to build you can use `nonproduction` or `production`. Please use `nonproduction` when testing as it will not send payouts. When you are ready to test payouts and/or you are in your true production environment please change the third parameter to `production`. The best practice is to use an environment variable to manage this process.
 
 #### Authentication
 
@@ -96,7 +103,7 @@ output:
 [{
   id: "guid",
   name: "Beginner",
-  cost: 2000, // cost to play in this leaderboard in satoshis.
+  cost: 4, // cost to play in this leaderboard in Duro.
 }]
 ```
 
@@ -141,7 +148,7 @@ output:
   leaderboard: {
     id: "guid",
     name: "Beginner",
-    cost: 2000, // cost to play in this leaderboard in satoshis.
+    cost: 2000, // cost to play in this leaderboard in Duro.
   }
 }
 ```
@@ -151,6 +158,17 @@ Once the play submission is you completed you should allow the user the play you
 **Always maintain the business logic and scoring logic server side for security reasons in your game. Do not keep score or make any important game state decisions on the client.**
 
 Upon hitting an end state for your game (i.e. the player gets hit by a bomb and dies) it is time to submit your score. To submit a score, you'll need the original play object. The play object can be maintained however you choose (memory, database, cache, etc). The score sdk method takes the current Play object, the Leaderboard the score is being submitted against, and the score.
+
+##### Errors
+
+The play endpoint has the potential to return errors from the Haste system. The potential errors are:
+
+1. The player must validate their email before playing the game.
+2. The player must connect a wallet before playing.
+3. The player does not have sufficient funds to play the game
+4. An error occurred while retrieving the wallets spendable balance.
+
+Please ensure that you server handles these exceptions appropriately and displays a message to the user.
 
 ```typescript
 await haste.game.score(currentPlay, score);
