@@ -33,11 +33,20 @@ export class HasteClient {
         `Haste client build can only be called from a browser based environment. If you are on a server, please use the server package.`,
       );
 
-    const auth0 = await createAuth0Client({
+    const auth0 = new Auth0Client({
       domain: domain,
       client_id: clientId,
       cacheLocation: 'localstorage',
     });
+
+    // this is a short term hack to avoid changing the interface last minute
+    // this will be removed in the next minor version release
+    // TODO
+    const sleep = (ms: number) => {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    };
+
+    await sleep(1);
 
     return new HasteClient(
       {
