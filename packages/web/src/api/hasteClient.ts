@@ -3,6 +3,7 @@ import { isBrowser } from '../util/environmentCheck';
 import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
 import SecureLS from 'secure-ls';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 export type HasteAuthentication = {
   token: string;
@@ -68,10 +69,23 @@ export class HasteClient {
       const cachedToken = this.ls.get('haste:config');
 
       if (cachedToken) {
-        return {
-          token: cachedToken,
-          isAuthenticated: true,
-        } as HasteAuthentication;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const decoded = jwtDecode<JwtPayload>(cachedToken);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const expiration = decoded.exp;
+
+        if (expiration && new Date(expiration * 1000) > new Date()) {
+          return {
+            token: cachedToken,
+            isAuthenticated: true,
+          } as HasteAuthentication;
+        } else {
+          this.ls.remove('haste:config');
+          return {
+            token: '',
+            isAuthenticated: false,
+          } as HasteAuthentication;
+        }
       } else if (idToken) {
         this.ls.set('haste:config', idToken);
         return {
