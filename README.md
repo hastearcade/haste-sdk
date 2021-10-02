@@ -2,8 +2,6 @@
 
 ## Overview
 
-The haste-sdk is not ready for production use yet. This document is subject to change.
-
 This readme is intended for developers looking to utilize the Haste ecosystem to build a game on the Haste Arcade. If you are a developer looking to contribute to the Haste ecosystem please see [Contributing](#contributing).
 
 The haste-sdk repository is a monorepo that contains the tooling required to create games quickly and easily for the [Haste Arcade](https://hastearcade.com/). Additionally it includes a sample game to provide a comprehensive example of how the Haste SDK can be used to apply the concept of Instant Leaderboard Payout (ILP).
@@ -15,6 +13,7 @@ Initially, TypeScript and JavaScript will be the only supported SDKs, but long t
 - [Quickstart](#quickstart)
   - [Server](#server)
   - [Web](#web)
+  - [Developer Checklist for Release](#release)
 - [Background and Use Case](#background)
 - [Packages](#packages)
 - [Documentation](#documentation)
@@ -252,6 +251,25 @@ hasteClient.logout(); /// does not need to be awaited
 ```
 
 Note: Logout does not need to be awaited, but it is best practice to redirect your user back to your game's sign in page or state. In addition, it is best practice to submit the user's current score upon logout.
+
+### Release
+
+In order to release a game to the arcade a developer will need to check the following boxes:
+
+- [ ] Branding
+  - [ ] A game logo, artwork, and at least one photo must be added through the developer portal.
+  - [ ] Your game must include a 'Sign in with Haste' button. The asset can be found [here](https://github.com/playhaste/haste-sdk/tree/main/docs/assets).
+  - [ ] You game must include a 'Made with Haste' button. The asset can be found [here](https://github.com/playhaste/haste-sdk/tree/main/docs/assets).
+- [ ] Security
+  - [ ] Your game should adhere to an authoritative server or similar pattern to reduce the opportunity for malicious actors. You can read more [here](https://www.gabrielgambetta.com/client-server-game-architecture.html).
+  - [ ] Your game should utilize the `web` and `server` SDKs to manage JWTs used by the Haste ecosystem. Your server side code should have JWT validation for any protected endpoint.
+  - [ ] You have made every effort to follow industry best practices like adhering to OWASP. If you need help or desire a second opinion please discuss with the Haste community through [Discord](https://discord.gg/mqPN8gDF3A).
+- [ ] Error handling
+  - [ ] Both server and client code should handle errors appropriately and follow industry best practices. See [here](#errors) for specific haste errors that will need to be handled.
+- [ ] Payment
+  - [ ] You must connect a handcash wallet in order to create a game. Please ensure that the wallet used is where you desire your payments to be sent.
+- [ ] Testing
+  - [ ] The Haste SDK allows you to specify a non-production environment for testing. All non production environments for your game should use non-production to prevent payments from being made. Please use an environment variable as a parameter to the `.build` function.
 
 ## Background
 
