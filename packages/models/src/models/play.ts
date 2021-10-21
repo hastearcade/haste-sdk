@@ -20,6 +20,17 @@ export class Play {
   }
 }
 
+export class PlayTransaction {
+  id: string;
+  status: string;
+  tx: string;
+
+  constructor() {
+    this.id = '';
+    this.status = '';
+    this.tx = '';
+  }
+}
 export class CreatePlay {
   playerId: string;
   leaderboardId: string;
