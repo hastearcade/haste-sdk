@@ -107,6 +107,23 @@ private jwtMiddleware = (socket: Socket, next: (err?: ExtendedError) => void) =>
   };
 ```
 
+#### Player Details
+
+If you require additional details about a player like their handcash profile id or user name you can use the `getPlayerDetails` function.
+
+```typescript
+import { Haste } from '@hastearcade/server';
+/// this is custom code specific to your server to retrieve the token from the web request
+const token = receiveTokenFromRequest();
+
+try {
+  const { playerId, userName, handcashProfileId } = await Haste.getPlayerDetails(token);
+  console.log(`The player authenticated has an id of ${playerId}`);
+} catch (err) {
+  console.error(`An error occurred while validating the player's token.`);
+}
+```
+
 #### Leaderboard management
 
 The Haste ecosystem currently has multiple leaderboards that can be played for every game. Each tier requires additional funds to play the game (i.e. paying a penny vs paying a "quarter"). Every game in the arcade must support this concept in game. Thus, most games will display a dropdown UI to allow the player to select what leaderboard they wish to participate in. In order to retrieve the list of leaderboards to show in your dropdown you can use the following:

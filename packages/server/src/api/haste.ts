@@ -56,6 +56,23 @@ export class Haste {
     return playerId;
   }
 
+  public static async getPlayerDetails(playerAccessToken: string, authUrl = 'auth.hastearcade.com') {
+    if (isBrowser())
+      throw new Error(`getPlayerDetails may only be called from a server environment. Do not use in browser please.`);
+    const jwt = await validateAuthenticationToken(playerAccessToken, authUrl);
+    const playerId = jwt['https://hastearcade.com/playerId'] as string;
+    const email = jwt['https://hastearcade.com/email'] as string;
+    const handcashProfileId = jwt['https://hastearcade.com/handcashProfileId'] as string;
+    const userName = jwt['https://hastearcade.com/displayName'] as string;
+
+    return {
+      playerId,
+      email,
+      handcashProfileId,
+      userName,
+    };
+  }
+
   public static async build(
     clientId: string,
     clientSecret: string,
