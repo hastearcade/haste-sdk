@@ -1,4 +1,4 @@
-import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player } from '@hastearcade/models';
+import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player, PlayTransaction } from '@hastearcade/models';
 import { HasteConfiguration } from '../../../config/hasteConfiguration';
 import { BaseResource } from '../baseResource';
 
@@ -16,6 +16,11 @@ export class GameResource extends BaseResource {
     const play = await this.post<CreatePlay, Play>(createPayload, path);
     play.leaderboard = new Leaderboard(leaderboard.id);
     return play;
+  }
+
+  async getPlayTransaction(play: Play) {
+    const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/play/${play.id}/transaction`;
+    return await this.get<PlayTransaction>(path);
   }
 
   async score(play: Play, score: number) {
