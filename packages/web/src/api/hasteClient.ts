@@ -97,6 +97,9 @@ export class HasteClient {
         }
       } else if (idToken) {
         this.ls.set('haste:config', idToken);
+        urlSearchParams.delete('id_token');
+        const plainUrl = window.location.href.split('?')[0];
+        window.history.pushState({}, document.title, `${plainUrl}${urlSearchParams.toString()}`);
         return {
           token: idToken,
           isAuthenticated: true,
