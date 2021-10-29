@@ -195,6 +195,10 @@ Once the play submission is you completed you should allow the user the play you
 
 Upon hitting an end state for your game (i.e. the player gets hit by a bomb and dies) it is time to submit your score. To submit a score, you'll need the original play object. The play object can be maintained however you choose (memory, database, cache, etc). The score sdk method takes the current Play object, the Leaderboard the score is being submitted against, and the score.
 
+```typescript
+await haste.game.score(currentPlay, score);
+```
+
 ##### Payment Transaction
 
 When submitting a play the Haste ecosystem is performing a payout on behalf of the player. The underlying system uses the wallet to perform the payout, and every payout has a transaction hash associated with it. If you need access to the transaction you can use the following function call:
@@ -227,10 +231,6 @@ The play endpoint has the potential to return errors from the Haste system. The 
 4. An error occurred while retrieving the wallets spendable balance.
 
 Please ensure that you server handles these exceptions appropriately and displays a message to the user.
-
-```typescript
-await haste.game.score(currentPlay, score);
-```
 
 #### Payouts
 
