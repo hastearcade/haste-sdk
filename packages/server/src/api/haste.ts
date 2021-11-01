@@ -5,13 +5,16 @@ import axios from 'axios';
 import { buildUrl } from '../util/urlBuilder';
 import { validateAuthenticationToken } from './auth/validate';
 import { isBrowser } from '../util/environmentCheck';
+import { PlayResource } from './resources/game/playResource';
 export class Haste {
   private configuration?: HasteConfiguration;
   game: GameResource;
+  play: PlayResource;
 
   private constructor(configuration: HasteConfiguration, gameDetails: Game) {
     this.configuration = configuration;
     this.game = new GameResource(this.configuration, gameDetails);
+    this.play = new PlayResource(this.configuration);
   }
 
   static async getJwt(
