@@ -180,6 +180,29 @@ Upon hitting an end state for your game (i.e. the player gets hit by a bomb and 
 await haste.game.score(currentPlay, score);
 ```
 
+##### Get Play
+
+There are times when you may prefer not to serialize the entire Play object and store in a database or in memory. If you want to store the id only, then you will need to retrieve the play object before calling `score`. To retrieve the full Play object from the Haste API you may use the following:
+
+```typescript
+const play = await haste.play.find(playId);
+console.log(play);
+
+/*
+output:
+
+{
+  id: "guid",
+  gameId: "your game guid",
+  playerId: "player guid",
+  leaderboard: {
+    id: "guid",
+    name: "Beginner",
+    cost: 2000, // cost to play in this leaderboard in Duro.
+  }
+}
+```
+
 ##### Payment Transaction
 
 When submitting a play the Haste ecosystem is performing a payout on behalf of the player. The underlying system uses the wallet to perform the payout, and every payout has a transaction hash associated with it. If you need access to the transaction you can use the following function call:
@@ -187,7 +210,7 @@ When submitting a play the Haste ecosystem is performing a payout on behalf of t
 ```typescript
 const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
 const play = await haste.game.play(new Player(playerId), new Leaderboard(leaderboardId));
-const transaction = await haste.game.getPlayTransaction(play);
+const transaction = await haste.play.transaction(play);
 console.log(transaction);
 
 /*
