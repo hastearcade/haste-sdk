@@ -229,7 +229,7 @@ When submitting a play the Haste ecosystem is performing a payout on behalf of t
 ```typescript
 const haste = await Haste.build(process.env.HASTE_SERVER_CLIENT_ID, process.env.HASTE_SERVER_CLIENT_SECRET);
 const play = await haste.game.play(new Player(playerId), new Leaderboard(leaderboardId));
-const transaction = await haste.play.transaction(play);
+const transaction = await haste.play.transaction(play);  // takes id of play (string) as parameter
 console.log(transaction);
 
 /*
