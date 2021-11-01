@@ -242,7 +242,7 @@ output:
 }
 ```
 
-**NOTE: Payments are performed via asyncronous methods and thus you may not receive the transaction hash if you call `getPlayTransaction` immediately after a play. The best practice is to poll `getPlayTransaction` until you receive a `tx`.**
+**NOTE: Payments are performed via asyncronous methods and thus you may not receive the transaction hash if you call `play.transaction` immediately after a play. The best practice is to poll `play.transaction` until you receive a `tx`.**
 
 ##### Errors
 
