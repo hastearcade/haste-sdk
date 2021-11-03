@@ -54,7 +54,7 @@ export type HasteAuthentication = {
 };
 ```
 
-If the player is unauthenticated, then please present the user with the 'Sign in with Haste' branded button.
+If the player is unauthenticated, then please present the user with the ['Sign in with Haste' branded button](https://www.hastearcade.com/brand).
 
 The button should execute the following code to redirect the player to the arcade for sign in. Once the player signs in to Haste Arcade the player will be redirected back to the game.:
 
