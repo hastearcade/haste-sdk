@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { isBrowser } from '../util/environmentCheck';
-import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
+import { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
 import SecureLS from 'secure-ls';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
@@ -8,6 +8,8 @@ import jwtDecode, { JwtPayload } from 'jwt-decode';
 export type HasteAuthentication = {
   token: string;
   isAuthenticated: boolean;
+  picture: string;
+  displayName: string;
 };
 
 export class HasteClient {
@@ -82,35 +84,48 @@ export class HasteClient {
         const decoded = jwtDecode<JwtPayload>(cachedToken);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const expiration = decoded.exp;
-
         if (expiration && new Date(expiration * 1000) > new Date()) {
           return {
             token: cachedToken,
+            // eslint-disable-next-line dot-notation
+            picture: decoded['picture'],
+            displayName: decoded['https://hastearcade.com/displayName'],
             isAuthenticated: true,
           } as HasteAuthentication;
         } else {
           this.ls.remove('haste:config');
           return {
             token: '',
+            picture: '',
+            displayName: '',
             isAuthenticated: false,
           } as HasteAuthentication;
         }
       } else if (idToken) {
         this.ls.set('haste:config', idToken);
         urlSearchParams.delete('id_token');
+        const decoded = jwtDecode<JwtPayload>(idToken);
         const plainUrl = window.location.href.split('?')[0];
         window.history.pushState({}, document.title, `${plainUrl}${urlSearchParams.toString()}`);
         return {
           token: idToken,
+          // eslint-disable-next-line dot-notation
+          picture: decoded['picture'],
+          displayName: decoded['https://hastearcade.com/displayName'],
           isAuthenticated: true,
         } as HasteAuthentication;
       } else {
         const accessToken = await this.auth0Client.getTokenSilently();
         const idTokenClaims = await this.auth0Client.getIdTokenClaims();
+        const idToken = idTokenClaims.__raw;
 
+        const decoded = jwtDecode<JwtPayload>(idToken);
         if (accessToken) {
           return {
-            token: idTokenClaims.__raw,
+            token: idToken,
+            // eslint-disable-next-line dot-notation
+            picture: decoded['picture'],
+            displayName: decoded['https://hastearcade.com/displayName'],
             isAuthenticated: true,
           } as HasteAuthentication;
         }

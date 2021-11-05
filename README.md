@@ -291,6 +291,8 @@ The `getTokenDetails` function will return a `HasteAuthentication` object with t
 export type HasteAuthentication = {
   token: string;
   isAuthenticated: boolean;
+  picture: string; // Url
+  displayName: string;
 };
 ```
 
