@@ -4,6 +4,7 @@ import { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
 import SecureLS from 'secure-ls';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { v4 } from 'uuid';
 
 export type HasteAuthentication = {
   token: string;
@@ -28,7 +29,7 @@ export class HasteClient {
   public static async build(
     clientId: string,
     domain = 'auth.hastearcade.com',
-    signinUrl = 'https://app.hastearcade.com/signin',
+    signinUrl = 'https://authclient.hastearcade.com/signin',
   ) {
     if (!isBrowser())
       throw new Error(
@@ -36,9 +37,12 @@ export class HasteClient {
       );
 
     const auth0 = new Auth0Client({
+      audience: 'https://haste.api',
       domain: domain,
       client_id: clientId,
-      cacheLocation: 'localstorage',
+      scope: 'offline_access',
+      useRefreshTokens: true,
+      useCookiesForTransactions: true,
     });
 
     // this is a short term hack to avoid changing the interface last minute
@@ -60,10 +64,13 @@ export class HasteClient {
     );
   }
 
-  public login() {
-    window.location.href = `${
-      this.configuration.signinUrl
-    }?redirectUrl=${`${window.location.href}?redirectClientId=${this.configuration.clientId}`}`;
+  public async login() {
+    const hint = btoa(`${v4()};;;;;${window.location.origin};;;;;${'signin'}`);
+    await this.auth0Client.loginWithRedirect({
+      connection: 'Haste-Authorization',
+      login_hint: hint,
+      redirect_uri: window.location.origin,
+    });
   }
 
   public logout() {
@@ -80,29 +87,13 @@ export class HasteClient {
       const cachedToken = this.ls.get('haste:config');
 
       if (cachedToken) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const decoded = jwtDecode<JwtPayload>(cachedToken);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const expiration = decoded.exp;
-        if (expiration && new Date(expiration * 1000) > new Date()) {
-          return {
-            token: cachedToken,
-            // eslint-disable-next-line dot-notation
-            picture: decoded['picture'],
-            displayName: decoded['https://hastearcade.com/displayName'],
-            isAuthenticated: true,
-          } as HasteAuthentication;
-        } else {
-          this.ls.remove('haste:config');
-          return {
-            token: '',
-            picture: '',
-            displayName: '',
-            isAuthenticated: false,
-          } as HasteAuthentication;
-        }
+        // we need to sign out users to ensure they are not using an old JWT
+        // as the new JWTs will have a specific claim that the play endpoint
+        // checks for and if it doesnt exist it will prevent users from playing
+        // a speciifc game. This will ensure we can get all games upgraded to
+        // the newest package with the new auth and all users get converted
+        await this.logout();
       } else if (idToken) {
-        this.ls.set('haste:config', idToken);
         urlSearchParams.delete('id_token');
         const decoded = jwtDecode<JwtPayload>(idToken);
         const plainUrl = window.location.href.split('?')[0];
@@ -134,7 +125,10 @@ export class HasteClient {
     } catch (err: any) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (err.error === 'consent_required') {
+        const hint = btoa(`${v4()};;;;;${window.location.origin};;;;;${'game'}`);
         await this.auth0Client.loginWithRedirect({
+          connection: 'Haste-Authorization',
+          login_hint: hint,
           redirect_uri: window.location.origin,
         });
       }
