@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "module": "amd",
+    "outFile": "dist/umd/hastearcade.web.js"
+  },
+  "include": ["src"],
+  "exclude": ["**/__tests__/**/*"],
+  "references": [{ "path": "../models" }]
+}

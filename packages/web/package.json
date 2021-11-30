@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
-    "build": "tsc -b",
+    "build": "tsc -b && tsc --build tsconfig.umd.json",
     "prepare": "npm run clean && npm run build",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
