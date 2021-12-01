@@ -261,6 +261,26 @@ All payouts are handled internal to the Haste ecosystem and do not require any a
 
 ### Web
 
+The Haste team prefers to install libraries via npm install like `npm install @hastearcade/web`.
+
+However, if you prefer to utilize a single script tag you can include the following tag in your HTML:
+
+`<script src="https://unpkg.com/@hastearcade/web/dist/umd/index.js" />`
+
+_SPECIAL NOTE_
+
+If you utilize the script tag above you must preface all your code with `haste.` For example instead of
+
+```typescript
+const hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
+```
+
+you would need to use
+
+```typescript
+const hasteClient = await haste.HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
+```
+
 While the primary work of integrating with Haste is performed in the server (where all game logic and score state should be maintained), Haste does provide a web based sdk to assist in the authentication process. In order for a player to play your game, they will need to authenticate with the Haste Arcade.
 
 The web SDK works by utilizing a SSO system with Haste Arcade. The SDK is a wrapper to help facilitate this process.
