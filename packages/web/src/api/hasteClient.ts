@@ -2,7 +2,6 @@
 import { isBrowser } from '../util/environmentCheck';
 import { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
-import SecureLS from 'secure-ls';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { v4 } from 'uuid';
 
@@ -16,14 +15,10 @@ export type HasteAuthentication = {
 export class HasteClient {
   private auth0Client: Auth0Client;
   private configuration: HasteClientConfiguration;
-  private ls: SecureLS;
 
   private constructor(configuration: HasteClientConfiguration, auth0Client: Auth0Client) {
     this.configuration = configuration;
     this.auth0Client = auth0Client;
-    this.ls = new SecureLS({
-      encodingType: 'aes',
-    });
   }
 
   public static async build(
@@ -74,7 +69,7 @@ export class HasteClient {
   }
 
   public logout() {
-    this.ls.removeAll();
+    localStorage.removeItem('haste:config');
     return this.auth0Client.logout({
       returnTo: window.location.origin,
     });
@@ -84,7 +79,7 @@ export class HasteClient {
     try {
       const urlSearchParams = new URLSearchParams(window.location.search);
       const idToken = urlSearchParams.get('id_token');
-      const cachedToken = this.ls.get('haste:config');
+      const cachedToken = localStorage.getItem('haste:config');
 
       if (cachedToken) {
         // we need to sign out users to ensure they are not using an old JWT
