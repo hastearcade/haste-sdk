@@ -26,6 +26,7 @@ export class BootScene extends Phaser.Scene {
   // has the appropriately configured callback
   // urls.
   login() {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hasteClient.login();
   }
 
