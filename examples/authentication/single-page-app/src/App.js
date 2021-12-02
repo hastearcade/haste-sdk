@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import badge from './dark-badge.svg';
+import badge from './login.svg';
 import './App.css';
 import { HasteClient } from '@hastearcade/web';
 
