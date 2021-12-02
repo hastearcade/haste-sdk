@@ -3,4 +3,10 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  img(src= './images/login.svg', class='logo')
+  if locals.user
+    div(class="header")
+      img(src=user.picture, class='logo')
+      button(onclick="logout()" class="button") Sign Out
+  else
+    button(onclick="login()" class="nobutton")
+      img(src= './images/login.svg', class='logo')
