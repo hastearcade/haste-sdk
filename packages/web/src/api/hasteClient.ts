@@ -21,7 +21,7 @@ export class HasteClient {
     this.auth0Client = auth0Client;
   }
 
-  public static async build(
+  public static build(
     clientId: string,
     domain = 'auth.hastearcade.com',
     signinUrl = 'https://authclient.hastearcade.com/signin',
@@ -39,15 +39,6 @@ export class HasteClient {
       useRefreshTokens: true,
       useCookiesForTransactions: true,
     });
-
-    // this is a short term hack to avoid changing the interface last minute
-    // this will be removed in the next minor version release
-    // TODO
-    const sleep = (ms: number) => {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    };
-
-    await sleep(1);
 
     return new HasteClient(
       {
