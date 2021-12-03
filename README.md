@@ -40,6 +40,8 @@ Additionally, you will need to adhere to the Haste [Security](./security.md) and
 
 ### Server
 
+The server package is intended to be used in conjunction with `@hastearcade/web` in a single page architecture. If you are building a regular web application, you should use `@hastearcade/haste-express` for authentication instead of `@hastearcade/web`. The server package can be used within your regular web application to pull leaderboards once the user is authenticated.
+
 The `@hastearcade/server` package is the primary entry point to the Haste ecosystem. The sdk is a wrapper for the Haste API and allows developers to ILP enable a game. The Haste ecosystem provides tools to handle the following components of ILP:
 
 1. Authentication
