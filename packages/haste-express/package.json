@@ -18,7 +18,9 @@
     "dist"
   ],
   "scripts": {
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "pretty": "",
+    "lint": ""
   },
   "bugs": {
     "url": "https://github.com/hastearcade/haste-sdk/issues"
