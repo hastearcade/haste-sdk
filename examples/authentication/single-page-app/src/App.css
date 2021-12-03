@@ -50,6 +50,7 @@
   transition: background-color 0.2s ease-in-out 0s, color 0.2s ease-in-out 0s;
   text-transform: none;
   letter-spacing: 0px;
+  line-height: 1;
 }
 
 .App-button:hover {

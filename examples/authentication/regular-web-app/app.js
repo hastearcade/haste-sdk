@@ -10,32 +10,17 @@ import favicon from 'serve-favicon';
 import { join } from 'path';
 import session from 'express-session';
 import passport from 'passport';
-import Auth0Strategy from 'passport-auth0';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/user.js';
-import authRouter from './routes/auth.js';
+import hasteAuthRouter from './routes/hasteAuthRoutes.js';
 import userInViews from './lib/middleware/userInViews.js';
+import HasteStrategy from './lib/middleware/hasteStrategy.js';
 
 config();
 
-const strategy = new Auth0Strategy(
-  {
-    domain: process.env.AUTH0_DOMAIN,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3002/',
-  },
-  function (accessToken, refreshToken, extraParams, profile, done) {
-    // accessToken is the token to call Auth0 API (not needed in the most cases)
-    // extraParams.id_token has the JSON Web Token
-    // profile has all the information from the user
-    return done(null, profile);
-  },
-);
-
-passport.use(strategy);
+passport.use(HasteStrategy.initialize());
 
 // You can use this section to keep a smaller payload
 passport.serializeUser(function (user, done) {
@@ -71,7 +56,7 @@ app.use(urlencoded({ extended: false }));
 app.use(stc(join('.', 'public')));
 
 app.use(userInViews());
-app.use('/', authRouter);
+app.use('/', hasteAuthRouter);
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 

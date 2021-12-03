@@ -4,7 +4,12 @@
 
 export default function () {
   return function (req, res, next) {
-    res.locals.user = req.user;
+    if (req.user && req.user._json) {
+      res.locals.user = {
+        displayName: req.user._json['https://hastearcade.com/displayName'],
+        picture: req.user.picture,
+      };
+    }
     next();
   };
 }
