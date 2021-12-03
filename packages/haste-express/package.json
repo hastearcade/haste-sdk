@@ -1,0 +1,44 @@
+{
+  "name": "@hastearcade/haste-express",
+  "version": "1.0.0-next.1",
+  "description": "The sdk to be used to empower developers to leverage the Haste Arcade. The SDK is intended to be used in an express based regular web appliaction alongside the developers game logic.",
+  "contributors": [
+    "Keith LaForce <keith@hastearcade.com>",
+    "Eric LaForce <eric@hastearcade.com>",
+    "Dan Wagner <dan@hastearcade.com>"
+  ],
+  "homepage": "https://hastearcade.com",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hastearcade/haste-sdk.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "semantic-release": "semantic-release"
+  },
+  "bugs": {
+    "url": "https://github.com/hastearcade/haste-sdk/issues"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "keywords": [
+    "haste",
+    "game",
+    "arcade",
+    "ilp",
+    "bsv",
+    "payout"
+  ],
+  "devDependencies": {
+    "@semantic-release/git": "^9.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
