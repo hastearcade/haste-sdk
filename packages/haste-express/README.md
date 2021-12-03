@@ -112,6 +112,8 @@ block content
 
 If the player is already authenticated, then you can present the player with the leaderboard selection. The leaderboard selection will allow the player to select the payment amount and level they are playing for the Arcade. To display the leaderboards the developer will need to utilize the [server side SDK](https://github.com/hastearcade/haste-sdk/tree/main/packages/server).
 
+![Login Flow](login.svg)
+
 #### Logout
 
 A logout button should redirect the user to the `/logout` route created by registered `hasteAuthRoutes` within express. See the Login section above for an example.
