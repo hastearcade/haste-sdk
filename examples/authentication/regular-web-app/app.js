@@ -8,13 +8,13 @@ import createError from 'http-errors';
 import express, { json, urlencoded, static as stc } from 'express';
 import favicon from 'serve-favicon';
 import { join } from 'path';
-import session from 'express-session';
-import passport from 'passport';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/user.js';
 
+import session from 'express-session';
+import passport from 'passport';
 import { hasteAuthRoutes, hasteUserInViews, HasteStrategy } from '@hastearcade/haste-express';
 
 config();
