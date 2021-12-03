@@ -53,7 +53,7 @@ function App() {
           </button>
         </div>
       ) : (
-        <div>
+        <div className="App-inner">
           <img
             src={badge}
             className="App-logo"
