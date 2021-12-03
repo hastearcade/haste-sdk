@@ -16,7 +16,8 @@ config();
 router.get(
   '/login',
   passport.authenticate('auth0', {
-    scope: 'openid email profile',
+    connection: 'Haste-Authorization',
+    scope: 'openid email profile offline_access',
   }),
   function (req, res) {
     res.redirect('/');
