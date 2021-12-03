@@ -28,4 +28,4 @@ class HasteStrategy {
   }
 }
 
-export default HasteStrategy;
+export { HasteStrategy };

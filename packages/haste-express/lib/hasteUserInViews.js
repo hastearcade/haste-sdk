@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-export default function () {
+function hasteUserInViews() {
   return function (req, res, next) {
     if (req.user && req.user._json) {
       res.locals.user = {
@@ -13,3 +13,5 @@ export default function () {
     next();
   };
 }
+
+export { hasteUserInViews };

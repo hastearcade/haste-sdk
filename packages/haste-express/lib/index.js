@@ -1,3 +1,3 @@
-export * as HasteStrategy from './hasteStrategy.js';
-export * as hasteAuthRoutes from './hasteAuthRoutes.js';
-export * as hasteUserInViews from './hasteUserInViews.js';
+export * from './hasteStrategy.js';
+export * from './hasteAuthRoutes.js';
+export * from './hasteUserInViews.js';

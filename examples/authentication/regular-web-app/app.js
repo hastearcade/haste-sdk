@@ -15,9 +15,7 @@ import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/user.js';
 
-import hasteAuthRouter from './routes/hasteAuthRoutes.js';
-import hasteUserInViews from './lib/middleware/hasteUserInViews.js';
-import HasteStrategy from './lib/middleware/hasteStrategy.js';
+import { hasteAuthRoutes, hasteUserInViews, HasteStrategy } from '@hastearcade/haste-express';
 
 config();
 
@@ -32,7 +30,6 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-// config express-session
 const sess = {
   secret: 'shhhh', // this would change in a real application
   resave: false,
@@ -57,7 +54,7 @@ app.use(urlencoded({ extended: false }));
 app.use(stc(join('.', 'public')));
 
 app.use(hasteUserInViews());
-app.use('/', hasteAuthRouter);
+app.use('/', hasteAuthRoutes);
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 

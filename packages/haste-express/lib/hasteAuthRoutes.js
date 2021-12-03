@@ -9,9 +9,12 @@ import { config } from 'dotenv';
 import { format } from 'util';
 import { URL } from 'url';
 import { stringify } from 'querystring';
+import { HasteStrategy } from './hasteStrategy.js';
 
 const router = Router();
 config();
+
+passport.use(HasteStrategy.initialize());
 
 router.get(
   '/login',
@@ -65,4 +68,4 @@ router.get('/logout', (req, res) => {
   res.redirect(logoutURL);
 });
 
-export default router;
+export { router as hasteAuthRoutes };
