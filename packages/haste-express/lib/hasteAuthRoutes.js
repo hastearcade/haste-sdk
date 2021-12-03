@@ -19,6 +19,7 @@ passport.use(HasteStrategy.initialize());
 router.get(
   '/login',
   passport.authenticate('auth0', {
+    audience: 'https://haste.api',
     connection: 'Haste-Authorization',
     scope: 'openid email profile offline_access',
   }),
