@@ -14,8 +14,9 @@ import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/user.js';
+
 import hasteAuthRouter from './routes/hasteAuthRoutes.js';
-import userInViews from './lib/middleware/userInViews.js';
+import hasteUserInViews from './lib/middleware/hasteUserInViews.js';
 import HasteStrategy from './lib/middleware/hasteStrategy.js';
 
 config();
@@ -55,7 +56,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(stc(join('.', 'public')));
 
-app.use(userInViews());
+app.use(hasteUserInViews());
 app.use('/', hasteAuthRouter);
 app.use('/', indexRouter);
 app.use('/', usersRouter);
