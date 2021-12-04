@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -10,6 +11,7 @@ import { format } from 'util';
 import { URL } from 'url';
 import { stringify } from 'querystring';
 import { HasteStrategy } from './hasteStrategy.js';
+import { v4 } from 'uuid';
 
 const router = Router();
 config();
@@ -18,10 +20,37 @@ passport.use(HasteStrategy.initialize());
 
 router.get(
   '/login',
+  function (req, res, next) {
+    const port = req.app.settings.port;
+    passport.authenticate(
+      'auth0',
+      {
+        audience: 'https://haste.api',
+        connection: 'Haste-Authorization',
+        scope: 'openid email profile offline_access',
+        login_hint: btoa(
+          `${v4()};;;;;${req.protocol}://${req.hostname}${port === 80 || port === 443 ? '' : `:${port}`}/silentlogin`,
+        ),
+      },
+      function (err, user, info) {
+        if (err) {
+          return next(err);
+        }
+      },
+    )(req, res, next);
+  },
+  function (req, res) {
+    res.redirect('/');
+  },
+);
+
+router.get(
+  '/silentlogin',
   passport.authenticate('auth0', {
     audience: 'https://haste.api',
     connection: 'Haste-Authorization',
     scope: 'openid email profile offline_access',
+    prompt: 'none',
   }),
   function (req, res) {
     res.redirect('/');
