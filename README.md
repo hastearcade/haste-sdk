@@ -8,6 +8,8 @@ The haste-sdk repository is a monorepo that contains the tooling required to cre
 
 Initially, TypeScript and JavaScript will be the only supported SDKs, but long term Haste will build SDKs for other technology stacks and will help support community driven SDKs. Haste plans to keep client SDKs open source to ensure a good developer experience and will make available documented APIs for developers that do not wish to utilize Typescript or Javascript.
 
+Ensure you read the [Quick Start](#quickstart) section for important details about building your game. Specifically you cannot just build a client side game, there must be a server side component to your games known as an authoritative server that can be found in the [Security](./security.md) details.
+
 ## Table of Contents
 
 - [Quickstart](#quickstart)
