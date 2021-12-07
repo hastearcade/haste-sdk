@@ -67,7 +67,9 @@
     "@oclif/command": "^1.8.7",
     "@oclif/config": "^1.18.2",
     "@oclif/plugin-help": "^3.2.11",
+    "axios": "^0.24.0",
     "chalk": "^4.1.2",
+    "dotenv": "^10.0.0",
     "spinnies": "hastearcade/spinnies",
     "tslib": "^1.14.1"
   }

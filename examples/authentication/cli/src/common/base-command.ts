@@ -46,7 +46,7 @@ export default abstract class BaseCommand extends Command {
    */
   errorBatch = new ErrorBatch(this);
 
-  async init() {
+  async init(): Promise<void> {
     chalk.level = 3;
     await super.init();
   }

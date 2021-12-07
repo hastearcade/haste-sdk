@@ -16,7 +16,7 @@ export default class Hello extends BaseCommand {
 
   static args = [{ name: 'name' }];
 
-  async run() {
+  async run(): Promise<void> {
     const { args, flags } = this.parse(Hello);
 
     const name = args.name ?? 'world';
@@ -58,6 +58,6 @@ export default class Hello extends BaseCommand {
     setTimeout(() => {
       succeedSpinner.succeed();
       this.logCommandFinish("and that's about it!!");
-    }, 10000);
+    }, 10_000);
   }
 }
