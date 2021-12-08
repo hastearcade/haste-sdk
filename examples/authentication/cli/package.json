@@ -69,6 +69,7 @@
     "@oclif/plugin-help": "^3.2.11",
     "axios": "^0.24.0",
     "chalk": "^4.1.2",
+    "cli-ux": "^5.6.6",
     "dotenv": "^10.0.0",
     "jwt-decode": "^3.1.2",
     "netrc-parser": "^3.1.6",

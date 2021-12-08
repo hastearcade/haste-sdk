@@ -1,4 +1,5 @@
 import { flags } from '@oclif/command';
+import cli from 'cli-ux';
 import os from 'os';
 import axios from 'axios';
 import { config } from 'dotenv';
@@ -65,9 +66,12 @@ export default class Login extends BaseCommand {
     await this.removeToken();
 
     const response = await axios.post(`${process.env.AUTH_API_URL}/cli`, { description: os.hostname() }, {});
+    const browserUrl = `${process.env.AUTH_CLIENT_URL}${response.data.browserUrl}`;
     this.logCommandStart(
-      `Please open the following link in your browser to login: ${process.env.AUTH_CLIENT_URL}${response.data.browserUrl}`,
+      `The following link will open in your browser to login to Haste. If for some reason it does not open automatically please click here: ${browserUrl}`,
     );
+
+    await cli.open(browserUrl);
 
     const loginSpinner = this.spinner.add('Waiting for you to login within your browser using the link above');
 
