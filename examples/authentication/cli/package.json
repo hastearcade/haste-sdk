@@ -70,6 +70,8 @@
     "axios": "^0.24.0",
     "chalk": "^4.1.2",
     "dotenv": "^10.0.0",
+    "jwt-decode": "^3.1.2",
+    "netrc-parser": "^3.1.6",
     "spinnies": "hastearcade/spinnies",
     "tslib": "^1.14.1"
   }

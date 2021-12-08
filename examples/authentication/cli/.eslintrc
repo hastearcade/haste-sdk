@@ -10,6 +10,7 @@
     "semi": "off",
     "arrow-parens": "off",
     "valid-jsdoc": "off",
+    "camelcase": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
