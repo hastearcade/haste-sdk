@@ -8,7 +8,7 @@ import { Router } from 'express';
 import passport from 'passport';
 import { config } from 'dotenv';
 import { format } from 'util';
-import { Url } from 'url';
+import { URL } from 'url';
 import { stringify } from 'querystring';
 import { HasteStrategy } from './hasteStrategy.js';
 import { v4 } from 'uuid';
@@ -87,7 +87,7 @@ router.get('/logout', (req, res) => {
     returnTo += ':' + port;
   }
 
-  const logoutURL = new Url(format('https://%s/v2/logout', process.env.AUTH0_DOMAIN));
+  const logoutURL = new URL(format('https://%s/v2/logout', process.env.AUTH0_DOMAIN));
   const searchString = stringify({
     client_id: process.env.AUTH0_CLIENT_ID,
     returnTo: returnTo,
