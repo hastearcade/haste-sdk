@@ -9,16 +9,25 @@
   ],
   "homepage": "https://hastearcade.com",
   "license": "MIT",
-  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hastearcade/haste-sdk.git"
   },
   "files": [
-    "lib"
+    "dist"
   ],
+  "source": "lib/index.js",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.modern.js"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
   "scripts": {
     "semantic-release": "semantic-release",
+    "build": "rm -rf dist/ && microbundle",
     "pretty": "",
     "lint": ""
   },
@@ -41,10 +50,10 @@
     "payout"
   ],
   "devDependencies": {
-    "@semantic-release/git": "^9.0.0"
+    "@semantic-release/git": "^9.0.0",
+    "microbundle": "^0.14.2"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "type": "module"
+  }
 }
