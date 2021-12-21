@@ -8,6 +8,8 @@ The haste-sdk repository is a monorepo that contains the tooling required to cre
 
 Initially, TypeScript and JavaScript will be the only supported SDKs, but long term Haste will build SDKs for other technology stacks and will help support community driven SDKs. Haste plans to keep client SDKs open source to ensure a good developer experience and will make available documented APIs for developers that do not wish to utilize Typescript or Javascript.
 
+Ensure you read the [Quick Start](#quickstart) section for important details about building your game. Specifically you cannot just build a client side game, there must be a server side component to your games known as an authoritative server that can be found in the [Security](./security.md) details.
+
 ## Table of Contents
 
 - [Quickstart](#quickstart)
@@ -39,6 +41,8 @@ To start you need to register your game with Haste through the developer [portal
 Additionally, you will need to adhere to the Haste [Security](./security.md) and [Branding](./branding.md) requirements before a game can be published. Once you request your game to be published, the Haste technical team will reach out to your team to ensure these requirements are met.
 
 ### Server
+
+The server package is intended to be used in conjunction with `@hastearcade/web` in a single page architecture. If you are building a regular web application, you should use `@hastearcade/haste-express` for authentication instead of `@hastearcade/web`. The server package can be used within your regular web application to pull leaderboards once the user is authenticated.
 
 The `@hastearcade/server` package is the primary entry point to the Haste ecosystem. The sdk is a wrapper for the Haste API and allows developers to ILP enable a game. The Haste ecosystem provides tools to handle the following components of ILP:
 
@@ -288,7 +292,7 @@ The web SDK works by utilizing a SSO system with Haste Arcade. The SDK is a wrap
 Similar to the server side SDK, `@hastearcade/web` starts by initializing a Haste object. In this case, the name of the object is `HasteClient` and the object should be maintained via an abstraction so it only need to be initialized one time.
 
 ```typescript
-const hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
+const hasteClient = HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
 ```
 
 The client id used here can be found in the developer portal and will be for your game _not your server_. See image below for a reference point:

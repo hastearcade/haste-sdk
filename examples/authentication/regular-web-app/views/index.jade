@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  if locals.user
+    p Welcome #{user.displayName} to #{title}
+    div(class="header")
+      img(src=user.picture, class='logo')
+      button(onclick="logout()" class="button") Sign Out
+  else
+    p Welcome to #{title}
+    button(onclick="login()" class="nobutton")
+      img(src= './images/login.svg', class='logo')

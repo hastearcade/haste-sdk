@@ -1,0 +1,79 @@
+{
+  "name": "@hastearcade/cli",
+  "version": "1.0.0",
+  "description": "An example CLI application to show how desktop applications can leverage the Haste Arcade authentication system.",
+  "contributors": [
+    "Keith LaForce <keith@hastearcade.com>",
+    "Eric LaForce <eric@hastearcade.com>",
+    "Dan Wagner <dan@hastearcade.com>"
+  ],
+  "homepage": "https://hastearcade.com",
+  "license": "MIT",
+  "bin": {
+    "haste": "./bin/run"
+  },
+  "bugs": {
+    "url": "https://github.com/playhaste/haste-sdk/issues"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.26.7",
+    "@oclif/test": "^1.2.8",
+    "@types/chai": "^4.2.22",
+    "@types/chalk": "^2.2.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.17.60",
+    "chai": "^4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-oclif": "^3.1.2",
+    "eslint-config-oclif-typescript": "^0.2.0",
+    "globby": "^10.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.10"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "keywords": [
+    "oclif",
+    "ilp",
+    "haste"
+  ],
+  "main": "lib/index.js",
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "haste",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "hastearcade/haste-sdk",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "eslint . --ext .ts --config .eslintrc",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "@oclif/command": "^1.8.7",
+    "@oclif/config": "^1.18.2",
+    "@oclif/plugin-help": "^3.2.11",
+    "axios": "^0.24.0",
+    "chalk": "^4.1.2",
+    "cli-ux": "^5.6.6",
+    "dotenv": "^10.0.0",
+    "jwt-decode": "^3.1.2",
+    "netrc-parser": "^3.1.6",
+    "spinnies": "hastearcade/spinnies",
+    "tslib": "^1.14.1"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "extends": ["oclif", "oclif-typescript"],
+  "root": true,
+  "rules": {
+    "node/no-missing-import": 0,
+    "unicorn/no-array-for-each": "off",
+    "unicorn/prefer-node-protocol": "off",
+    "unicorn/prefer-module": "off",
+    "object-curly-spacing": "off",
+    "semi": "off",
+    "arrow-parens": "off",
+    "valid-jsdoc": "off",
+    "camelcase": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  }
+}

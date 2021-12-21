@@ -48,7 +48,7 @@ The web SDK works by utilizing a SSO system with Haste Arcade. The SDK is a wrap
 Similar to the server side SDK, `@hastearcade/web` starts by initializing a Haste object. In this case, the name of the object is `HasteClient` and the object should be maintained via an abstraction so it only need to be initialized one time.
 
 ```typescript
-const hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
+const hasteClient = HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
 ```
 
 The client id used here can be found in the developer portal and will be for your game _not your server_. See image below for a reference point:

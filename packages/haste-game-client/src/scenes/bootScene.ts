@@ -26,15 +26,12 @@ export class BootScene extends Phaser.Scene {
   // has the appropriately configured callback
   // urls.
   login() {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hasteClient.login();
   }
 
   async init(): Promise<void> {
-    this.hasteClient = await HasteClient.build(
-      process.env.HASTE_GAME_CLIENT_ID,
-      process.env.AUTH_URL,
-      process.env.LOGIN_URL,
-    );
+    this.hasteClient = HasteClient.build(process.env.HASTE_GAME_CLIENT_ID, process.env.AUTH_URL, process.env.LOGIN_URL);
     const details = await this.hasteClient.getTokenDetails();
     await this.handleLoggedInUser(details);
   }
