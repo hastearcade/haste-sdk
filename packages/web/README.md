@@ -8,6 +8,26 @@ The `@hastearcade/web` SDK empowers developers to incoroporate the Haste authent
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 
+The Haste team prefers to install libraries via npm install like `npm install @hastearcade/web`.
+
+However, if you prefer to utilize a single script tag you can include the following tag in your HTML:
+
+`<script src="https://unpkg.com/@hastearcade/web/dist/umd/index.js" />`
+
+_SPECIAL NOTE_
+
+If you utilize the script tag above you must preface all your code with `haste.` For example instead of
+
+```typescript
+const hasteClient = await HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
+```
+
+you would need to use
+
+```typescript
+const hasteClient = await haste.HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
+```
+
 ## Table of Contents
 
 - [Quickstart](#quickstart)
