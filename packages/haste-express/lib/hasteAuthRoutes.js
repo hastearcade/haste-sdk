@@ -28,9 +28,9 @@ router.get(
         audience: 'https://haste.api',
         connection: 'Haste-Authorization',
         scope: 'openid email profile offline_access',
-        login_hint: btoa(
+        login_hint: Buffer.from(
           `${v4()};;;;;${req.protocol}://${req.hostname}${port === 80 || port === 443 ? '' : `:${port}`}/silentlogin`,
-        ),
+        ).toString('base64'),
       },
       function (err, user, info) {
         if (err) {
