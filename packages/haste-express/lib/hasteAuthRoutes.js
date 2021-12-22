@@ -72,7 +72,7 @@ router.get('/callback', function (req, res, next) {
       }
       const returnTo = req.session.returnTo;
       delete req.session.returnTo;
-      res.redirect(returnTo || '/user');
+      res.redirect(returnTo || process.env.AUTH0_LOGGED_IN_URL);
     });
   })(req, res, next);
 });
