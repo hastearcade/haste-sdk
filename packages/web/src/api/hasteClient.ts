@@ -51,7 +51,7 @@ export class HasteClient {
   }
 
   public async login() {
-    const hint = btoa(`${v4()};;;;;${window.location.origin};;;;;${'signin'}`);
+    const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'signin'}`);
     await this.auth0Client.loginWithRedirect({
       connection: 'Haste-Authorization',
       login_hint: hint,
