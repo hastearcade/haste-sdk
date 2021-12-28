@@ -37,7 +37,7 @@ export class HasteClient {
       client_id: clientId,
       scope: 'offline_access',
       useRefreshTokens: true,
-      useCookiesForTransactions: true,
+      cacheLocation: 'localstorage',
     });
 
     return new HasteClient(
@@ -92,6 +92,13 @@ export class HasteClient {
           isAuthenticated: true,
         } as HasteAuthentication;
       } else {
+        const query = window.location.search;
+        const shouldParseResult = query.includes('code=') && query.includes('state=');
+
+        if (shouldParseResult) {
+          await this.auth0Client.handleRedirectCallback();
+        }
+
         const accessToken = await this.auth0Client.getTokenSilently();
         const idTokenClaims = await this.auth0Client.getIdTokenClaims();
         const idToken = idTokenClaims.__raw;
