@@ -55,7 +55,7 @@ export class HasteClient {
     await this.auth0Client.loginWithRedirect({
       connection: 'Haste-Authorization',
       login_hint: hint,
-      redirect_uri: window.location.origin,
+      redirect_uri: window.location.href,
     });
   }
 
