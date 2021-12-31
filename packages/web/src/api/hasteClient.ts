@@ -118,11 +118,11 @@ export class HasteClient {
     } catch (err: any) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (err.error === 'consent_required') {
-        const hint = btoa(`${v4()};;;;;${window.location.origin};;;;;${'game'}`);
+        const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'game'}`);
         await this.auth0Client.loginWithRedirect({
           connection: 'Haste-Authorization',
           login_hint: hint,
-          redirect_uri: window.location.origin,
+          redirect_uri: window.location.href,
         });
       }
 
