@@ -1,6 +1,6 @@
 {
   "name": "@hastearcade/models",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "The @hastearcade/models package includes common domain models and services used across the client SDK, server SDK, and the Haste CLI.",
   "contributors": [
     "Keith LaForce <keith@hastearcade.com>",
