@@ -15,6 +15,7 @@ export class GameResource extends BaseResource {
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/play`;
     const play = await this.post<CreatePlay, Play>(createPayload, path);
     play.leaderboard = new Leaderboard(leaderboard.id);
+    play.leaderboard.cost = play.cost;
     return play;
   }
 
