@@ -9,6 +9,7 @@ export class Play {
   deletedAt?: Date;
   deleted?: boolean;
   leaderboard: Leaderboard;
+  cost: number;
 
   constructor() {
     this.id = '';
@@ -17,6 +18,7 @@ export class Play {
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.leaderboard = new Leaderboard('');
+    this.cost = 0;
   }
 }
 
