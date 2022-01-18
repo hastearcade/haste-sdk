@@ -68,8 +68,6 @@ export class HasteClient {
 
   public async getTokenDetails() {
     try {
-      const urlSearchParams = new URLSearchParams(window.location.search);
-      const idToken = urlSearchParams.get('id_token');
       const cachedToken = localStorage.getItem('haste:config');
 
       if (cachedToken) {
@@ -79,18 +77,6 @@ export class HasteClient {
         // a speciifc game. This will ensure we can get all games upgraded to
         // the newest package with the new auth and all users get converted
         await this.logout();
-      } else if (idToken) {
-        urlSearchParams.delete('id_token');
-        const decoded = jwtDecode<JwtPayload>(idToken);
-        const plainUrl = window.location.href.split('?')[0];
-        window.history.pushState({}, document.title, `${plainUrl}${urlSearchParams.toString()}`);
-        return {
-          token: idToken,
-          // eslint-disable-next-line dot-notation
-          picture: decoded['picture'],
-          displayName: decoded['https://hastearcade.com/displayName'],
-          isAuthenticated: true,
-        } as HasteAuthentication;
       } else {
         const query = window.location.search;
         const shouldParseResult = query.includes('code=') && query.includes('state=');
