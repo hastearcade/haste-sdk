@@ -37,6 +37,7 @@ export class HasteClient {
       client_id: clientId,
       scope: 'offline_access',
       useRefreshTokens: true,
+      useCookiesForTransactions: true,
       cacheLocation: 'localstorage',
     });
 
