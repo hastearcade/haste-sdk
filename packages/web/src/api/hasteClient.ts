@@ -80,29 +80,15 @@ export class HasteClient {
         await this.logout();
       } else {
         const query = window.location.search;
-        // eslint-disable-next-line no-console
-        console.log(`query = ${query}`);
         const shouldParseResult = query.includes('code=') && query.includes('state=');
-        // eslint-disable-next-line no-console
-        console.log(`shouldParseResult = ${JSON.stringify(shouldParseResult)}`);
 
         if (shouldParseResult) {
-          // eslint-disable-next-line no-console
-          console.log(`in the should parse result`);
           await this.auth0Client.handleRedirectCallback();
-          // eslint-disable-next-line no-console
-          console.log(`past the handleRedirectCallback in the should parse result`);
         }
 
-        // eslint-disable-next-line no-console
-        console.log(`getting the token silently`);
         const accessToken = await this.auth0Client.getTokenSilently();
-        // eslint-disable-next-line no-console
-        console.log(`accessToken = ${JSON.stringify(accessToken)}`);
         const idTokenClaims = await this.auth0Client.getIdTokenClaims();
         const idToken = idTokenClaims.__raw;
-        // eslint-disable-next-line no-console
-        console.log(`idToken = ${JSON.stringify(idToken)}`);
 
         const decoded = jwtDecode<JwtPayload>(idToken);
         if (accessToken) {
@@ -117,8 +103,6 @@ export class HasteClient {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // eslint-disable-next-line no-console
-      console.error(err);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (err.error === 'consent_required') {
         const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'game'}`);
@@ -136,8 +120,6 @@ export class HasteClient {
       }
     }
 
-    // eslint-disable-next-line no-console
-    console.log(`not logged in`);
     return {
       token: '',
       isAuthenticated: false,
