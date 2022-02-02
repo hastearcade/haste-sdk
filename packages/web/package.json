@@ -1,6 +1,6 @@
 {
   "name": "@hastearcade/web",
-  "version": "2.0.7-next.3",
+  "version": "3.0.0-next.1",
   "description": "The client sdk to be used to empower developers to leverage the Haste Arcade. The client SDK is intended to be used in client side code alongside the developers game logic.",
   "contributors": [
     "Keith LaForce <keith@hastearcade.com>",
