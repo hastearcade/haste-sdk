@@ -22,9 +22,9 @@ export class HasteClient {
   }
 
   public static build(
-    clientId: string,
     domain = 'auth.hastearcade.com',
     signinUrl = 'https://authclient.hastearcade.com/signin',
+    clientId = 'EUN4fvO6AJIjVImZxhPAw9ofpw9LrB7g',
   ) {
     if (!isBrowser())
       throw new Error(
