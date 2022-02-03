@@ -33,6 +33,7 @@ if (fs.existsSync(path)) {
         });
       },
       host: '0.0.0.0',
+      disableHostCheck: true,
     },
     plugins: [new DefinePlugin(envKeys)],
   });

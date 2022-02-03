@@ -51,23 +51,18 @@ export class HasteClient {
     );
   }
 
-  public async login() {
-    const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'signin'}`);
-    await this.auth0Client.loginWithRedirect({
-      connection: 'Haste-Authorization',
-      login_hint: hint,
-      redirect_uri: window.location.href,
-    });
+  public login() {
+    const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'gamelogin'}`);
+    window.location.href = `https://authclient.foundrium.hastearcade.com/landing?login_hint=${hint}`;
   }
 
   public logout() {
     localStorage.removeItem('haste:config');
-    return this.auth0Client.logout({
-      returnTo: window.location.origin,
-    });
+    localStorage.removeItem('token');
+    window.location.href = window.location.origin;
   }
 
-  public async getTokenDetails() {
+  public getTokenDetails() {
     try {
       const cachedToken = localStorage.getItem('haste:config');
 
@@ -77,47 +72,36 @@ export class HasteClient {
         // checks for and if it doesnt exist it will prevent users from playing
         // a speciifc game. This will ensure we can get all games upgraded to
         // the newest package with the new auth and all users get converted
-        await this.logout();
+        this.logout();
       } else {
         const query = window.location.search;
-        const shouldParseResult = query.includes('code=') && query.includes('state=');
+        const queryParams = new URLSearchParams(query);
+        const idToken = queryParams.get('idToken');
 
-        if (shouldParseResult) {
-          await this.auth0Client.handleRedirectCallback();
-        }
+        if (idToken) {
+          queryParams.delete('idToken');
+          localStorage.setItem('token', idToken);
+          const plainUrl = window.location.href.split('?')[0];
+          window.location.href = plainUrl;
+        } else {
+          const accessToken = localStorage.getItem('token');
 
-        const accessToken = await this.auth0Client.getTokenSilently();
-        const idTokenClaims = await this.auth0Client.getIdTokenClaims();
-        const idToken = idTokenClaims.__raw;
-
-        const decoded = jwtDecode<JwtPayload>(idToken);
-        if (accessToken) {
-          return {
-            token: idToken,
-            // eslint-disable-next-line dot-notation
-            picture: decoded['picture'],
-            displayName: decoded['https://hastearcade.com/displayName'],
-            isAuthenticated: true,
-          } as HasteAuthentication;
+          if (accessToken) {
+            const decoded = jwtDecode<JwtPayload>(accessToken);
+            return {
+              token: accessToken,
+              // eslint-disable-next-line dot-notation
+              picture: decoded['picture'],
+              displayName: decoded['https://hastearcade.com/displayName'],
+              isAuthenticated: true,
+            } as HasteAuthentication;
+          }
         }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (err.error === 'consent_required') {
-        const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'game'}`);
-        await this.auth0Client.loginWithRedirect({
-          connection: 'Haste-Authorization',
-          login_hint: hint,
-          redirect_uri: window.location.href,
-        });
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (err.error !== 'login_required') {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      }
+      // eslint-disable-next-line no-console
+      console.error(err);
     }
 
     return {
