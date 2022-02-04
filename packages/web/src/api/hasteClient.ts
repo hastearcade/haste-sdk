@@ -59,7 +59,7 @@ export class HasteClient {
   public logout() {
     localStorage.removeItem('haste:config');
     localStorage.removeItem('token');
-    window.location.href = window.location.origin;
+    window.location.href = `https://authclient.foundrium.hastearcade.com/logout?redirect_uri=${window.location.origin}`;
   }
 
   public getTokenDetails() {
