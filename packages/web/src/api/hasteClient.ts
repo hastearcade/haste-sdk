@@ -18,19 +18,13 @@ export class HasteClient {
     this.configuration = configuration;
   }
 
-  public static build(
-    domain = 'auth.hastearcade.com',
-    signinUrl = 'https://authclient.hastearcade.com',
-    clientId = 'EUN4fvO6AJIjVImZxhPAw9ofpw9LrB7g',
-  ) {
+  public static build(signinUrl = 'https://authclient.hastearcade.com') {
     if (!isBrowser())
       throw new Error(
         `Haste client build can only be called from a browser based environment. If you are on running @hastearcade/web on a server, please use the server package.`,
       );
 
     return new HasteClient({
-      domain: domain,
-      clientId: clientId,
       signinUrl: `${signinUrl}`,
     });
   }

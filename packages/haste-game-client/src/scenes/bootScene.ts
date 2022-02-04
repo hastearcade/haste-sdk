@@ -31,7 +31,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   init(): void {
-    this.hasteClient = HasteClient.build(process.env.AUTH_URL, process.env.LOGIN_URL, process.env.HASTE_GAME_CLIENT_ID);
+    this.hasteClient = HasteClient.build(process.env.LOGIN_URL);
     const details = this.hasteClient.getTokenDetails();
     this.handleLoggedInUser(details);
   }
