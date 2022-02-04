@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { isBrowser } from '../util/environmentCheck';
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { v4 } from 'uuid';
@@ -13,17 +12,15 @@ export type HasteAuthentication = {
 };
 
 export class HasteClient {
-  private auth0Client: Auth0Client;
   private configuration: HasteClientConfiguration;
 
-  private constructor(configuration: HasteClientConfiguration, auth0Client: Auth0Client) {
+  private constructor(configuration: HasteClientConfiguration) {
     this.configuration = configuration;
-    this.auth0Client = auth0Client;
   }
 
   public static build(
     domain = 'auth.hastearcade.com',
-    signinUrl = 'https://authclient.hastearcade.com/signin',
+    signinUrl = 'https://authclient.hastearcade.com',
     clientId = 'EUN4fvO6AJIjVImZxhPAw9ofpw9LrB7g',
   ) {
     if (!isBrowser())
@@ -31,35 +28,22 @@ export class HasteClient {
         `Haste client build can only be called from a browser based environment. If you are on running @hastearcade/web on a server, please use the server package.`,
       );
 
-    const auth0 = new Auth0Client({
-      audience: 'https://haste.api',
+    return new HasteClient({
       domain: domain,
-      client_id: clientId,
-      scope: 'offline_access',
-      useRefreshTokens: true,
-      useCookiesForTransactions: true,
-      cacheLocation: 'localstorage',
+      clientId: clientId,
+      signinUrl: `${signinUrl}`,
     });
-
-    return new HasteClient(
-      {
-        domain: domain,
-        clientId: clientId,
-        signinUrl: signinUrl,
-      },
-      auth0,
-    );
   }
 
   public login() {
     const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'gamelogin'}`);
-    window.location.href = `https://authclient.foundrium.hastearcade.com/landing?login_hint=${hint}`;
+    window.location.href = `${this.configuration.signinUrl}/landing?login_hint=${hint}`;
   }
 
   public logout() {
     localStorage.removeItem('haste:config');
     localStorage.removeItem('token');
-    window.location.href = `https://authclient.foundrium.hastearcade.com/logout?redirect_uri=${window.location.origin}`;
+    window.location.href = `${this.configuration.signinUrl}/logout?redirect_uri=${window.location.origin}`;
   }
 
   public getTokenDetails() {
