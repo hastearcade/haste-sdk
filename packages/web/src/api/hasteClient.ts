@@ -21,7 +21,7 @@ export class HasteClient {
   public static build(signinUrl = 'https://authclient.hastearcade.com') {
     if (!isBrowser())
       throw new Error(
-        `Haste client build can only be called from a browser based environment. If you are on running @hastearcade/web on a server, please use the server package.`,
+        `Haste client build can only be called from a browser based environment. If you are on running @hastearcade/web on a server, please use the server package instead.`,
       );
 
     return new HasteClient({
