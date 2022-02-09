@@ -18,9 +18,9 @@ export class HasteGame extends Phaser.Game {
   // and server, a JWT from the haste game is leveraged. This JWT will
   // contain the necessary information necessary to validate the client
   // to the server, and contain the player id from the user metadata
-  async setupSocket(hasteClient: HasteClient) {
+  setupSocket(hasteClient: HasteClient) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const details = await hasteClient.getTokenDetails();
+    const details = hasteClient.getTokenDetails();
     const serverUrl = `${process.env.SERVER_PROTOCOL}://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`;
     this.socketManager = new SocketManager(serverUrl, details.token);
 
