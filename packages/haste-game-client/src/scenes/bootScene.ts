@@ -30,17 +30,17 @@ export class BootScene extends Phaser.Scene {
     this.hasteClient.login();
   }
 
-  async init(): Promise<void> {
-    this.hasteClient = HasteClient.build(process.env.HASTE_GAME_CLIENT_ID, process.env.AUTH_URL, process.env.LOGIN_URL);
-    const details = await this.hasteClient.getTokenDetails();
-    await this.handleLoggedInUser(details);
+  init(): void {
+    this.hasteClient = HasteClient.build(process.env.LOGIN_URL);
+    const details = this.hasteClient.getTokenDetails();
+    this.handleLoggedInUser(details);
   }
 
-  async handleLoggedInUser(hasteAuth: HasteAuthentication) {
+  handleLoggedInUser(hasteAuth: HasteAuthentication) {
     this.isAuthenticated = hasteAuth.isAuthenticated;
     if (hasteAuth.isAuthenticated) {
       const hasteGame = this.game as HasteGame;
-      await hasteGame.setupSocket(this.hasteClient);
+      hasteGame.setupSocket(this.hasteClient);
 
       hasteGame.socketManager.gameGetLevelsCompletedEvent.on((data: Leaderboard[]) => {
         hasteGame.leaderboards = data;

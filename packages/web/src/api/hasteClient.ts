@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { isBrowser } from '../util/environmentCheck';
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { HasteClientConfiguration } from '../config/hasteClientConfiguration';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { v4 } from 'uuid';
@@ -13,61 +12,35 @@ export type HasteAuthentication = {
 };
 
 export class HasteClient {
-  private auth0Client: Auth0Client;
   private configuration: HasteClientConfiguration;
 
-  private constructor(configuration: HasteClientConfiguration, auth0Client: Auth0Client) {
+  private constructor(configuration: HasteClientConfiguration) {
     this.configuration = configuration;
-    this.auth0Client = auth0Client;
   }
 
-  public static build(
-    clientId: string,
-    domain = 'auth.hastearcade.com',
-    signinUrl = 'https://authclient.hastearcade.com/signin',
-  ) {
+  public static build(signinUrl = 'https://authclient.hastearcade.com') {
     if (!isBrowser())
       throw new Error(
-        `Haste client build can only be called from a browser based environment. If you are on running @hastearcade/web on a server, please use the server package.`,
+        `Haste client build can only be called from a browser based environment. If you are on running @hastearcade/web on a server, please use the server package instead.`,
       );
 
-    const auth0 = new Auth0Client({
-      audience: 'https://haste.api',
-      domain: domain,
-      client_id: clientId,
-      scope: 'offline_access',
-      useRefreshTokens: true,
-      useCookiesForTransactions: true,
-      cacheLocation: 'localstorage',
+    return new HasteClient({
+      signinUrl: `${signinUrl}`,
     });
-
-    return new HasteClient(
-      {
-        domain: domain,
-        clientId: clientId,
-        signinUrl: signinUrl,
-      },
-      auth0,
-    );
   }
 
-  public async login() {
-    const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'signin'}`);
-    await this.auth0Client.loginWithRedirect({
-      connection: 'Haste-Authorization',
-      login_hint: hint,
-      redirect_uri: window.location.href,
-    });
+  public login() {
+    const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'gamelogin'}`);
+    window.location.href = `${this.configuration.signinUrl}/landing?login_hint=${hint}`;
   }
 
   public logout() {
     localStorage.removeItem('haste:config');
-    return this.auth0Client.logout({
-      returnTo: window.location.origin,
-    });
+    localStorage.removeItem('token');
+    window.location.href = `${this.configuration.signinUrl}/logout?redirect_uri=${window.location.origin}`;
   }
 
-  public async getTokenDetails() {
+  public getTokenDetails() {
     try {
       const cachedToken = localStorage.getItem('haste:config');
 
@@ -77,47 +50,36 @@ export class HasteClient {
         // checks for and if it doesnt exist it will prevent users from playing
         // a speciifc game. This will ensure we can get all games upgraded to
         // the newest package with the new auth and all users get converted
-        await this.logout();
+        this.logout();
       } else {
         const query = window.location.search;
-        const shouldParseResult = query.includes('code=') && query.includes('state=');
+        const queryParams = new URLSearchParams(query);
+        const idToken = queryParams.get('idToken');
 
-        if (shouldParseResult) {
-          await this.auth0Client.handleRedirectCallback();
-        }
+        if (idToken) {
+          queryParams.delete('idToken');
+          localStorage.setItem('token', idToken);
+          const plainUrl = window.location.href.split('?')[0];
+          window.location.href = plainUrl;
+        } else {
+          const accessToken = localStorage.getItem('token');
 
-        const accessToken = await this.auth0Client.getTokenSilently();
-        const idTokenClaims = await this.auth0Client.getIdTokenClaims();
-        const idToken = idTokenClaims.__raw;
-
-        const decoded = jwtDecode<JwtPayload>(idToken);
-        if (accessToken) {
-          return {
-            token: idToken,
-            // eslint-disable-next-line dot-notation
-            picture: decoded['picture'],
-            displayName: decoded['https://hastearcade.com/displayName'],
-            isAuthenticated: true,
-          } as HasteAuthentication;
+          if (accessToken) {
+            const decoded = jwtDecode<JwtPayload>(accessToken);
+            return {
+              token: accessToken,
+              // eslint-disable-next-line dot-notation
+              picture: decoded['picture'],
+              displayName: decoded['https://hastearcade.com/displayName'],
+              isAuthenticated: true,
+            } as HasteAuthentication;
+          }
         }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (err.error === 'consent_required') {
-        const hint = btoa(`${v4()};;;;;${window.location.href};;;;;${'game'}`);
-        await this.auth0Client.loginWithRedirect({
-          connection: 'Haste-Authorization',
-          login_hint: hint,
-          redirect_uri: window.location.href,
-        });
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (err.error !== 'login_required') {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      }
+      // eslint-disable-next-line no-console
+      console.error(err);
     }
 
     return {
