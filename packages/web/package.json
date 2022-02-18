@@ -22,7 +22,6 @@
   "scripts": {
     "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
     "build": "tsc -b && webpack",
-    "prepare": "npm run clean && npm run build",
     "test": "jest --coverage=true",
     "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",

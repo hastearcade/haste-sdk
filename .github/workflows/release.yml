@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         env:
           NODE_ENV: development
-        run: npm ci --only=production --ignore-scripts
+        run: npm ci
       - name: Build
         run: npm run cibuild
       - name: Tests
