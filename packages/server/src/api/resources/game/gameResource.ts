@@ -8,6 +8,15 @@ export class GameResource extends BaseResource {
   constructor(configuration: HasteConfiguration, details: Game) {
     super(configuration);
     this.details = details;
+    this.details.leaderboards = this.details.leaderboards.map((l) => {
+      const newLeaderboard = new Leaderboard(l.id);
+      newLeaderboard.cost = l.cost;
+      newLeaderboard.currency = l.currency;
+      newLeaderboard.name = l.name;
+      newLeaderboard.leaders = l.leaders;
+      newLeaderboard.formattedName = `${l.name} - ${l.cost} ${l.currency}`;
+      return newLeaderboard;
+    });
   }
 
   async play(player: Player, leaderboard: Leaderboard) {

@@ -20,7 +20,7 @@ export class Levels extends Phaser.GameObjects.Container {
         scene,
         20,
         50 + index * 20,
-        `${instance.name} - ${instance.cost}`,
+        `${instance.formattedName}`,
         { fill: '#f00' },
         async () => {
           return await selectedLevelCallback(instance.id);
