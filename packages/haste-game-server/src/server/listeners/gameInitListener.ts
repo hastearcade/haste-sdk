@@ -16,6 +16,9 @@ export async function gameInitListener(
 ) {
   try {
     const play = await haste.game.play(new Player(playerId), new Leaderboard(leaderboardId));
+    const topScore = await haste.game.topscore(new Player(playerId), new Leaderboard(leaderboardId));
+    // eslint-disable-next-line no-console
+    console.log(topScore);
     engine.currentPlay = play;
 
     // if play comes back successfully, the game has finished initializing
