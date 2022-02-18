@@ -30,7 +30,6 @@ const hasteClient = await haste.HasteClient.build(process.env.HASTE_GAME_CLIENT_
 
 ## Table of Contents
 
-- [Quickstart](#quickstart)
 - [Background and Use Case](#background)
 - [Setup](#setup)
 - [Testing](#testing)
@@ -38,63 +37,6 @@ const hasteClient = await haste.HasteClient.build(process.env.HASTE_GAME_CLIENT_
 - [License](#license)
 - [Contributing](#contributing)
 - [Authors](#authors)
-
-## Quickstart
-
-While the primary work of integrating with Haste is performed in the server (where all game logic and score state should be maintained), Haste does provide a web based sdk to assist in the authentication process. In order for a player to play your game, they will need to authenticate with the Haste Arcade.
-
-The web SDK works by utilizing a SSO system with Haste Arcade. The SDK is a wrapper to help facilitate this process.
-
-Similar to the server side SDK, `@hastearcade/web` starts by initializing a Haste object. In this case, the name of the object is `HasteClient` and the object should be maintained via an abstraction so it only need to be initialized one time.
-
-```typescript
-const hasteClient = HasteClient.build(process.env.HASTE_GAME_CLIENT_ID);
-```
-
-The client id used here can be found in the developer portal and will be for your game _not your server_. See image below for a reference point:
-
-![](https://github.com/playhaste/haste-sdk/blob/main/docs/assets/gameclientkeys.png)
-
-#### Login
-
-Once you have built your `HasteClient` object you may begin using it in your game. For the page/component in your application that displays the game the developer will need to handle two scenarios for the player: authenticated and unauthenticated.
-
-To determine if a player is authenticated the developer can utilize the following code:
-
-```typescript
-const details = await hasteClient.getTokenDetails();
-```
-
-The `getTokenDetails` function will return a `HasteAuthentication` object with the following definition:
-
-```typescript
-export type HasteAuthentication = {
-  token: string;
-  isAuthenticated: boolean;
-  picture: string; // Url
-  displayName: string;
-};
-```
-
-If the player is unauthenticated, then please present the user with the ['Sign in with Haste' branded button](https://www.hastearcade.com/brand).
-
-The button should execute the following code to redirect the player to the arcade for sign in. Once the player signs in to Haste Arcade the player will be redirected back to the game.:
-
-```typescript
-hasteClient.login();
-```
-
-If the player is already authenticated, then you can present the player with the leaderboard selection. The leaderboard selection will allow the player to select the payment amount and level they are playing for the Arcade. To display the leaderboards the developer will need to utilize the server side SDK.
-
-#### Logout
-
-To allow a user to log out of your game you can utilize the following code:
-
-```typescript
-hasteClient.logout(); /// does not need to be awaited
-```
-
-Note: Logout does not need to be awaited, but it is best practice to redirect your user back to your game's sign in page or state. In addition, it is best practice to submit the user's current score upon logout.
 
 ## Background
 
