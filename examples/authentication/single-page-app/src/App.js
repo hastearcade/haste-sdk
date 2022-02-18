@@ -14,10 +14,7 @@ function App() {
 
   useEffect(() => {
     const initialize = async () => {
-      // Note the first parameter should be changed to your client ID found
-      // in the developer portal when you created your game. Typically this can
-      // and should be stored as a build environment variable.
-      const hasteClient = HasteClient.build('xWs8boQ2LZ4HnM1xNlt4EqfvXTdSl7io', 'auth.dev.hastearcade.com');
+      const hasteClient = HasteClient.build();
       setHasteClient(hasteClient);
     };
 
