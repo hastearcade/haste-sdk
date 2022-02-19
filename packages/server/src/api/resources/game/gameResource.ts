@@ -50,12 +50,18 @@ export class GameResource extends BaseResource {
     return result.leaders;
   }
 
-  async payouts(player: Player, startingAfter?: string, endingBefore?: string) {
-    const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/payouts/${
-      player.id
-    }?limit=1${startingAfter ? `&starting_after=${startingAfter}` : ''}${
-      endingBefore ? `&endingBefore=${endingBefore}` : ''
-    }`;
+  async payouts(player: Player, limit?: number, startingAfter?: string, endingBefore?: string) {
+    if (limit && limit < 1) {
+      throw new Error(`The limit must be greater than zero.`);
+    }
+
+    if (limit && limit > 100) {
+      throw new Error(`The limit must be less than 100.`);
+    }
+
+    const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/payouts/${player.id}${
+      limit ? `?limit=${limit}` : `?limit=100`
+    }${startingAfter ? `&starting_after=${startingAfter}` : ''}${endingBefore ? `&endingBefore=${endingBefore}` : ''}`;
     const result = await this.get<Payout>(path);
     return result;
   }
