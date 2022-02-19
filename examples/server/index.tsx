@@ -1,17 +1,16 @@
 import 'dotenv/config';
-import { Haste, HasteConfiguration } from '@hastearcade/server';
+import { Haste } from '@hastearcade/server';
 import { Player } from '@hastearcade/models';
 
 async function initialize() {
   // see Testing for more details
-  const environment = 'nonproduction';
+  const environment = 'production';
   const haste = await Haste.build(
     // Retrieve from Developer Portal
     process.env.HASTE_SERVER_CLIENT_ID,
     // Retrieve from Developer Portal
     process.env.HASTE_SERVER_CLIENT_SECRET,
     environment,
-    new HasteConfiguration(environment, 'api.foundrium.hastearcade.com', 'https', 443),
   );
 
   const leaderBoards = haste.game.leaderboards();
