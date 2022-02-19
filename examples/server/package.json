@@ -1,5 +1,5 @@
 {
-  "name": "haste-regular-web-app-auth-example",
+  "name": "haste-simple-server-example",
   "version": "0.0.0",
   "private": true,
   "scripts": {
