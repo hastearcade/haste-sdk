@@ -1,0 +1,15 @@
+{
+  "name": "haste-regular-web-app-auth-example",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "tsc index.tsx && node index.js"
+  },
+  "dependencies": {
+    "@hastearcade/server": "1.5.3-next.1",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
