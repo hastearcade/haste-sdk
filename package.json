@@ -11,7 +11,7 @@
     "pretty": "npm run pretty --workspaces",
     "test": "npm run test --workspaces",
     "build": "npm run build --workspace=@hastearcade/models --workspace=@hastearcade/server --workspace=@hastearcade/web --workspace=@hastearcade/haste-express",
-    "cibuild": "npm run build --workspace=@hastearcade/models --workspace=@hastearcade/server --workspace=@hastearcade/web --workspace=@hastearcade/haste-game-domain --workspace=@hastearcade/haste-game-client --workspace=@hastearcade/haste-game-server --workspace=@hastearcade/haste-express",
+    "cibuild": "npm run build --workspace=@hastearcade/models --workspace=@hastearcade/server --workspace=@hastearcade/web --workspace=@hastearcade/haste-express",
     "citest": "npm run test --workspace=@hastearcade/models --workspace=@hastearcade/server --workspace=@hastearcade/web"
   },
   "devDependencies": {

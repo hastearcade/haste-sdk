@@ -23,11 +23,11 @@
     "build": "tsc -b",
     "build:watch": "tsc -b -w",
     "test": "jest --coverage=true",
-    "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
     "start:dev": "concurrently --kill-others \"npm run build:watch\" \"nodemon --config nodemon.json src/index.ts\"",
     "start": "node dist/cjs/index.js",
-    "prestart": "npm run build"
+    "prestart": "npm run build",
+    "lint": ""
   },
   "lint-staged": {
     "*.ts": "eslint src --ext .ts --fix"

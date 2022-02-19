@@ -68,8 +68,7 @@ export class HasteClient {
             const decoded = jwtDecode<JwtPayload>(accessToken);
             return {
               token: accessToken,
-              // eslint-disable-next-line dot-notation
-              picture: decoded['picture'],
+              picture: decoded['https://hastearcade.com/picture'],
               displayName: decoded['https://hastearcade.com/displayName'],
               isAuthenticated: true,
             } as HasteAuthentication;

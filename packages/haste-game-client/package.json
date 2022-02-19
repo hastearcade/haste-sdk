@@ -19,8 +19,8 @@
     "clean": "rm -f *.tsbuildinfo && rimraf -rf ./dist ./coverage",
     "build": "if-env NODE_ENV=production && (rimraf dist && webpack --config webpack.production.js --progress && cp -R src/assets dist/assets) || (rimraf dist && webpack --config webpack.development.js)",
     "test": "jest --coverage=true",
-    "lint": "eslint src --ext .ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
+    "lint": "",
     "start": "webpack serve --config webpack.development.js",
     "startexpress": "node server.js"
   },
