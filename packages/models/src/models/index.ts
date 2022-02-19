@@ -9,3 +9,4 @@ export { TokenResponse } from './tokenResponse';
 export { Leaderboard } from './leaderboard';
 export { HasteEnvironment } from './hasteEnvironment';
 export { TopScore } from './topScore';
+export { Payout } from './payout';

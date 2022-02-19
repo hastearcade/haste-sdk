@@ -1,4 +1,4 @@
-import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player, TopScore } from '@hastearcade/models';
+import { CreatePlay, Play, CreateScore, Score, Leaderboard, Game, Player, TopScore, Payout } from '@hastearcade/models';
 import { HasteConfiguration } from '../../../config/hasteConfiguration';
 import { BaseResource } from '../baseResource';
 
@@ -48,5 +48,15 @@ export class GameResource extends BaseResource {
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/leaders/${leaderboard.id}`;
     const result = await this.get<Leaderboard>(path);
     return result.leaders;
+  }
+
+  async payouts(player: Player, startingAfter?: string, endingBefore?: string) {
+    const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/payouts/${
+      player.id
+    }?limit=1${startingAfter ? `&starting_after=${startingAfter}` : ''}${
+      endingBefore ? `&endingBefore=${endingBefore}` : ''
+    }`;
+    const result = await this.get<Payout>(path);
+    return result;
   }
 }
