@@ -17,8 +17,10 @@ import session from 'express-session';
 import passport from 'passport';
 import { hasteAuthRoutes, hasteUserInViews, HasteStrategy } from '@hastearcade/haste-express';
 
+// configure the dotenv library
 config();
 
+// configure passport to use the HasteStrategy provided by haste-express package
 passport.use(HasteStrategy.initialize());
 
 // You can use this section to keep a smaller payload
@@ -30,6 +32,7 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
+// initialize session details for express + passport
 const sess = {
   secret: 'shhhh', // this would change in a real application
   resave: false,
@@ -53,8 +56,11 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(stc(join('.', 'public')));
 
+// Important the following 2 lines are critical for integration and
+// provide the callback routes and views for authentication.
 app.use(hasteUserInViews());
 app.use('/', hasteAuthRoutes);
+
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 

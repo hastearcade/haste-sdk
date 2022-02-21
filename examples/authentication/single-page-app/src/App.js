@@ -7,21 +7,27 @@ function App() {
   // If you are using React, consider using Context
   // for storing the HasteClient rather than State
   // This was used for simplicity.
+
+  // For the Haste Client specifically, please look at implementing
+  // a provider.
   const [hasteClient, setHasteClient] = useState();
   const [picture, setPicture] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [isAuthenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    const initialize = async () => {
-      const hasteClient = HasteClient.build();
-      setHasteClient(hasteClient);
-    };
-
-    initialize();
+    const hasteClient = HasteClient.build();
+    setHasteClient(hasteClient);
   }, []);
 
   useEffect(() => {
+    // retrieving the token details requires
+    // an async call. If the user is logged in
+    // then get token details will return the token
+    // along with the profile details of the player
+    // The token should be passed to the game server
+    // with every game state change and be validated
+    // by your game server.
     const getToken = async () => {
       if (hasteClient) {
         const details = await hasteClient.getTokenDetails();
@@ -35,6 +41,10 @@ function App() {
   }, [hasteClient]);
 
   return hasteClient ? (
+    // check and see if the user is authenticated
+    // and display the appropriate 'screen' based
+    // on that value. Using React state allows this
+    // page to perform dynamically.
     <div className="App-header">
       {isAuthenticated ? (
         <div className="App-inner">
@@ -43,6 +53,9 @@ function App() {
           <button
             className="App-button"
             onClick={() => {
+              // you should always provide a sign out
+              // option in your game client to allow
+              // the player to unauthenticate.
               hasteClient.logout();
             }}
           >
@@ -56,6 +69,9 @@ function App() {
             className="App-logo"
             alt="logo"
             onClick={() => {
+              // login will perform a redirect to the Haste
+              // authentication client. Upon authentication
+              // the user will be redirected back to this page.
               hasteClient.login();
             }}
           />
