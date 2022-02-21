@@ -28,16 +28,12 @@ function App() {
     // The token should be passed to the game server
     // with every game state change and be validated
     // by your game server.
-    const getToken = async () => {
-      if (hasteClient) {
-        const details = await hasteClient.getTokenDetails();
-        setPicture(details.picture);
-        setDisplayName(details.displayName);
-        setAuthenticated(details.isAuthenticated);
-      }
-    };
-
-    getToken();
+    if (hasteClient) {
+      const details = hasteClient.getTokenDetails();
+      setPicture(details.picture);
+      setDisplayName(details.displayName);
+      setAuthenticated(details.isAuthenticated);
+    }
   }, [hasteClient]);
 
   return hasteClient ? (

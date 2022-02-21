@@ -92,7 +92,7 @@
     </div>
     <script src="https://unpkg.com/@hastearcade/web/dist/umd/index.js"></script>
     <script>
-      async function initialize() {
+      function initialize() {
         // initialize the haste client
         // perform get token details
         // if the user is not authenticated
@@ -100,9 +100,9 @@
         // otherwise show the authenticated version with the
         // player's profile details
         try {
-          hasteClient = await haste.HasteClient.build();
+          hasteClient = haste.HasteClient.build();
           console.log(hasteClient);
-          const details = await hasteClient.getTokenDetails();
+          const details = hasteClient.getTokenDetails();
           console.log(details);
 
           if (details.isAuthenticated) {
