@@ -32,6 +32,10 @@ export default class Login extends BaseCommand {
     loginSpinner: { fail: (arg0: string) => void },
   ): Promise<any> {
     try {
+      // the second call to the authentication server requres
+      // the bearer token given from the first request to /cli
+      // this endpoint must be polled until a player bearer token
+      // is returned.
       const accessTokenResponse = await axios.get<{ access_token: string }>(
         `${process.env.AUTH_API_URL}${response.data.cliUrl}/${response.data.requestorId}`,
         {
@@ -59,24 +63,41 @@ export default class Login extends BaseCommand {
     }
   }
 
+  // The entry point for the login command
   async run(): Promise<void> {
     config({ path: `${__dirname}/.env` });
 
+    // Load the details from the netrc file
+    // remove the token for testing purposes so the authentication process
+    // runs everytime. In a real world example, you could use the stored
+    // token to authenticate the user and not require them to login
+    // every time they play your game.
     await Netrc.load();
     await this.removeToken();
 
+    // first call to the authentication service. This call to /cli kicks off the process
+    // the cli endpoint will return a bearer token, a requestor id, and a browser url that can be used
+    // to move the player to the next step.
     const response = await axios.post(`${process.env.AUTH_API_URL}/cli`, { description: os.hostname() }, {});
+
+    // build the browser url that you will direct the user to for authentication
     const browserUrl = `${process.env.AUTH_CLIENT_URL}${response.data.browserUrl}`;
     this.logCommandStart(
       `The following link will open in your browser to login to Haste. If for some reason it does not open automatically please click here: ${browserUrl}`,
     );
 
+    // open the browser
     await cli.open(browserUrl);
 
+    // spin here until the user authenticates. This code will vary based on your game / platform
     const loginSpinner = this.spinner.add('Waiting for you to login within your browser using the link above');
 
     await this.sleep(10_000);
+
+    // check to see if the player has authenticated yet.
     const auth = await this.fetchAuth(3, response, loginSpinner);
+
+    // once authenticated, then save off the token for use later.
     this.saveToken(auth);
     loginSpinner.succeed('You are successfully logged in.');
   }
