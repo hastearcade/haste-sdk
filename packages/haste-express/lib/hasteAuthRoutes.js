@@ -21,7 +21,7 @@ passport.use(HasteStrategy.initialize());
 router.get(
   '/login',
   function (req, res, next) {
-    const port = req.app.settings.port;
+    const port = process.env.NODE_ENV !== 'production' ? req.app.settings.port : 443;
     passport.authenticate(
       'auth0',
       {
@@ -82,7 +82,8 @@ router.get('/logout', (req, res) => {
   req.logout();
 
   let returnTo = req.protocol + '://' + req.hostname;
-  const port = req.connection.localPort;
+  const port = process.env.NODE_ENV !== 'production' ? req.app.settings.port : 443;
+
   if (port !== undefined && port !== 80 && port !== 443) {
     returnTo += ':' + port;
   }
