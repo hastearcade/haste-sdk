@@ -81,7 +81,8 @@ router.get('/callback', function (req, res, next) {
 router.get('/logout', (req, res) => {
   req.logout();
 
-  let returnTo = req.protocol + '://' + req.hostname;
+  const prot = process.env.NODE_ENV !== 'production' ? req.protocol : 'https';
+  let returnTo = prot + '://' + req.hostname;
   const port = process.env.NODE_ENV !== 'production' ? req.app.settings.port : 443;
 
   if (port !== undefined && port !== 80 && port !== 443) {
