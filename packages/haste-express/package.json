@@ -1,6 +1,6 @@
 {
   "name": "@hastearcade/haste-express",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "The sdk to be used to empower developers to leverage the Haste Arcade. The SDK is intended to be used in an express based regular web appliaction alongside the developers game logic.",
   "contributors": [
     "Keith LaForce <keith@hastearcade.com>",
