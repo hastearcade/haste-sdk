@@ -14,7 +14,10 @@ export class GameResource extends BaseResource {
       newLeaderboard.currency = l.currency;
       newLeaderboard.name = l.name;
       newLeaderboard.leaders = l.leaders;
-      newLeaderboard.formattedName = `${l.name} - ${l.cost} ${l.currency}`;
+      newLeaderboard.formattedName =
+        l.formattedCostString && l.formattedCostString.length > 0
+          ? `${l.formattedCostString}`
+          : `${l.name} - ${l.cost} ${l.currency}`;
       return newLeaderboard;
     });
   }
