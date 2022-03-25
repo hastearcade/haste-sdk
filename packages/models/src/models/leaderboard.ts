@@ -4,6 +4,7 @@ export class Leaderboard {
   id: string;
   name: string;
   cost: number;
+  formattedCostString: string;
   currency: string;
   leaders?: Leader[];
   formattedName: string;
@@ -14,5 +15,6 @@ export class Leaderboard {
     this.cost = 0;
     this.currency = '';
     this.formattedName = '';
+    this.formattedCostString = '';
   }
 }
