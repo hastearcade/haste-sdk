@@ -14,6 +14,7 @@ export class GameResource extends BaseResource {
       newLeaderboard.currency = l.currency;
       newLeaderboard.name = l.name;
       newLeaderboard.leaders = l.leaders;
+      newLeaderboard.formattedCostString = l.formattedCostString;
       newLeaderboard.formattedName =
         l.formattedCostString && l.formattedCostString.length > 0
           ? `${l.formattedCostString}`
