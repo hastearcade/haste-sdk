@@ -6,8 +6,8 @@
     "start": "tsc index.ts && node index.js"
   },
   "dependencies": {
-    "@hastearcade/models": "^1.4.0",
-    "@hastearcade/server": "1.6.0",
+    "@hastearcade/models": "^1.4.1",
+    "@hastearcade/server": "1.6.3",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
