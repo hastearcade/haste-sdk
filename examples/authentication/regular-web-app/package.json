@@ -6,7 +6,7 @@
     "start": "node ./bin/www.js"
   },
   "dependencies": {
-    "@hastearcade/haste-express": "1.0.2",
+    "@hastearcade/haste-express": "1.0.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",

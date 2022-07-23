@@ -14,7 +14,11 @@ export class GameResource extends BaseResource {
       newLeaderboard.currency = l.currency;
       newLeaderboard.name = l.name;
       newLeaderboard.leaders = l.leaders;
-      newLeaderboard.formattedName = `${l.name} - ${l.cost} ${l.currency}`;
+      newLeaderboard.formattedCostString = l.formattedCostString;
+      newLeaderboard.formattedName =
+        l.formattedCostString && l.formattedCostString.length > 0
+          ? `${l.formattedCostString}`
+          : `${l.name} - ${l.cost} ${l.currency}`;
       return newLeaderboard;
     });
   }
@@ -23,8 +27,19 @@ export class GameResource extends BaseResource {
     const createPayload = new CreatePlay(player.id, leaderboard.id);
     const path = `/arcades/${this.configuration.arcadeId}/games/${this.configuration.gameId}/play`;
     const play = await this.post<CreatePlay, Play>(createPayload, path);
+
+    const hydratedLeaderboard = this.details.leaderboards.find((ld) => ld.id === leaderboard.id);
+
     play.leaderboard = new Leaderboard(leaderboard.id);
     play.leaderboard.cost = play.cost;
+
+    if (hydratedLeaderboard) {
+      play.leaderboard.name = hydratedLeaderboard.name;
+      play.leaderboard.formattedCostString = hydratedLeaderboard.formattedCostString;
+      play.leaderboard.formattedName = hydratedLeaderboard.formattedName;
+      play.leaderboard.currency = hydratedLeaderboard.currency;
+    }
+
     return play;
   }
 

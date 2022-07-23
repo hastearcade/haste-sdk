@@ -57,10 +57,13 @@ export class HasteClient {
         const idToken = queryParams.get('idToken');
 
         if (idToken) {
-          queryParams.delete('idToken');
           localStorage.setItem('token', idToken);
-          const plainUrl = window.location.href.split('?')[0];
-          window.location.href = plainUrl;
+          const url = new URL(window.location.href);
+          const params = new URLSearchParams(url.search.slice(1));
+          params.delete('idToken');
+          window.location.href = `${window.location.origin}${window.location.pathname}?${params.toString()}${
+            window.location.hash
+          }`;
         } else {
           const accessToken = localStorage.getItem('token');
 
