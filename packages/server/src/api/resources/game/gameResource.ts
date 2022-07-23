@@ -55,8 +55,14 @@ export class GameResource extends BaseResource {
     return result;
   }
 
-  leaderboards() {
-    return this.details.leaderboards;
+  async leaderboards(playerId?: string) {
+    if (!playerId) {
+      return this.details.leaderboards;
+    } else {
+      const path = `/arcades/${this.configuration.arcadeId}/developergames/${this.configuration.gameId}/player/${playerId}`;
+      const result = await this.get<Game>(path);
+      return result.leaderboards;
+    }
   }
 
   async leaders(leaderboard: Leaderboard) {
