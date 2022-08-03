@@ -25,8 +25,8 @@ async function authenticate() {
 // they would like to play at. Please use
 // the 'formattedName' property when populating
 // your game client UI to display to the user.
-function getLeaderboards() {
-  const leaderBoards = haste.game.leaderboards();
+async function getLeaderboards(playerId?: string) {
+  const leaderBoards = await haste.game.leaderboards(playerId);
   // eslint-disable-next-line no-console
   console.log(leaderBoards);
 }
@@ -64,7 +64,7 @@ async function score(play: Play, scoreValue: number) {
 
 async function run() {
   await authenticate();
-  getLeaderboards();
+  await getLeaderboards(process.env.PLAYER_ID);
   await getPayouts(process.env.PLAYER_ID ?? '');
 }
 
