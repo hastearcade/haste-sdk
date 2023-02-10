@@ -16,8 +16,8 @@ export class Game {
     this.name = '';
     this.description = '';
     this.category = '';
-    this.url = '';
     this.leaderboards = [];
+    this.url = '';
     this.playerId = '';
   }
 }
