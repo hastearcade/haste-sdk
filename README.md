@@ -46,9 +46,6 @@ The following lists the packages contained in the haste-sdk monorepo:
 - `models` - shared domain models and services for the server and web SDK.
 - `server` - The primary package for server side integration with Haste. `server` provides a simple wrapper around the Haste API and makes it easy to configure integration with Haste.
 - `web` - The primary package for client side integration with Haste. The web SDK is used to integrate with the Haste authentication system.
-- `haste-game-domain` - A base package that allows sharing types between the sample game server and sample game client
-- `haste-game-server` - An example [authoritative server](https://www.gabrielgambetta.com/client-server-game-architecture.html) leveraging [matter-js](https://brm.io/matter-js/) for game physics
-- `haste-game-client` - An example game client integrated with the game server. Leverages [phaser3](https://phaser.io/phaser3) for rendering the game levels and game state.
 
 ## Documentation
 
