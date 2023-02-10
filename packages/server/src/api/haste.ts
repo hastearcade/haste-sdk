@@ -61,7 +61,7 @@ export class Haste {
 
   public static async getPlayerDetails(playerAccessToken: string, authUrl = 'auth.hastearcade.com') {
     if (isBrowser())
-      throw new Error(`getPlayerDetails may only be called from a server environment. Do not use in browser please.`);
+      throw new Error(`getPlayerDetails may only be called from a server environment. Do not use in browser.`);
     const jwt = await validateAuthenticationToken(playerAccessToken, authUrl);
     const playerId = jwt['https://hastearcade.com/playerId'] as string;
     const email = jwt['https://hastearcade.com/email'] as string;
