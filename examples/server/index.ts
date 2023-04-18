@@ -41,6 +41,12 @@ async function getPayouts(playerId: string) {
   console.log(JSON.stringify(payouts, null, 2));
 }
 
+async function getPlayerDetails(playerId: string) {
+  const { creditAmount } = await haste.player.details(playerId);
+  // eslint-disable-next-line no-console
+  console.log(`The credit amount is ${creditAmount}`);
+}
+
 // perform a play against a specific leaderboard.
 // The player should select a leaderboard from your
 // game client and pass the id to the game server.
@@ -66,6 +72,7 @@ async function run() {
   await authenticate();
   await getLeaderboards(process.env.PLAYER_ID);
   await getPayouts(process.env.PLAYER_ID ?? '');
+  await getPlayerDetails(process.env.PLAYER_ID ?? '');
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
