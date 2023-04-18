@@ -4,7 +4,7 @@
 
 This readme is intended for developers looking to utilize the Haste ecosystem to build a game on the Haste Arcade. If you are a developer looking to contribute to the Haste ecosystem please see [Contributing](#contributing).
 
-The haste-sdk repository is a monorepo that contains the tooling required to create games quickly and easily for the [Haste Arcade](https://hastearcade.com/). Additionally it includes a sample game to provide a comprehensive example of how the Haste SDK can be used to apply the concept of Instant Leaderboard Payout (ILP).
+The haste-sdk repository is a monorepo that contains the tooling required to create games quickly and easily for the [Haste Arcade](https://hastearcade.com/). Additionally it includes a sample game to provide a comprehensive example of how the Haste SDK can be used to apply the concept of Haste Leaderboard Payout (HLP).
 
 Initially, TypeScript and JavaScript will be the only supported SDKs, but long term Haste will build SDKs for other technology stacks and will help support community driven SDKs. Haste plans to keep client SDKs open source to ensure a good developer experience and will make available documented APIs for developers that do not wish to utilize Typescript or Javascript.
 
@@ -31,11 +31,11 @@ Ensure you read our [Documentation](https://docs.hastearcade.com/) site for impo
 
 ## Developer Documentation
 
-Please visit our [Documentation](https://docs.hastearcade.com/) site for details on integration of Haste ILP into your game.
+Please visit our [Documentation](https://docs.hastearcade.com/) site for details on integration of Haste HLP into your game.
 
 ## Background
 
-Welcome to the world’s first ILP Arcade. Haste Arcade is a platform filled with ILP Games built by developers all around the world. Unlike traditional online games, ILP Games found on the Haste Arcade platform adhere to an exciting new real-time "Instant Leaderboard Payout" structure that was invented and made popular by Haste’s founding team members.
+Welcome to the world’s first HLP Arcade. Haste Arcade is a platform filled with HLP Games built by developers all around the world. Unlike traditional online games, HLP Games found on the Haste Arcade platform adhere to an exciting new real-time "Haste Leaderboard Payout" structure that was invented and made popular by Haste’s founding team members.
 
 Imagine going to your local arcade, inserting 25 cents into the gaming console, posting a high score on Pac-Man, and then getting paid 2.5 cents every time subsequent players play the game but fail to beat your score. Now consider holding the top score in a global online arcade where millions of daily players are playing the game but failing to beat your score, and earning 2.5 cents per play. This is a "game changer". This is Haste Arcade.
 

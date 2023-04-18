@@ -1,6 +1,6 @@
 # Haste Game Security
 
-Since the games on the Haste arcade provide financial payments through the instant leaderboard payouts (ILP) service, there is a stronger incentive for players to cheat. In order to protect non-malicious users and the reputation of the Haste Arcade, the Haste Arcade does require any published games to adhere to certain security standards. As we move forward, the Haste team will continuously update this documentation with further details and provide examples. If you have any questions, please reach out to us on [Discord](https://discord.gg/mqPN8gDF3A).
+Since the games on the Haste arcade provide financial payments through the haste leaderboard payouts (hLP) service, there is a stronger incentive for players to cheat. In order to protect non-malicious users and the reputation of the Haste Arcade, the Haste Arcade does require any published games to adhere to certain security standards. As we move forward, the Haste team will continuously update this documentation with further details and provide examples. If you have any questions, please reach out to us on [Discord](https://discord.gg/mqPN8gDF3A).
 
 It is likely impossible to completely defeat any potential malicious user, but we strive to make it as difficult as possible. As Haste Arcade grows, we will be making Security a top priority and providing tools to developers to ensure their games can be trusted.
 

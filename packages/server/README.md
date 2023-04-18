@@ -4,7 +4,7 @@
 
 ## Overview
 
-The `@hastearcade/server` sdk empowers developers to leverage the Haste Arcade ecosystem to build Instant Leaderboard Payout (ILP) based games. The SDK is intended to be used only on the server side, but it is required to be used in conjunction with `@hastearcade/web`. See details [here](https://github.com/playhaste/haste-sdk/blob/main/packages/web/README.md).
+The `@hastearcade/server` sdk empowers developers to leverage the Haste Arcade ecosystem to build Haste Leaderboard Payout (HLP) based games. The SDK is intended to be used only on the server side, but it is required to be used in conjunction with `@hastearcade/web`. See details [here](https://github.com/playhaste/haste-sdk/blob/main/packages/web/README.md).
 
 See [here](https://github.com/playhaste/haste-sdk/blob/main/README.md) for an overview of the haste-sdk repository.
 

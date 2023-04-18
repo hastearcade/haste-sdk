@@ -43,7 +43,7 @@
   ],
   "keywords": [
     "oclif",
-    "ilp",
+    "hlp",
     "haste"
   ],
   "main": "lib/index.js",
