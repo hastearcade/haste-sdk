@@ -6,15 +6,18 @@ import { buildUrl } from '../util/urlBuilder';
 import { validateAuthenticationToken } from './auth/validate';
 import { isBrowser } from '../util/environmentCheck';
 import { PlayResource } from './resources/game/playResource';
+import { PlayerResource } from './resources/game/playerResource';
 export class Haste {
   private configuration?: HasteConfiguration;
   game: GameResource;
   play: PlayResource;
+  player: PlayerResource;
 
   private constructor(configuration: HasteConfiguration, gameDetails: Game) {
     this.configuration = configuration;
     this.game = new GameResource(this.configuration, gameDetails);
     this.play = new PlayResource(this.configuration);
+    this.player = new PlayerResource(this.configuration);
   }
 
   static async getJwt(
