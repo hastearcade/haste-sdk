@@ -5,3 +5,10 @@ export class Player {
     this.id = id;
   }
 }
+
+export class PlayerDetails {
+  creditAmount: number;
+  constructor() {
+    this.creditAmount = 0;
+  }
+}

@@ -1,4 +1,4 @@
-export { Player } from './player';
+export { Player, PlayerDetails } from './player';
 export { Arcade } from './arcade';
 export { Game } from './game';
 export { Leader } from './leader';
