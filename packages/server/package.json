@@ -33,7 +33,7 @@
     "url": "https://github.com/playhaste/haste-sdk/issues"
   },
   "dependencies": {
-    "@hastearcade/models": "^2.2.0",
+    "@hastearcade/models": "^2.2.1",
     "axios": "^0.21.1",
     "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^2.0.4"
