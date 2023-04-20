@@ -9,7 +9,7 @@ let haste: Haste;
 // appropriately to run the example.
 async function authenticate() {
   // see Testing for more details
-  const environment = 'production';
+  const environment = 'nonproduction';
   haste = await Haste.build(
     // Retrieve from Developer Portal
     process.env.HASTE_SERVER_CLIENT_ID,
@@ -29,6 +29,7 @@ async function getLeaderboards(playerId?: string) {
   const leaderBoards = await haste.game.leaderboards(playerId);
   // eslint-disable-next-line no-console
   console.log(leaderBoards);
+  return leaderBoards;
 }
 
 // this function will retrieve all payouts that
@@ -58,6 +59,8 @@ async function getPlayerDetails(playerId: string) {
 async function play(playerId: string, leaderboardId: string) {
   const play = await haste.game.play(new Player(playerId), new Leaderboard(leaderboardId));
   // eslint-disable-next-line no-console
+  console.log(play.costInCredits);
+  // eslint-disable-next-line no-console
   console.log(JSON.stringify(play));
 }
 
@@ -70,7 +73,8 @@ async function score(play: Play, scoreValue: number) {
 
 async function run() {
   await authenticate();
-  await getLeaderboards(process.env.PLAYER_ID);
+  const boards = await getLeaderboards(process.env.PLAYER_ID);
+  await play(process.env.PLAYER_ID, boards[1].id);
   await getPayouts(process.env.PLAYER_ID ?? '');
   await getPlayerDetails(process.env.PLAYER_ID ?? '');
 }
