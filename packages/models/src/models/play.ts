@@ -10,6 +10,7 @@ export class Play {
   deleted?: boolean;
   leaderboard: Leaderboard;
   cost: number;
+  costInCredits: number;
 
   constructor() {
     this.id = '';
@@ -19,6 +20,7 @@ export class Play {
     this.updatedAt = new Date();
     this.leaderboard = new Leaderboard('');
     this.cost = 0;
+    this.costInCredits = 0;
   }
 }
 
